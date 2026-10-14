@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎮 Aventura do Brincar — Winnicott & Pesquisas</title>
+<style>
+  :root {
+    --primary: #7c4dff;
+    --primary-light: #b388ff;
+    --secondary: #ffd54f;
+    --accent: #00bcd4;
+    --accent-light: #4dd0e1;
+    --pink: #ff4081;
+    --green: #4caf50;
+    --orange: #ff9800;
+    --bg: #fff9f0;
+    --card-bg: #ffffff;
+    --text: #2d2d2d;
+    --text-light: #555;
+    --border: #ffe0b2;
+    --radius: 20px;
+    --shadow: 0 6px 24px rgba(124, 77, 255, 0.12);
+    --shadow-hover: 0 12px 36px rgba(124, 77, 255, 0.22);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Comic Sans MS', 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(255,213,79,0.15) 0%, transparent 20%),
+      radial-gradient(circle at 90% 80%, rgba(124,77,255,0.1) 0%, transparent 25%);
+    background-attachment: fixed;
+  }
+
+  /* ===== CAPA ANIMADA ===== */
+  .cover {
+    background: linear-gradient(135deg, #7c4dff 0%, #ff4081 50%, #00bcd4 100%);
+    background-size: 300% 300%;
+    animation: gradientShift 12s ease infinite;
+    color: white;
+    padding: 80px 40px 90px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .cover h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.2;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+    animation: bounceIn 1s ease;
+  }
+
+  @keyframes bounceIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    70% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .cover .subtitle {
+    font-size: 1.15rem;
+    opacity: 0.95;
+    max-width: 640px;
+    margin: 0 auto 24px;
+  }
+
+  .cover .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    border: 2px solid rgba(255,255,255,0.6);
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .floating-emojis {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.35;
+    animation: float 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .floating-emojis:nth-child(1) { top: 15%; left: 8%; animation-delay: 0s; }
+  .floating-emojis:nth-child(2) { top: 70%; left: 15%; animation-delay: 1s; }
+  .floating-emojis:nth-child(3) { top: 25%; right: 10%; animation-delay: 2s; }
+  .floating-emojis:nth-child(4) { top: 75%; right: 8%; animation-delay: 3s; }
+  .floating-emojis:nth-child(5) { top: 45%; left: 5%; animation-delay: 4s; }
+  .floating-emojis:nth-child(6) { top: 50%; right: 5%; animation-delay: 5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(15deg); }
+  }
+
+  /* ===== XP BAR ===== */
+  .xp-bar-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 24px 0;
+  }
+
+  .xp-bar {
+    background: white;
+    border-radius: 50px;
+    padding: 12px 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+  }
+
+  .xp-bar .level {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+
+  .xp-bar .progress-track {
+    flex: 1;
+    height: 16px;
+    background: #f0e9ff;
+    border-radius: 50px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .xp-bar .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #7c4dff, #ff4081, #00bcd4);
+    border-radius: 50px;
+    transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+  }
+
+  .xp-bar .progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    animation: shine 2s infinite;
+  }
+
+  @keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .xp-bar .xp-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+
+  /* ===== CONTAINER ===== */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 100px;
+  }
+
+  /* ===== ÍNDICE ===== */
+  .toc {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 32px 36px;
+    box-shadow: var(--shadow);
+    margin-bottom: 48px;
+    border: 3px dashed var(--primary-light);
+  }
+
+  .toc h2 {
+    color: var(--primary);
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+
+  .toc ol {
+    list-style: none;
+    counter-reset: toc-counter;
+  }
+
+  .toc li {
+    counter-increment: toc-counter;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    font-weight: 600;
+  }
+
+  .toc li:last-child { border-bottom: none; }
+
+  .toc li::before {
+    content: counter(toc-counter);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, var(--primary), var(--pink));
+    color: white;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-right: 12px;
+  }
+
+  .toc a { color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .toc a:hover { color: var(--primary); }
+
+  /* ===== MÓDULOS ===== */
+  .module {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 40px 36px;
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+    transition: box-shadow 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .module:hover { box-shadow: var(--shadow-hover); }
+
+  .module::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--primary), var(--pink), var(--accent), var(--secondary));
+  }
+
+  .module-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid var(--border);
+  }
+
+  .module-icon {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0e9ff, #ffe0f0);
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: wiggle 3s ease-in-out infinite;
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+  }
+
+  .module-header h2 {
+    font-size: 1.4rem;
+    color: var(--primary);
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .module h3 {
+    color: var(--accent);
+    font-size: 1.15rem;
+    margin: 28px 0 12px;
+    font-weight: 700;
+  }
+
+  .module p { margin-bottom: 14px; color: var(--text-light); }
+  .module ul, .module ol { margin: 12px 0 18px 24px; color: var(--text-light); }
+  .module li { margin-bottom: 8px; }
+
+  /* ===== CAIXAS ===== */
+  .quote-box {
+    background: linear-gradient(135deg, #f3edff, #ffe0f0);
+    border-left: 6px solid var(--primary);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 22px 26px;
+    margin: 20px 0;
+    font-style: italic;
+    color: var(--primary);
+    font-size: 1.05rem;
+    position: relative;
+    box-shadow: 0 4px 14px rgba(124,77,255,0.08);
+  }
+
+  .activity-box {
+    background: linear-gradient(135deg, #fff8e6, #ffecb3);
+    border: 3px dashed var(--secondary);
+    border-radius: var(--radius);
+    padding: 22px 26px;
+    margin: 22px 0;
+    position: relative;
+  }
+
+  .activity-box .label {
+    display: inline-block;
+    background: var(--orange);
+    color: white;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 5px 16px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 8px rgba(255,152,0,0.3);
+  }
+
+  .activity-box p, .activity-box li { color: #5a4200; }
+
+  .connection-box {
+    background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+    border-left: 6px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 22px 26px;
+    margin: 20px 0;
+  }
+
+  .connection-box .label {
+    display: inline-block;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .connection-box p { color: #006978; }
+
+  .analogy-box {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border-left: 6px solid var(--green);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 22px 26px;
+    margin: 20px 0;
+  }
+
+  .analogy-box .label {
+    display: inline-block;
+    color: var(--green);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .analogy-box p { color: #2a5a3a; }
+
+  /* ===== MNEMÔNICA ===== */
+  .mnemonic-box {
+    background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+    border: 3px solid var(--pink);
+    border-radius: var(--radius);
+    padding: 22px 26px;
+    margin: 22px 0;
+    text-align: center;
+  }
+
+  .mnemonic-box .label {
+    display: inline-block;
+    background: var(--pink);
+    color: white;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 5px 16px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+
+  .mnemonic-box .mnemonic {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--pink);
+    letter-spacing: 2px;
+    line-height: 1.8;
+  }
+
+  .mnemonic-box p { color: #880e4f; margin-top: 8px; }
+
+  /* ===== TABELAS ===== */
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  thead {
+    background: linear-gradient(135deg, var(--primary), var(--pink));
+    color: white;
+  }
+
+  th { padding: 14px 18px; text-align: left; font-weight: 700; font-size: 0.95rem; }
+  td { padding: 12px 18px; border-bottom: 1px solid var(--border); font-size: 0.95rem; color: var(--text-light); }
+  tbody tr:nth-child(even) { background: #faf8ff; }
+  tbody tr:hover { background: #f3edff; }
+  tbody tr:last-child td { border-bottom: none; }
+
+  /* ===== CARDS ===== */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+    margin: 22px 0;
+  }
+
+  .card {
+    background: #faf8ff;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+
+  .card:hover {
+    transform: translateY(-5px) rotate(-1deg);
+    box-shadow: 0 10px 26px rgba(124,77,255,0.15);
+    border-color: var(--primary-light);
+  }
+
+  .card .card-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+  .card h4 { color: var(--primary); font-size: 1rem; margin-bottom: 8px; }
+  .card p { font-size: 0.9rem; color: var(--text-light); margin: 0; }
+
+  /* ===== PESQUISA CARD ===== */
+  .research-card {
+    background: #fff8fb;
+    border-radius: var(--radius);
+    padding: 26px;
+    margin: 20px 0;
+    border-left: 6px solid var(--pink);
+    box-shadow: 0 4px 16px rgba(255,64,129,0.08);
+    transition: transform 0.3s;
+  }
+
+  .research-card:hover { transform: translateX(6px); }
+
+  .research-card h4 {
+    color: var(--pink);
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .research-card .meta { font-size: 0.85rem; color: #999; margin-bottom: 12px; font-style: italic; }
+
+  /* ===== GLOSSÁRIO ===== */
+  .glossary-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 2px dotted var(--border);
+  }
+
+  .glossary-item:last-child { border-bottom: none; }
+  .glossary-term { font-weight: 800; color: var(--primary); min-width: 180px; flex-shrink: 0; }
+  .glossary-def { color: var(--text-light); }
+
+  /* ===== DIAGRAMA ===== */
+  .diagram {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 28px 24px;
+    border-radius: var(--radius);
+    font-family: 'Courier New', monospace;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 20px 0;
+    white-space: pre;
+  }
+
+  /* ===== RESPONSIVO ===== */
+  @media (max-width: 640px) {
+    .cover { padding: 50px 20px; }
+    .cover h1 { font-size: 1.6rem; }
+    .module { padding: 28px 20px; }
+    .module-header h2 { font-size: 1.15rem; }
+    .module-icon { width: 46px; height: 46px; font-size: 1.5rem; }
+    .glossary-item { flex-direction: column; gap: 4px; }
+    .glossary-term { min-width: auto; }
+    .diagram { font-size: 0.72rem; padding: 18px 14px; }
+    .container { padding: 24px 14px 80px; }
+    .xp-bar .xp-text { font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== CAPA ===== -->
+<header class="cover">
+  <span class="floating-emojis">🧸</span>
+  <span class="floating-emojis">🎨</span>
+  <span class="floating-emojis">✨</span>
+  <span class="floating-emojis">🎭</span>
+  <span class="floating-emojis">🧩</span>
+  <span class="floating-emojis">🌈</span>
+
+  <h1>🎮 A Aventura do Brincar<br>em Winnicott &amp; nas Pesquisas</h1>
+  <p class="subtitle">Uma jornada interativa para dominar os conceitos do brincar — com quiz, flashcards, mnemonics e muita diversão!</p>
+  <span class="badge">⭐ Modo Aprendiz Ativado ⭐</span>
+</header>
+
+<!-- ===== XP BAR ===== -->
+<div class="xp-bar-container">
+  <div class="xp-bar">
+    <span class="level" id="levelIcon">🌱</span>
+    <div class="progress-track">
+      <div class="progress-fill" id="xpFill"></div>
+    </div>
+    <span class="xp-text" id="xpText">0 / 100 XP</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ===== ÍNDICE ===== -->
+  <nav class="toc">
+    <h2>📑 Mapa da Aventura</h2>
+    <ol>
+      <li><a href="#mod1">🌟 Por que o brincar é tão importante?</a></li>
+      <li><a href="#mod2">🪄 Winnicott: Espaço Potencial</a></li>
+      <li><a href="#mod3">🔬 Symbolic Play, Pretend Play e Autorregulação</a></li>
+      <li><a href="#mod4">🎯 Os 5 Eixos do Brincar</a></li>
+      <li><a href="#mod5">📚 Pesquisas que Confirmam a Teoria</a></li>
+      <li><a href="#mod6">📖 Glossário Winnicottiano</a></li>
+      <li><a href="#mod7">🗺️ Síntese Visual</a></li>
+      <li><a href="#mod8">🏆 Desafio Final + Quiz</a></li>
+    </ol>
+  </nav>
+
+  <!-- ===== MÓDULO 1 ===== -->
+  <section class="module" id="mod1">
+    <div class="module-header">
+      <div class="module-icon">🌟</div>
+      <h2>Módulo 1 — Por que o brincar é tão importante?</h2>
+    </div>
+
+    <p>O brincar não é apenas diversão. Para <strong>Donald Winnicott</strong>, pediatra e psicanalista britânico, o brincar é a <strong>experiência fundante da saúde psíquica</strong> — é ali que a criança (e depois o adulto) se sente real, espontânea e criativa.</p>
+
+    <p>Pense no brincar como um <strong>laboratório da vida</strong>: um lugar seguro onde a criança pode experimentar emoções, testar limites, inventar mundos e, principalmente, <strong>ser quem ela é</strong> sem medo de consequências reais.</p>
+
+    <div class="quote-box">
+      "É no brincar, e talvez apenas no brincar, que a criança ou o adulto frui sua liberdade de criação e descobre seu self."
+      <br><strong>— Winnicott</strong>
+    </div>
+
+    <div class="mnemonic-box">
+      <span class="label">🧠 Mnemônica</span>
+      <div class="mnemonic">B.R.I.N.C.A.R.</div>
+      <p><strong>B</strong>ase da saúde · <strong>R</strong>ealidade e fantasia · <strong>I</strong>maginação ativa · <strong>N</strong>úcleo do self · <strong>C</strong>riatividade viva · <strong>A</strong>prendizado seguro · <strong>R</strong>elação com o outro</p>
+    </div>
+
+    <div class="activity-box">
+      <span class="label">🔍 Para refletir</span>
+      <p>Lembre-se de uma brincadeira da sua infância que você amava. O que ela tinha de especial? Você se sentia livre? Criativo? Seguro?</p>
+    </div>
+  </section>
+
+  <!-- ===== MÓDULO 2 ===== -->
+  <section class="module" id="mod2">
+    <div class="module-header">
+      <div class="module-icon">🪄</div>
+      <h2>Módulo 2 — Winnicott: O Brincar como Espaço Potencial</h2>
+    </div>
+
+    <h3>2.1 O Espaço Potencial</h3>
+    <p>Winnicott propôs que o brincar acontece numa <strong>terceira área</strong>, entre a realidade interna (fantasia, desejo) e a realidade externa (mundo objetivo). Ele chamou isso de <strong>espaço potencial</strong> ou <strong>espaço transicional</strong>.</p>
+
+    <p>Imagine um campo de futebol imaginário: dentro dele, você pode ser quem quiser, criar regras, viver aventuras — mas você sabe que é um jogo. O espaço potencial é assim: <strong>nem dentro, nem fora; um lugar intermediário de experimentação</strong>.</p>
+
+    <div class="mnemonic-box">
+      <span class="label">🧠 Mnemônica</span>
+      <div class="mnemonic">P.O.N.T.E.</div>
+      <p><strong>P</strong>onte entre dois mundos · <strong>O</strong>nde tudo é possível · <strong>N</strong>em dentro, nem fora · <strong>T</strong>erritório da criatividade · <strong>E</strong>spaço seguro de experimentar</p>
+    </div>
+
+    <div class="activity-box">
+      <span class="label">🎨 Atividade lúdica</span>
+      <p>Feche os olhos e imagine um lugar onde você pode criar qualquer coisa sem medo de errar. Como ele é? O que você faria lá?</p>
+    </div>
+
+    <h3>2.2 O Objeto Transicional</h3>
+    <p>O <strong>objeto transicional</strong> é a primeira possessão "não-eu" da criança — paninho, ursinho, cobertor. Ele não é totalmente interno nem totalmente externo. Ajuda a criança a suportar a separação da mãe e a ansiedade.</p>
+
+    <p>Pense no ursinho como uma <strong>ponte</strong>: ele conecta o mundo seguro do colo da mãe com o mundo lá fora, que começa a ser descoberto.</p>
+
+    <div class="mnemonic-box">
+      <span class="label">🧠 Mnemônica</span>
+      <div class="mnemonic">U.R.S.O.</div>
+      <p><strong>U</strong>nião entre interno e externo · <strong>R</strong>edução da ansiedade · <strong>S</strong>egurança portátil · <strong>O</strong>bjeto que sobrevive ao ataque</p>
+    </div>
+
+    <div class="activity-box">
+      <span class="label">🧸 Atividade lúdica</span>
+      <p>Você tinha um objeto transicional? Se sim, o que ele significava? Se não, que objeto da sua infância te fazia sentir seguro?</p>
+    </div>
+
+    <h3>2.3 O Brincar e a Criatividade</h3>
+    <p>Para Winnicott, <strong>criatividade não é talento artístico</strong>. É uma <strong>qualidade da experiência</strong>: ver o mundo com frescor, como se fosse criado por nós a cada instante. É viver de forma espontânea, em contato com o <strong>self verdadeiro</strong>.</p>
+
+    <p>O oposto é o <strong>viver não criativo</strong>: adaptar-se passivamente, cumprir expectativas, sentir a vida mecânica. Isso é o que Winnicott chama de <strong>falso self</strong> — uma máscara que a criança desenvolve quando o ambiente falha em sustentar sua espontaneidade.</p>
+
+    <div class="mnemonic-box">
+      <span class="label">🧠 Mnemônica</span>
+      <div class="mnemonic">V.I.V.O.</div>
+      <p><strong>V</strong>er com frescor · <strong>I</strong>nvenção constante · <strong>V</strong>ida com sentido · <strong>O</strong>posto do falso self</p>
+    </div>
+
+    <div class="analogy-box">
+      <span class="label">💡 Analogia</span>
+      <p>Brincar é como respirar. A criatividade é o oxigênio que entra. Sem ela, a vida perde a cor.</p>
+    </div>
+
+    <div class="activity-box">
+      <span class="label">✨ Atividade lúdica</span>
+      <p>Pense em uma situação do seu dia a dia em que você age no "piloto automático". O que aconteceria se você fizesse isso de forma mais criativa?</p>
+    </div>
+
+    <!-- MINI QUIZ MÓDULO 2 -->
+    <div class="mini-quiz" data-quiz="q1">
+      <div class="mini-quiz-header">🎯 Mini-Quiz: Espaço Potencial</div>
+      <p class="mini-quiz-question">Onde acontece o brincar, segundo Winnicott?</p>
+      <button class="quiz-option" data-correct="false">A) Dentro da mente, na fantasia pura</button>
+      <button class="quiz-option" data-correct="false">B) Fora, no mundo objetivo</button>
+      <button class="quiz-option" data-correct="true">C) Numa terceira área, entre interno e externo</button>
+      <button class="quiz-option" data-correct="false">D) No inconsciente profundo</button>
+      <div class="mini-quiz-feedback"></div>
+    </div>
+  </section>
+
+  <!-- ⚠️ CONTINUA NA PARTE 2/3 ⚠️ -->
+  <style>
+  /* ===== MINI QUIZ ===== */
+  .mini-quiz {
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+    border: 3px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 26px;
+    margin: 28px 0;
+    box-shadow: 0 6px 20px rgba(124,77,255,0.12);
+  }
+
+  .mini-quiz-header {
+    font-weight: 800;
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mini-quiz-question {
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    font-size: 1rem;
+  }
+
+  .quiz-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .quiz-option:hover {
+    border-color: var(--primary-light);
+    transform: translateX(6px);
+    background: #faf8ff;
+  }
+
+  .quiz-option.correct {
+    background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+    border-color: var(--green);
+    color: #1b5e20;
+    font-weight: 700;
+    animation: popCorrect 0.5s ease;
+  }
+
+  .quiz-option.wrong {
+    background: linear-gradient(135deg, #ffcdd2, #ef9a9a);
+    border-color: #e53935;
+    color: #b71c1c;
+    animation: shake 0.5s ease;
+  }
+
+  @keyframes popCorrect {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+  }
+
+  .mini-quiz-feedback {
+    margin-top: 14px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    min-height: 24px;
+    transition: all 0.3s;
+  }
+
+  .mini-quiz-feedback.ok { color: var(--green); }
+  .mini-quiz-feedback.nok { color: #e53935; }
+
+  /* ===== FLASHCARDS ===== */
+  .flashcard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin: 24px 0;
+    perspective: 1000px;
+  }
+
+  .flashcard {
+    background: transparent;
+    height: 180px;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+
+  .flashcard.flipped { transform: rotateY(180deg); }
+
+  .flashcard-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(124,77,255,0.15);
+  }
+
+  .flashcard-front {
+    background: linear-gradient(135deg, var(--primary), var(--pink));
+    color: white;
+    font-weight: 800;
+    font-size: 1.05rem;
+  }
+
+  .flashcard-front .emoji { font-size: 2rem; margin-bottom: 10px; }
+
+  .flashcard-back {
+    background: linear-gradient(135deg, #fff8e6, #ffe0b2);
+    color: #5a4200;
+    transform: rotateY(180deg);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+
+  .flashcard-back .hint {
+    font-size: 0.75rem;
+    color: #8a6d3b;
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* ===== TIMELINE DE PESQUISAS ===== */
+  .research-timeline {
+    position: relative;
+    padding-left: 40px;
+    margin: 24px 0;
+  }
+
+  .research-timeline::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--primary), var(--pink), var(--accent));
+    border-radius: 4px;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+    padding: 20px 24px;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    border-left: 4px solid var(--primary);
+    transition: transform 0.3s;
+  }
+
+  .timeline-item:hover { transform: translateX(6px); }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -34px;
+    top: 24px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 3px solid white;
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+
+  .timeline-item .year {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    padding: 3px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .timeline-item h4 {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-size: 1rem;
+  }
+
+  .timeline-item p {
+    font-size: 0.92rem;
+    color: var(--text-light);
+    margin: 0;
+  }
+
+  /* ===== QUIZ GRANDE FINAL (estrutura) ===== */
+  .final-quiz {
+    background: linear-gradient(135deg, #e8eaf6, #c5cae9);
+    border: 3px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 30px;
+    margin: 30px 0;
+  }
+
+  .final-quiz h3 {
+    color: var(--primary);
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .quiz-progress {
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 18px;
+    font-size: 0.95rem;
+  }
+
+  .final-quiz .result-box {
+    background: white;
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    display: none;
+    margin-top: 20px;
+  }
+
+  .final-quiz .result-box.show { display: block; animation: bounceIn 0.6s; }
+
+  .final-quiz .result-box .score {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+
+  .final-quiz .result-box .medal { font-size: 3rem; margin-bottom: 10px; }
+
+  .btn-restart {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin-top: 12px;
+  }
+
+  .btn-restart:hover { transform: scale(1.05); }
+
+  /* ===== PROGRESSO DE MÓDULOS (checklist) ===== */
+  .module-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+    padding: 14px 20px;
+    background: #f0e9ff;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 700;
+    color: var(--primary);
+    border: 2px solid transparent;
+  }
+
+  .module-check:hover { border-color: var(--primary-light); }
+  .module-check.done {
+    background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+    color: #1b5e20;
+    border-color: var(--green);
+  }
+
+  .module-check .check-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 3px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+
+  .module-check.done .check-icon::before { content: '✓'; }
+
+  /* ===== CANVAS DE PINTURA ===== */
+  .paint-canvas {
+    width: 100%;
+    height: 200px;
+    background: white;
+    border-radius: var(--radius);
+    border: 3px dashed var(--primary-light);
+    margin: 20px 0;
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  .paint-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    align-items: center;
+  }
+
+  .color-dot {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: transform 0.2s;
+  }
+
+  .color-dot:hover { transform: scale(1.15); }
+  .color-dot.active { border-color: var(--text); transform: scale(1.2); }
+
+  .btn-clear {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--text-light);
+    transition: all 0.2s;
+  }
+
+  .btn-clear:hover { background: #fff3e0; }
+</style>
+
+<!-- ===== MÓDULO 3 ===== -->
+<section class="module" id="mod3">
+  <div class="module-header">
+    <div class="module-icon">🔬</div>
+    <h2>Módulo 3 — Symbolic Play, Pretend Play e Autorregulação</h2>
+  </div>
+
+  <h3>3.1 Symbolic Play e Pretend Play</h3>
+  <p><strong>Pretend Play (brincar de faz de conta)</strong> é quando a criança atribui significados imaginários a objetos, ações ou a si mesma. Exemplo: usar uma banana como telefone.</p>
+
+  <p><strong>Symbolic Play (brincar simbólico)</strong> é uma forma específica de pretend play, focada no <strong>uso de símbolos</strong>: um objeto representa outro, uma ação representa outra.</p>
+
+  <p>Ambos surgem por volta dos 2 anos e são a <strong>base cognitiva</strong> para a linguagem e o pensamento abstrato.</p>
+
+  <div class="mnemonic-box">
+    <span class="label">🧠 Mnemônica</span>
+    <div class="mnemonic">S.P.A.</div>
+    <p><strong>S</strong>ímbolo no lugar do real · <strong>P</strong>retend play é o mais amplo · <strong>A</strong>lternância entre real e imaginário</p>
+  </div>
+
+  <div class="connection-box">
+    <span class="label">🧠 Conexão com Winnicott</span>
+    <p>O pretend play é a manifestação concreta do espaço potencial. É ali que a criança alterna entre ilusão e realidade, exercitando a criatividade.</p>
+  </div>
+
+  <h3>3.2 Autorregulação e Funções Executivas</h3>
+  <p><strong>Autorregulação</strong> é a capacidade de gerenciar pensamentos, emoções e comportamentos para atingir um objetivo.</p>
+
+  <p><strong>Função executiva</strong> é o conjunto de habilidades cognitivas que permite isso: memória de trabalho, controle inibitório e flexibilidade cognitiva.</p>
+
+  <p>Durante o pretend play, a criança precisa:</p>
+  <ul>
+    <li>Seguir <strong>regras implícitas</strong> da situação imaginária</li>
+    <li>Coordenar papéis com outras crianças</li>
+    <li><strong>Inibir</strong> comportamentos que quebrariam a lógica da brincadeira</li>
+  </ul>
+
+  <div class="mnemonic-box">
+    <span class="label">🧠 Mnemônica</span>
+    <div class="mnemonic">M.I.F.</div>
+    <p><strong>M</strong>emória de trabalho · <strong>I</strong>nibição de impulsos · <strong>F</strong>lexibilidade para alternar papéis</p>
+  </div>
+
+  <div class="activity-box">
+    <span class="label">🧩 Atividade lúdica</span>
+    <p>Jogue "Estátua" com alguém: dance livremente, mas quando a música parar, congele. Isso exercita o controle inibitório e a flexibilidade cognitiva.</p>
+  </div>
+
+  <div class="activity-box">
+    <span class="label">🎭 Dinâmica: O Objeto Transformista</span>
+    <p>Pegue um objeto qualquer (caneta, garfo, controle remoto). Em 30 segundos, transforme-o em pelo menos 5 coisas diferentes. Depois, faça o mesmo com uma história: crie 3 finais alternativos para o mesmo começo. Isso treina a <strong>flexibilidade cognitiva</strong>!</p>
+  </div>
+
+  <!-- MINI QUIZ MÓDULO 3 -->
+  <div class="mini-quiz" data-quiz="q2">
+    <div class="mini-quiz-header">🎯 Mini-Quiz: Pretend Play</div>
+    <p class="mini-quiz-question">Qual das opções é um exemplo de brincar simbólico?</p>
+    <button class="quiz-option" data-correct="false">A) Correr no parquinho</button>
+    <button class="quiz-option" data-correct="true">B) Usar uma banana como telefone</button>
+    <button class="quiz-option" data-correct="false">C) Chutar uma bola de futebol</button>
+    <button class="quiz-option" data-correct="false">D) Dormir no berço</button>
+    <div class="mini-quiz-feedback"></div>
+  </div>
+</section>
+
+<!-- ===== MÓDULO 4 ===== -->
+<section class="module" id="mod4">
+  <div class="module-header">
+    <div class="module-icon">🎯</div>
+    <h2>Módulo 4 — Os 5 Eixos do Brincar</h2>
+  </div>
+
+  <p>Existem diferentes formas de organizar o brincar. Aqui estão as três principais estruturas.</p>
+
+  <h3>Eixo 1: As 5 Características do Brincar (Peter Gray)</h3>
+
+  <div class="mnemonic-box">
+    <span class="label">🧠 Mnemônica</span>
+    <div class="mnemonic">L.I.M.R.I.</div>
+    <p><strong>L</strong>ivre escolha · <strong>I</strong>ntrínseca motivação · <strong>M</strong>eios &gt; fins · <strong>R</strong>egras flexíveis · <strong>I</strong>maginação</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Característica</th><th>O que significa</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Livre escolha</strong></td><td>A criança decide o que, como e quando brincar</td></tr>
+      <tr><td><strong>Motivação intrínseca</strong></td><td>O prazer está na atividade, não no resultado</td></tr>
+      <tr><td><strong>Meios &gt; fins</strong></td><td>O processo importa mais que o produto</td></tr>
+      <tr><td><strong>Regras mentais</strong></td><td>Há regras, mas são flexíveis e criativas</td></tr>
+      <tr><td><strong>Imaginação</strong></td><td>A realidade é transformada pelo "como se"</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Eixo 2: Os 5 Campos de Experiência (BNCC)</h3>
+
+  <div class="mnemonic-box">
+    <span class="label">🧠 Mnemônica</span>
+    <div class="mnemonic">EU · CORPO · ARTE · FALA · MUNDO</div>
+    <p>Uma frase para lembrar: <em>"Eu, com meu corpo, crio arte, falo e transformo o mundo."</em></p>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card"><div class="card-icon">👤</div><h4>1. O eu, o outro e o nós</h4><p>Identidade e relações</p></div>
+    <div class="card"><div class="card-icon">🤸</div><h4>2. Corpo, gestos e movimentos</h4><p>Corporalidade</p></div>
+    <div class="card"><div class="card-icon">🎨</div><h4>3. Traços, sons, cores e formas</h4><p>Expressão artística</p></div>
+    <div class="card"><div class="card-icon">💬</div><h4>4. Escuta, fala, pensamento e imaginação</h4><p>Linguagem e simbolização</p></div>
+    <div class="card"><div class="card-icon">🔢</div><h4>5. Espaços, tempos, quantidades, relações e transformações</h4><p>Raciocínio lógico-matemático</p></div>
+  </div>
+
+  <h3>Eixo 3: Os 5 Tipos de Brincar (Smith &amp; Pellegrini)</h3>
+
+  <div class="mnemonic-box">
+    <span class="label">🧠 Mnemônica</span>
+    <div class="mnemonic">L.O.S.L.P.</div>
+    <p><strong>L</strong>ocomotor · <strong>O</strong>bjetos · <strong>S</strong>ocial · <strong>L</strong>inguístico · <strong>P</strong>retend</p>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card"><div class="card-icon">🏃</div><h4>1. Locomotor</h4><p>Correr, pular, escalar</p></div>
+    <div class="card"><div class="card-icon">👫</div><h4>2. Social</h4><p>Interação com pares</p></div>
+    <div class="card"><div class="card-icon">🧱</div><h4>3. Com objetos</h4><p>Manipulação e exploração</p></div>
+    <div class="card"><div class="card-icon">🗣️</div><h4>4. Linguístico</h4><p>Jogos de palavras e narrativas</p></div>
+    <div class="card"><div class="card-icon">🎭</div><h4>5. Pretend / Faz de conta</h4><p>Simbolização</p></div>
+  </div>
+
+  <div class="connection-box">
+    <span class="label">🔗 Conexão com Winnicott</span>
+    <p>Todos esses eixos se unificam no <strong>espaço potencial</strong> — a zona onde a criança exerce livre escolha, imaginação e controle interno sem as consequências da realidade externa.</p>
+  </div>
+
+  <!-- ATIVIDADE DE PINTURA -->
+  <h3>🎨 Dinâmica Criativa: Desenhe o Espaço Potencial</h3>
+  <p>Use o quadro abaixo para desenhar seu espaço potencial. Escolha uma cor e solte a imaginação — não há certo ou errado!</p>
+
+  <div class="paint-controls">
+    <span style="font-weight:700; color: var(--text-light); font-size:0.9rem;">Cores:</span>
+    <div class="color-dot active" data-color="#7c4dff" style="background:#7c4dff;"></div>
+    <div class="color-dot" data-color="#ff4081" style="background:#ff4081;"></div>
+    <div class="color-dot" data-color="#00bcd4" style="background:#00bcd4;"></div>
+    <div class="color-dot" data-color="#ffd54f" style="background:#ffd54f;"></div>
+    <div class="color-dot" data-color="#4caf50" style="background:#4caf50;"></div>
+    <div class="color-dot" data-color="#ff9800" style="background:#ff9800;"></div>
+    <button class="btn-clear" onclick="clearCanvas()">🧹 Limpar</button>
+  </div>
+  <canvas class="paint-canvas" id="paintCanvas"></canvas>
+
+  <!-- MINI QUIZ MÓDULO 4 -->
+  <div class="mini-quiz" data-quiz="q3">
+    <div class="mini-quiz-header">🎯 Mini-Quiz: Eixos do Brincar</div>
+    <p class="mini-quiz-question">Segundo Peter Gray, qual NÃO é característica do brincar?</p>
+    <button class="quiz-option" data-correct="false">A) Livre escolha</button>
+    <button class="quiz-option" data-correct="false">B) Motivação intrínseca</button>
+    <button class="quiz-option" data-correct="true">C) Foco exclusivo no resultado final</button>
+    <button class="quiz-option" data-correct="false">D) Imaginação ativa</button>
+    <div class="mini-quiz-feedback"></div>
+  </div>
+</section>
+
+<!-- ===== MÓDULO 5 ===== -->
+<section class="module" id="mod5">
+  <div class="module-header">
+    <div class="module-icon">📚</div>
+    <h2>Módulo 5 — Pesquisas que Confirmam a Teoria</h2>
+  </div>
+
+  <p>Vamos conhecer as pesquisas mais recentes que dão suporte empírico à teoria winnicottiana e ao papel do brincar no desenvolvimento.</p>
+
+  <div class="research-timeline">
+
+    <!-- Richard 2023 -->
+    <div class="timeline-item">
+      <span class="year">2023</span>
+      <h4>🎭 Richard, Clerc-Georgy &amp; Gentaz</h4>
+      <p><strong>O que pesquisaram:</strong> Treinamento baseado em pretend play em crianças de 5-6 anos na Suíça.</p>
+      <p><strong>Descoberta:</strong> Melhora na <strong>compreensão emocional</strong> e <strong>diminuição de respostas agressivas</strong> no grupo experimental.</p>
+      <p><strong>🔗 Conexão:</strong> O brincar é o laboratório da vida emocional.</p>
+    </div>
+
+    <!-- Smith-Nielsen 2024 -->
+    <div class="timeline-item">
+      <span class="year">2024</span>
+      <h4>🧠 Smith-Nielsen et al.</h4>
+      <p><strong>O que pesquisaram:</strong> Mentalização parental e complexidade do brincar solitário em crianças de 4 anos (PLOS ONE).</p>
+      <p><strong>Descoberta:</strong> A <strong>mentalização "online"</strong> — conversar sobre estados mentais na interação — é o que realmente faz diferença.</p>
+      <p><strong>🔗 Conexão:</strong> É uma forma de <strong>holding</strong> que sustenta o espaço potencial.</p>
+    </div>
+
+    <!-- Veraksa 2025 -->
+    <div class="timeline-item">
+      <span class="year">2025</span>
+      <h4>🪆 Veraksa &amp; Veresov</h4>
+      <p><strong>O que pesquisaram:</strong> Princípio Matryoshka e Play Matrix para analisar o brincar na perspectiva cultural-histórica.</p>
+      <p><strong>Descoberta:</strong> O brincar envolve <strong>situações sobrepostas</strong>: imaginária, social, normativa e de desenvolvimento. A Play Matrix tem 22 indicadores comportamentais.</p>
+      <p><strong>🔗 Conexão:</strong> A <strong>perezhivanie</strong> (experiência emocional) dialoga com a qualidade da experiência winnicottiana.</p>
+    </div>
+
+    <!-- Jozefacka 2026 -->
+    <div class="timeline-item">
+      <span class="year">2026</span>
+      <h4>🧩 Jozefacka, Korucu &amp; McClelland</h4>
+      <p><strong>O que pesquisaram:</strong> Dimensões específicas do pretend play e sua relação com autorregulação em pré-escolares poloneses.</p>
+      <p><strong>Descoberta:</strong> A <strong>organização do brincar</strong> prediz significativamente a <strong>autorregulação comportamental</strong>. Não houve efeito sobre a regulação emocional.</p>
+      <p><strong>🔗 Conexão:</strong> A organização do brincar é a criatividade em ação no espaço potencial.</p>
+    </div>
+
+  </div>
+
+  <!-- COMPARATIVO VISUAL -->
+  <h3>🔍 Comparativo Rápido</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Pesquisa</th>
+        <th>Foco</th>
+        <th>Descoberta-chave</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Richard (2023)</strong></td>
+        <td>Treinamento com pretend play</td>
+        <td>Melhora emocional e menos agressão</td>
+      </tr>
+      <tr>
+        <td><strong>Smith-Nielsen (2024)</strong></td>
+        <td>Mentalização parental</td>
+        <td>Mentalização "online" é o que importa</td>
+      </tr>
+      <tr>
+        <td><strong>Veraksa (2025)</strong></td>
+        <td>Análise cultural-histórica</td>
+        <td>Matryoshka: 4 situações sobrepostas</td>
+      </tr>
+      <tr>
+        <td><strong>Jozefacka (2026)</strong></td>
+        <td>Dimensões do pretend play</td>
+        <td>Organização prediz autorregulação</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- FLASHCARDS DAS PESQUISAS -->
+  <h3>🃏 Flashcards: Vire para memorizar!</h3>
+  <div class="flashcard-grid">
+    <div class="flashcard">
+      <div class="flashcard-face flashcard-front">
+        <span class="emoji">🎭</span>
+        Richard (2023)
+      </div>
+      <div class="flashcard-face flashcard-back">
+        Treinamento com pretend play melhorou <strong>compreensão emocional</strong> e reduziu <strong>agressividade</strong>.
+        <span class="hint">Clique para virar</span>
+      </div>
+    </div>
+
+    <div class="flashcard">
+      <div class="flashcard-face flashcard-front">
+        <span class="emoji">🧠</span>
+        Smith-Nielsen (2024)
+      </div>
+      <div class="flashcard-face flashcard-back">
+        A <strong>mentalização "online"</strong> dos pais media a relação entre capacidade reflexiva e brincar da criança.
+        <span class="hint">Clique para virar</span>
+      </div>
+    </div>
+
+    <div class="flashcard">
+      <div class="flashcard-face flashcard-front">
+        <span class="emoji">🪆</span>
+        Veraksa (2025)
+      </div>
+      <div class="flashcard-face flashcard-back">
+        Princípio <strong>Matryoshka</strong>: 4 situações sobrepostas no brincar. Play Matrix com 22 indicadores.
+        <span class="hint">Clique para virar</span>
+      </div>
+    </div>
+
+    <div class="flashcard">
+      <div class="flashcard-face flashcard-front">
+        <span class="emoji">🧩</span>
+        Jozefacka (2026)
+      </div>
+      <div class="flashcard-face flashcard-back">
+        A <strong>organização do brincar</strong> prediz a autorregulação comportamental, mas não a emocional.
+        <span class="hint">Clique para virar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MINI QUIZ MÓDULO 5 -->
+  <div class="mini-quiz" data-quiz="q4">
+    <div class="mini-quiz-header">🎯 Mini-Quiz: Pesquisas</div>
+    <p class="mini-quiz-question">Qual pesquisa destacou o papel da "mentalização online" dos pais?</p>
+    <button class="quiz-option" data-correct="false">A) Richard (2023)</button>
+    <button class="quiz-option" data-correct="true">B) Smith-Nielsen (2024)</button>
+    <button class="quiz-option" data-correct="false">C) Veraksa (2025)</button>
+    <button class="quiz-option" data-correct="false">D) Jozefacka (2026)</button>
+    <div class="mini-quiz-feedback"></div>
+  </div>
+</section>
+
+<!-- ⚠️ CONTINUA NA PARTE 3/3 ⚠️ -->
+  <!-- ===== MÓDULO 6 ===== -->
+  <section class="module" id="mod6">
+    <div class="module-header">
+      <div class="module-icon">📖</div>
+      <h2>Módulo 6 — Glossário Winnicottiano Interativo</h2>
+    </div>
+
+    <p>Passe o mouse (ou toque) em cada termo para ver a definição completa. Tente memorizar antes de revelar!</p>
+
+    <div class="glossary-item">
+      <div class="glossary-term">🌉 Espaço Potencial</div>
+      <div class="glossary-def">Zona intermediária entre realidade interna e externa onde o brincar acontece. Nem dentro, nem fora.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">🧸 Objeto Transicional</div>
+      <div class="glossary-def">Primeira possessão "não-eu" da criança (ursinho, paninho). Ponte entre o colo da mãe e o mundo.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">✨ Fenômenos Transicionais</div>
+      <div class="glossary-def">Experiências na zona intermediária (balbuciar, manipular objetos, sons repetitivos).</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">💎 Self Verdadeiro</div>
+      <div class="glossary-def">Núcleo espontâneo e autêntico da personalidade. Fonte da criatividade e da vitalidade.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">🎭 Falso Self</div>
+      <div class="glossary-def">Máscara adaptativa desenvolvida quando o ambiente falha em sustentar a espontaneidade.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">🤲 Holding</div>
+      <div class="glossary-def">Sustentação física e emocional oferecida pelo cuidador. Base da confiança no mundo.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">👩‍🍼 Mãe Suficientemente Boa</div>
+      <div class="glossary-def">Cuidador que se adapta razoavelmente às necessidades do bebê, sem ser perfeito.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">🎨 Criatividade</div>
+      <div class="glossary-def">Qualidade da experiência, viver com frescor e espontaneidade. Não é talento artístico.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">👁️ Apercepção Criativa</div>
+      <div class="glossary-def">Ver o mundo como se fosse criado por nós a cada instante, sem negar sua realidade.</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">💥 Uso do Objeto</div>
+      <div class="glossary-def">Destruir o objeto em fantasia e vê-lo sobreviver para poder usá-lo de verdade.</div>
+    </div>
+
+    <!-- FLASHCARDS DO GLOSSÁRIO -->
+    <h3>🃏 Flashcards do Glossário — Teste sua memória!</h3>
+    <div class="flashcard-grid">
+      <div class="flashcard">
+        <div class="flashcard-face flashcard-front"><span class="emoji">🌉</span>O que é Espaço Potencial?</div>
+        <div class="flashcard-face flashcard-back">Zona intermediária entre <strong>realidade interna e externa</strong> onde o brincar acontece.<span class="hint">Clique para virar</span></div>
+      </div>
+      <div class="flashcard">
+        <div class="flashcard-face flashcard-front"><span class="emoji">🧸</span>O que é Objeto Transicional?</div>
+        <div class="flashcard-face flashcard-back">Primeira possessão <strong>"não-eu"</strong> da criança. Ponte entre o colo da mãe e o mundo.<span class="hint">Clique para virar</span></div>
+      </div>
+      <div class="flashcard">
+        <div class="flashcard-face flashcard-front"><span class="emoji">💎</span>Self Verdadeiro vs Falso Self</div>
+        <div class="flashcard-face flashcard-back"><strong>Verdadeiro:</strong> núcleo espontâneo. <strong>Falso:</strong> máscara adaptativa quando o ambiente falha.<span class="hint">Clique para virar</span></div>
+      </div>
+      <div class="flashcard">
+        <div class="flashcard-face flashcard-front"><span class="emoji">🎨</span>Criatividade para Winnicott</div>
+        <div class="flashcard-face flashcard-back"><strong>Qualidade da experiência</strong>, não talento artístico. Viver com frescor e espontaneidade.<span class="hint">Clique para virar</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MÓDULO 7 ===== -->
+  <section class="module" id="mod7">
+    <div class="module-header">
+      <div class="module-icon">🗺️</div>
+      <h2>Módulo 7 — Síntese Visual</h2>
+    </div>
+
+    <p>Use este mapa mental para ver como todos os conceitos se conectam:</p>
+
+    <div class="diagram">
+                    ╔══════════════════════╗
+                    ║   ESPAÇO POTENCIAL   ║
+                    ║   (nem dentro, nem   ║
+                    ║        fora)         ║
+                    ╚═══════════╦══════════╝
+                                ║
+        ┌───────────────────────╬───────────────────────┐
+        │                       ║                       │
+   ╔════╩════╗           ╔══════╩══════╗          ╔════╩════╗
+   ║ OBJETO  ║           ║   BRINCAR   ║          ║CRIATIVI-║
+   ║TRANSIC. ║═══════════╣  (Pretend,  ╠══════════╣  DADE   ║
+   ║🧸🎀🐻   ║           ║  Symbolic)  ║          ║ 🎨✨    ║
+   ╚═════════╝           ╚══════╦══════╝          ╚═════════╝
+                                ║
+                    ┌───────────╬───────────┐
+                    │           ║           │
+              ╔═════╩═════╗╔════╩════╗╔═════╩═════╗
+              ║AUTORREGU- ║║FUNÇÃO   ║║   SELF    ║
+              ║  LAÇÃO    ║║EXECUTIVA║║VERDADEIRO ║
+              ╚═════╦═════╝╚════╦════╝╚═════╦═════╝
+                    │           │           │
+                    └───────────╬───────────┘
+                                ║
+                    ╔═══════════╩═══════════╗
+                    ║   PESQUISAS ATUAIS    ║
+                    ╠═══════════════════════╣
+                    ║ 2023 Richard          ║
+                    ║ 2024 Smith-Nielsen    ║
+                    ║ 2025 Veraksa          ║
+                    ║ 2026 Jozefacka        ║
+                    ╚═══════════════════════╝
+    </div>
+
+    <div class="mnemonic-box">
+      <span class="label">🧠 Síntese Final</span>
+      <div class="mnemonic">P.O.B.C.A.</div>
+      <p><strong>P</strong>otencial (espaço) · <strong>O</strong>bjeto (transicional) · <strong>B</strong>rincar (pretend) · <strong>C</strong>riatividade · <strong>A</strong>utorregulação</p>
+    </div>
+
+    <!-- FLASHCARDS DE SÍNTESE -->
+    <h3>🃏 Flashcards de Síntese</h3>
+    <div class="flashcard-grid">
+      <div class="flashcard">
+        <div class="flashcard-face flashcard-front"><span class="emoji">🌉</span>O que sustenta o brincar?</div>
+        <div class="flashcard-face flashcard-back">O <strong>espaço potencial</strong>, criado por um ambiente facilitador (holding, mãe suficientemente boa).<span class="hint">Clique para virar</span></div>
+      </div>
+      <div class="flashcard">
+        <div class="flashcard-face flashcard-front"><span class="emoji">🔗</span>Como brincar e criatividade se ligam?</div>
+        <div class="flashcard-face flashcard-back">São a <strong>mesma experiência vista de dois ângulos</strong>: brincar é a criatividade em ato; criatividade é o brincar generalizado para a vida.<span class="hint">Clique para virar</span></div>
+      </div>
+      <div class="flashcard">
+        <div class="flashcard-face flashcard-front"><span class="emoji">🧠</span>O que o brincar desenvolve?</div>
+        <div class="flashcard-face flashcard-back"><strong>Autorregulação</strong>, <strong>funções executivas</strong> e o <strong>self verdadeiro</strong>. Tudo no espaço potencial.<span class="hint">Clique para virar</span></div>
+      </div>
+      <div class="flashcard">
+        <div class="flashcard-face flashcard-front"><span class="emoji">💡</span>Frases-chave de Winnicott</div>
+        <div class="flashcard-face flashcard-back">"É no brincar que a criança frui sua liberdade de criação e descobre seu self."<span class="hint">Clique para virar</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MÓDULO 8 ===== -->
+  <section class="module" id="mod8">
+    <div class="module-header">
+      <div class="module-icon">🏆</div>
+      <h2>Módulo 8 — Desafio Final + Quiz Completo</h2>
+    </div>
+
+    <h3>🎯 Desafio Criativo</h3>
+    <div class="challenge" style="background: linear-gradient(135deg, #7c4dff, #ff4081); color: white; border-radius: 20px; padding: 32px; margin: 24px 0;">
+      <h3 style="color:white; margin-bottom:14px;">🚀 Missão: Crie sua própria brincadeira</h3>
+      <p style="color: rgba(255,255,255,0.95);">Integre tudo o que você aprendeu:</p>
+      <ol style="color: rgba(255,255,255,0.95); margin-left: 22px; margin-top: 12px;">
+        <li><strong>Escolha um tema</strong> (astronauta, cozinheiro, médico...)</li>
+        <li><strong>Defina o espaço potencial</strong> (onde vai acontecer?)</li>
+        <li><strong>Identifique as regras implícitas</strong> (o que se pode/não pode?)</li>
+        <li><strong>Observe a autorregulação</strong> (como manter o papel?)</li>
+        <li><strong>Registre a experiência</strong> (o que sentiu? o que criou?)</li>
+      </ol>
+    </div>
+
+    <h3>🎓 Quiz Final — 10 Perguntas</h3>
+    <p>Responda todas as perguntas para ganhar sua medalha! Cada acerto vale 10 XP.</p>
+
+    <div class="final-quiz" id="finalQuiz">
+      <div class="quiz-progress" id="quizProgress">Pergunta 1 de 10</div>
+      <div id="quizContent">
+        <!-- Preenchido pelo JavaScript -->
+      </div>
+      <div class="result-box" id="resultBox">
+        <div class="medal" id="medalIcon">🥉</div>
+        <div class="score" id="scoreText">0 / 100</div>
+        <p id="medalText"></p>
+        <button class="btn-restart" onclick="restartQuiz()">🔄 Tentar Novamente</button>
+      </div>
+    </div>
+
+    <h3>📋 Checklist de Aprendizado</h3>
+    <p>Marque cada módulo que você já dominou:</p>
+
+    <div class="module-check" data-mod="1"><div class="check-icon"></div> Módulo 1 — Importância do brincar</div>
+    <div class="module-check" data-mod="2"><div class="check-icon"></div> Módulo 2 — Espaço Potencial e Criatividade</div>
+    <div class="module-check" data-mod="3"><div class="check-icon"></div> Módulo 3 — Symbolic Play e Autorregulação</div>
+    <div class="module-check" data-mod="4"><div class="check-icon"></div> Módulo 4 — Os 5 Eixos do Brincar</div>
+    <div class="module-check" data-mod="5"><div class="check-icon"></div> Módulo 5 — Pesquisas Atuais</div>
+    <div class="module-check" data-mod="6"><div class="check-icon"></div> Módulo 6 — Glossário Winnicottiano</div>
+    <div class="module-check" data-mod="7"><div class="check-icon"></div> Módulo 7 — Síntese Visual</div>
+    <div class="module-check" data-mod="8"><div class="check-icon"></div> Módulo 8 — Desafio Final + Quiz</div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer style="text-align:center; padding: 40px 24px; color: #999; font-size: 0.9rem; border-top: 2px dashed var(--border); margin-top: 40px;">
+    <p>📌 <strong style="color: var(--primary);">Lembrete final:</strong> Para Winnicott, a saúde psíquica é <strong style="color: var(--primary);">viver criativamente</strong>. O brincar é o caminho. Nunca deixe de brincar! 🌈</p>
+    <p style="margin-top:16px;">🎮 Apostila Interativa — O Brincar em Winnicott e nas Pesquisas Atuais</p>
+    <p style="margin-top:10px; font-size: 0.8rem;">Feito com 💜 para quem ama aprender brincando</p>
+  </footer>
+
+</div>
+
+<!-- ===== BOTÃO VOLTAR AO TOPO ===== -->
+<a href="#" class="back-to-top" id="backTop" title="Voltar ao topo" style="position: fixed; bottom: 30px; right: 30px; width: 52px; height: 52px; background: linear-gradient(135deg, #7c4dff, #ff4081); color: white; border: none; border-radius: 50%; font-size: 1.4rem; cursor: pointer; box-shadow: 0 6px 20px rgba(124,77,255,0.4); display: flex; align-items: center; justify-content: center; text-decoration: none; transition: transform 0.3s;">↑</a>
+
+<!-- ===== SCRIPT ===== -->
+<script>
+// =====================================================
+// 1. SISTEMA DE XP E GAMIFICAÇÃO
+// =====================================================
+let xp = 0;
+const maxXP = 200; // 8 módulos concluídos + 10 acertos no quiz
+
+const xpFill = document.getElementById('xpFill');
+const xpText = document.getElementById('xpText');
+const levelIcon = document.getElementById('levelIcon');
+
+function updateXP(amount) {
+  xp += amount;
+  if (xp > maxXP) xp = maxXP;
+  const pct = (xp / maxXP) * 100;
+  xpFill.style.width = pct + '%';
+  xpText.textContent = xp + ' / ' + maxXP + ' XP';
+  updateLevel();
+}
+
+function updateLevel() {
+  if (xp < 40) levelIcon.textContent = '🌱';
+  else if (xp < 80) levelIcon.textContent = '🌿';
+  else if (xp < 120) levelIcon.textContent = '🌳';
+  else if (xp < 160) levelIcon.textContent = '⭐';
+  else if (xp < 200) levelIcon.textContent = '🌟';
+  else levelIcon.textContent = '👑';
+}
+
+// =====================================================
+// 2. MINI QUIZZES (Módulos 2, 3, 4, 5)
+// =====================================================
+const quizAnswered = {};
+
+document.querySelectorAll('.mini-quiz').forEach((quiz, idx) => {
+  const quizId = quiz.dataset.quiz;
+  const feedback = quiz.querySelector('.mini-quiz-feedback');
+  const options = quiz.querySelectorAll('.quiz-option');
+
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (quizAnswered[quizId]) return; // já respondido
+      const isCorrect = opt.dataset.correct === 'true';
+
+      if (isCorrect) {
+        opt.classList.add('correct');
+        feedback.textContent = '🎉 Acertou! +5 XP';
+        feedback.className = 'mini-quiz-feedback ok';
+        quizAnswered[quizId] = true;
+        updateXP(5);
+      } else {
+        opt.classList.add('wrong');
+        feedback.textContent = '❌ Não é essa! Tente novamente.';
+        feedback.className = 'mini-quiz-feedback nok';
+        // permite tentar de novo após 1.2s
+        setTimeout(() => {
+          opt.classList.remove('wrong');
+        }, 1200);
+      }
+    });
+  });
+});
+
+// =====================================================
+// 3. FLASHCARDS — VIRAR AO CLICAR
+// =====================================================
+document.querySelectorAll('.flashcard').forEach(fc => {
+  fc.addEventListener('click', () => {
+    fc.classList.toggle('flipped');
+  });
+});
+
+// =====================================================
+// 4. CHECKLIST DOS MÓDULOS
+// =====================================================
+document.querySelectorAll('.module-check').forEach(check => {
+  check.addEventListener('click', () => {
+    if (check.classList.contains('done')) return;
+    check.classList.add('done');
+    updateXP(10);
+  });
+});
+
+// =====================================================
+// 5. CANVAS DE PINTURA
+// =====================================================
+const canvas = document.getElementById('paintCanvas');
+if (canvas) {
+  const ctx = canvas.getContext('2d');
+  let painting = false;
+  let currentColor = '#7c4dff';
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 4;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function startPos(e) {
+    painting = true;
+    draw(e);
+  }
+  function endPos() {
+    painting = false;
+    ctx.beginPath();
+  }
+  function draw(e) {
+    if (!painting) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX || e.touches[0].clientX) - rect.left;
+    const y = (e.clientY || e.touches[0].clientY) - rect.top;
+    ctx.strokeStyle = currentColor;
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  }
+
+  canvas.addEventListener('mousedown', startPos);
+  canvas.addEventListener('mouseup', endPos);
+  canvas.addEventListener('mouseleave', endPos);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startPos(e); });
+  canvas.addEventListener('touchend', endPos);
+  canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); });
+
+  // Cores
+  document.querySelectorAll('.color-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+      dot.classList.add('active');
+      currentColor = dot.dataset.color;
+    });
+  });
+
+  window.clearCanvas = function () {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
+}
+
+// =====================================================
+// 6. QUIZ FINAL — 10 PERGUNTAS
+// =====================================================
+const finalQuestions = [
+  {
+    q: "Onde acontece o brincar, segundo Winnicott?",
+    options: ["Dentro da mente", "No mundo externo", "Numa terceira área, entre interno e externo", "No inconsciente"],
+    correct: 2
+  },
+  {
+    q: "O que é o objeto transicional?",
+    options: ["Um brinquedo caro", "A primeira possessão 'não-eu' da criança", "Um objeto interno", "Uma fantasia inconsciente"],
+    correct: 1
+  },
+  {
+    q: "Para Winnicott, criatividade é:",
+    options: ["Talento artístico", "Qualidade da experiência", "Dom especial", "Produção de objetos novos"],
+    correct: 1
+  },
+  {
+    q: "O que caracteriza o 'falso self'?",
+    options: ["Autenticidade plena", "Máscara adaptativa quando o ambiente falha", "Espontaneidade", "Criatividade livre"],
+    correct: 1
+  },
+  {
+    q: "Quais são as 5 características do brincar de Peter Gray?",
+    options: ["Livre escolha, motivação intrínseca, meios>fins, regras flexíveis, imaginação", "Correr, pular, socializar, falar, criar", "Físico, social, emocional, cognitivo, cultural", "Holding, self, criatividade, transição, espaço"],
+    correct: 0
+  },
+  {
+    q: "Qual das opções é um exemplo de brincar simbólico?",
+    options: ["Correr no parque", "Usar uma banana como telefone", "Chutar bola", "Dormir"],
+    correct: 1
+  },
+  {
+    q: "A pesquisa de Smith-Nielsen (2024) destacou qual conceito?",
+    options: ["Autocuidado", "Mentalização online parental", "Brincar solitário sem pais", "Teoria do apego"],
+    correct: 1
+  },
+  {
+    q: "O que o estudo de Richard (2023) mostrou sobre pretend play?",
+    options: ["Piora comportamental", "Melhora na compreensão emocional e menos agressão", "Aumento de ansiedade", "Nenhum efeito"],
+    correct: 1
+  },
+  {
+    q: "Segundo Veraksa (2025), o Princípio Matryoshka descreve:",
+    options: ["Bonecas russas", "Situações sobrepostas no brincar", "Tipo de brinquedo", "Escala de QI"],
+    correct: 1
+  },
+  {
+    q: "O que Jozefacka et al. (2026) descobriram?",
+    options: ["Brincar não afeta nada", "Organização do brincar prediz autorregulação comportamental", "Só regulação emocional importa", "Idade não influencia"],
+    correct: 1
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+
+const quizContent = document.getElementById('quizContent');
+const quizProgress = document.getElementById('quizProgress');
+const resultBox = document.getElementById('resultBox');
+const scoreText = document.getElementById('scoreText');
+const medalIcon = document.getElementById('medalIcon');
+const medalText = document.getElementById('medalText');
+
+function renderQuestion() {
+  if (currentQ >= finalQuestions.length) {
+    showResult();
+    return;
+  }
+  const q = finalQuestions[currentQ];
+  quizProgress.textContent = `Pergunta ${currentQ + 1} de ${finalQuestions.length}`;
+  quizContent.innerHTML = `
+    <p class="mini-quiz-question" style="font-size:1.05rem;">${q.q}</p>
+    ${q.options.map((opt, i) =>
+      `<button class="quiz-option" data-index="${i}">${String.fromCharCode(65 + i)}) ${opt}</button>`
+    ).join('')}
+  `;
+
+  quizContent.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.index);
+      const isCorrect = idx === q.correct;
+
+      quizContent.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+        score += 10;
+      } else {
+        btn.classList.add('wrong');
+        quizContent.querySelectorAll('.quiz-option')[q.correct].classList.add('correct');
+      }
+
+      setTimeout(() => {
+        currentQ++;
+        renderQuestion();
+      }, 1000);
+    });
+  });
+}
+
+function showResult() {
+  quizContent.style.display = 'none';
+  quizProgress.style.display = 'none';
+  resultBox.classList.add('show');
+  scoreText.textContent = score + ' / 100';
+  updateXP(score / 10); // 10 XP por acerto
+
+  if (score === 100) {
+    medalIcon.textContent = '🥇';
+    medalText.textContent = 'PERFEITO! Você é um mestre do brincar! 🌟';
+  } else if (score >= 80) {
+    medalIcon.textContent = '🥈';
+    medalText.textContent = 'Excelente! Você dominou o conteúdo! 🎉';
+  } else if (score >= 60) {
+    medalIcon.textContent = '🥉';
+    medalText.textContent = 'Muito bem! Continue revisando. 💪';
+  } else if (score >= 40) {
+    medalIcon.textContent = '📘';
+    medalText.textContent = 'Bom começo! Revise os módulos e tente de novo. 📚';
+  } else {
+    medalIcon.textContent = '🌱';
+    medalText.textContent = 'Tudo bem! Releia a apostila e tente novamente. 🌿';
+  }
+}
+
+function restartQuiz() {
+  currentQ = 0;
+  score = 0;
+  quizContent.style.display = 'block';
+  quizProgress.style.display = 'block';
+  resultBox.classList.remove('show');
+  renderQuestion();
+}
+
+// Inicializa
+renderQuestion();
+
+// =====================================================
+// 7. BOTÃO VOLTAR AO TOPO
+// =====================================================
+document.getElementById('backTop').addEventListener('click', (e) => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// =====================================================
+// 8. SCROLL SUAVE PARA ÂNCORAS
+// =====================================================
+document.querySelectorAll('.toc a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+    }
+  });
+});
+
+// =====================================================
+// 9. PERSISTÊNCIA (localStorage) — opcional
+// =====================================================
+window.addEventListener('beforeunload', () => {
+  try {
+    localStorage.setItem('winnicott_xp', xp);
+    localStorage.setItem('winnicott_checklist',
+      JSON.stringify(Array.from(document.querySelectorAll('.module-check.done')).map(el => el.dataset.mod))
+    );
+  } catch (e) {}
+});
+
+// Restaurar progresso
+try {
+  const savedXP = localStorage.getItem('winnicott_xp');
+  const savedChecklist = localStorage.getItem('winnicott_checklist');
+  if (savedXP) { xp = parseInt(savedXP); updateXP(0); }
+  if (savedChecklist) {
+    JSON.parse(savedChecklist).forEach(mod => {
+      const el = document.querySelector(`.module-check[data-mod="${mod}"]`);
+      if (el) el.classList.add('done');
+    });
+  }
+} catch (e) {}
+</script>
+
+</body>
+</html>
