@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apostila de Ética | Exercícios e Simulações</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --accent-light: #e8f4fd;
+            --warning: #e67e22;
+            --warning-light: #fdf2e9;
+            --success: #27ae60;
+            --success-light: #eafaf1;
+            --danger: #c0392b;
+            --danger-light: #fdedec;
+            --purple: #8e44ad;
+            --purple-light: #f4ecf7;
+            --text: #333;
+            --bg: #f9f9f9;
+            --card: #fff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--bg);
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary), #1a252f);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        header h1 { font-size: 1.8em; margin-bottom: 10px; }
+        header p { font-size: 1.1em; opacity: 0.9; }
+        .nav-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .nav-pills a {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: 0.3s;
+        }
+        .nav-pills a:hover, .nav-pills a.active {
+            background: white;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 8px;
+            margin: 40px 0 20px;
+            font-size: 1.5em;
+        }
+        h3 {
+            color: var(--accent);
+            margin: 30px 0 15px;
+            font-size: 1.2em;
+        }
+        h4 {
+            color: var(--primary);
+            margin: 20px 0 10px;
+            font-size: 1.05em;
+        }
+        .card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--accent);
+        }
+        .card.warning { border-left-color: var(--warning); background: var(--warning-light); }
+        .card.success { border-left-color: var(--success); background: var(--success-light); }
+        .card.danger { border-left-color: var(--danger); background: var(--danger-light); }
+        .card.purple { border-left-color: var(--purple); background: var(--purple-light); }
+        .exercise {
+            background: var(--warning-light);
+            border: 2px dashed var(--warning);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .exercise h4 { color: var(--warning); margin-bottom: 10px; }
+        .quiz {
+            background: var(--purple-light);
+            border: 2px solid var(--purple);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .quiz h4 { color: var(--purple); margin-bottom: 10px; }
+        .simulation {
+            background: var(--accent-light);
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .simulation h4 { color: var(--accent); margin-bottom: 10px; }
+        .link-box {
+            background: var(--accent-light);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-left: 5px solid var(--accent);
+            font-size: 0.95em;
+        }
+        .link-box a {
+            color: #0056b3;
+            font-weight: bold;
+            text-decoration: none;
+            word-break: break-word;
+        }
+        .link-box a:hover { text-decoration: underline; }
+        .highlight { background: #fff9c4; padding: 2px 5px; font-weight: bold; }
+        blockquote {
+            border-left: 4px solid var(--accent);
+            padding: 12px 18px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #555;
+            background: #f4f8fb;
+            border-radius: 0 8px 8px 0;
+        }
+        ul, ol { padding-left: 25px; margin: 10px 0; }
+        li { margin-bottom: 8px; }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            border-top: 1px solid #ddd;
+        }
+        details {
+            margin: 15px 0;
+            background: #fff;
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+        }
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--accent);
+            padding: 5px;
+        }
+        summary:hover { color: var(--primary); }
+        .badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .badge-blue { background: var(--accent); color: white; }
+        .badge-orange { background: var(--warning); color: white; }
+        .badge-green { background: var(--success); color: white; }
+        .badge-purple { background: var(--purple); color: white; }
+        .badge-red { background: var(--danger); color: white; }
+        .score-box {
+            text-align: center;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid var(--accent);
+        }
+        .timer {
+            display: inline-block;
+            background: var(--danger);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 600px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.4em; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📝 Exercícios e Simulações de Podcast</h1>
+        <p>Consolidação do aprendizado — revisão, casos práticos e preparação para a gravação</p>
+        <div class="nav-pills">
+            <a href="index.html">🏠 Introdução & Bloco 1</a>
+            <a href="bloco2.html">⚖️ Bloco 2: Normas</a>
+            <a href="bloco3.html">🛡️ Bloco 3: Prevenção</a>
+            <a href="exercicios.html" class="active">📝 Exercícios</a>
+        </div>
+    </header>
+
+    <section>
+        <h2>🎯 Como usar esta página</h2>
+        <div class="card success">
+            <p>Esta página reúne <strong>todos os exercícios</strong> da apostila em um só lugar, além de um <strong>simulado de revisão</strong> e <strong>simulações de podcast</strong> para o grupo treinar. A sugestão é:</p>
+            <ol>
+                <li>Faça os <strong>exercícios de fixação</strong> individualmente (com o material de apoio ao lado).</li>
+                <li>Reúna o grupo para as <strong>simulações de podcast</strong>.</li>
+                <li>Use o <strong>simulado</strong> como revisão final antes da gravação.</li>
+            </ol>
+        </div>
+    </section>
+
+    <section>
+        <h2>📚 Exercícios de Fixação (por Bloco)</h2>
+
+        <h3>🔹 Bloco 1: Cenário Digital e Riscos</h3>
+
+        <div class="exercise">
+            <h4>📝 Exercício 1.1: Identificação de Infrações</h4>
+            <p>Leia os cenários abaixo e identifique qual artigo do Código de Ética foi violado (<strong>Art. 2º, 9º ou 20</strong>) e qual o risco envolvido.</p>
+            <ol>
+                <li><strong>Cenário A:</strong> Uma psicóloga publica um Reel contando o caso de "um homem de 40 anos, executivo de uma multinacional, que desenvolveu burnout após ser traído pela esposa". O post tem 50 mil visualizações.</li>
+                <li><strong>Cenário B:</strong> Um psicólogo responde a um comentário no Instagram com o diagnóstico: "Isso parece transtorno de ansiedade generalizada. Você deveria procurar ajuda."</li>
+                <li><strong>Cenário C:</strong> Uma psicóloga posta um vídeo em que aparece dançando uma trend musical com a legenda: "Quando o paciente diz que 'ansiedade é frescura'".</li>
+            </ol>
+            <details>
+                <summary><strong>Clique para ver as respostas sugeridas</strong></summary>
+                <p><strong>Cenário A:</strong> Art. 9º e Art. 2º, "q" — exposição mascarada que permite identificação indireta. Risco: quebra de sigilo e danos ao paciente.</p>
+                <p><strong>Cenário B:</strong> Art. 2º, "q" — diagnóstico à distância sem avaliação adequada, configurando intervenção sem respaldo técnico. Risco: grave dano clínico.</p>
+                <p><strong>Cenário C:</strong> Art. 2º, "q" e Art. 20, "h" — conteúdo que banaliza e ridiculariza o sofrimento psíquico, além de divulgação sensacionalista. Risco: dano à imagem da Psicologia e desserviço à população.</p>
+            </details>
+        </div>
+
+        <div class="exercise">
+            <h4>📝 Exercício 1.2: Estudo de Caso — White & Hanley (2025)</h4>
+            <p>Com base no estudo de White e Hanley (2025), responda:</p>
+            <ol>
+                <li>Quais são os três temas centrais identificados na experiência de psicólogos influenciadores?</li>
+                <li>Por que o estudo conclui que ainda existem "muitas ambiguidades éticas" no uso profissional do Instagram?</li>
+                <li>Como você aplicaria os achados do estudo na sua própria prática profissional?</li>
+            </ol>
+            <details>
+                <summary><strong>Clique para ver a resposta sugerida</strong></summary>
+                <p><strong>1.</strong> "Sou psicólogo, mas não sou seu psicólogo"; "Ansiedade de não querer fazer a coisa errada"; "Compartilho o que acho que vai ser útil para os outros e para mim" (motivações contraditórias entre justiça social e promoção comercial).</p>
+                <p><strong>2.</strong> Porque faltam diretrizes específicas para a atuação como influenciador. As normas existentes tratam da publicidade tradicional e do atendimento, mas não esgotam as nuances do ambiente digital (autodivulgação, limites de interação, saúde mental do próprio influenciador).</p>
+                <p><strong>3.</strong> Resposta pessoal. Espera-se que o aluno mencione: buscar supervisão específica, definir limites claros de interação, separar perfis, revisar conteúdos com base no Código de Ética.</p>
+            </details>
+        </div>
+
+        <h3>🔹 Bloco 2: Bússola Normativa</h3>
+
+        <div class="exercise">
+            <h4>📝 Exercício 2.1: Análise de Publicidade</h4>
+            <p>Analise a bio de perfil profissional abaixo e aponte <strong>três</strong> inadequações em relação ao Art. 20 do CEPP e à Resolução CFP nº 23/2022:</p>
+            <blockquote>
+                "Psicóloga | Especialista em Ansiedade e Depressão | Atendimento online e presencial | Promoção: 3 sessões por R$ 150,00 | CRP 00/00000"
+            </blockquote>
+            <details>
+                <summary><strong>Clique para ver a resposta sugerida</strong></summary>
+                <ul>
+                    <li><strong>"Especialista em Ansiedade e Depressão":</strong> Não é uma das 13 especialidades reconhecidas pela Resolução 23/2022. A profissional não pode se autodenominar especialista sem o registro correspondente.</li>
+                    <li><strong>"Promoção: 3 sessões por R$ 150,00":</strong> O Art. 20, alínea "d", veda a utilização do preço do serviço como forma de propaganda.</li>
+                    <li><strong>Ausência do nome completo:</strong> O Art. 20, alínea "a", exige nome completo, CRP e número de registro. "Psicóloga" não é nome completo.</li>
+                </ul>
+            </details>
+        </div>
+
+        <div class="exercise">
+            <h4>📝 Exercício 2.2: Os Quatro Pontos Críticos da Nota Técnica 1/2022</h4>
+            <p>Explique, com suas palavras, cada um dos quatro pontos críticos do uso das ferramentas digitais destacados pela Nota Técnica CFP nº 1/2022:</p>
+            <ol>
+                <li>Perenidade das informações veiculadas.</li>
+                <li>Conexão dos serviços com informações em desacordo com os aspectos éticos.</li>
+                <li>Publicações associadas à imagem do psicólogo que não sejam adequadas.</li>
+                <li>Importância do manejo adequado das ferramentas digitais.</li>
+            </ol>
+            <details>
+                <summary><strong>Clique para ver a resposta sugerida</strong></summary>
+                <p><strong>1.</strong> O que é postado permanece; um conteúdo de hoje pode ser cobrado eticamente anos depois.</p>
+                <p><strong>2.</strong> Um post isolado pode ser associado a outros conteúdos (do próprio perfil ou de terceiros), gerando interpretações equivocadas sobre a prática.</p>
+                <p><strong>3.</strong> A imagem pública do profissional é parte da prática profissional; publicações inadequadas afetam a credibilidade da Psicologia.</p>
+                <p><strong>4.</strong> Não basta saber usar a ferramenta; é preciso entender os riscos éticos e saber gerenciá-los.</p>
+            </details>
+        </div>
+
+        <div class="exercise">
+            <h4>📝 Exercício 2.3: Resolução 9/2024 — Verdadeiro ou Falso</h4>
+            <p>Classifique as afirmativas como <strong>V (verdadeira)</strong> ou <strong>F (falsa)</strong>:</p>
+            <ol>
+                <li>( ) A Resolução 9/2024 exige cadastro prévio no e-Psi para atendimento online.</li>
+                <li>( ) A resolução define TDICs de forma ampla, incluindo qualquer comunicação com usuários dos serviços.</li>
+                <li>( ) O contrato na prestação de serviços mediada por TDICs pode ser verbal ou escrito.</li>
+                <li>( ) A avaliação de viabilidade do atendimento online é responsabilidade exclusiva do Conselho.</li>
+            </ol>
+            <details>
+                <summary><strong>Clique para ver o gabarito</strong></summary>
+                <p><strong>1. F</strong> — A Resolução 9/2024 revogou a exigência de cadastro prévio no e-Psi.</p>
+                <p><strong>2. V</strong> — A definição é ampla e inclui comunicação e manifestação perante os usuários.</p>
+                <p><strong>3. V</strong> — A resolução admite contrato verbal ou escrito.</p>
+                <p><strong>4. F</strong> — A avaliação de viabilidade é responsabilidade autônoma do psicólogo.</p>
+            </details>
+        </div>
+
+        <h3>🔹 Bloco 3: Proteção, Contrato e Registro</h3>
+
+        <div class="exercise">
+            <h4>📝 Exercício 3.1: Construção de Salvaguardas</h4>
+            <p>Você está montando seu perfil profissional no Instagram. Crie uma <strong>bio ética</strong> que atenda aos requisitos do Art. 20 do CEPP e inclua uma <strong>mensagem automática</strong> para DM.</p>
+            <details>
+                <summary><strong>Clique para ver um exemplo de resposta</strong></summary>
+                <p><strong>Bio:</strong> "Psicóloga [Nome Completo] | CRP 00/00000 | Atendimento online e presencial | Abordagem [nome da abordagem] | Conteúdo psicoeducativo — não substitui avaliação individual."</p>
+                <p><strong>Mensagem automática:</strong> "Olá! Para agendar ou obter informações, utilize o e-mail [endereço]. Não realizamos orientações por DM."</p>
+            </details>
+        </div>
+
+        <div class="exercise">
+            <h4>📝 Exercício 3.2: Registro Clínico de Interação Virtual</h4>
+            <p>Um paciente relata em sessão que viu um post do psicólogo sobre ansiedade e se sentiu "avaliado" pelo conteúdo. Como você registraria essa interação no prontuário, focando no impacto clínico?</p>
+            <details>
+                <summary><strong>Clique para ver a resposta sugerida</strong></summary>
+                <p><em>"Paciente relatou que, ao visualizar postagem da psicóloga sobre ansiedade, sentiu-se angustiado e questionou se estava 'fazendo certo'. Explorada a fantasia de estar sendo avaliado pelo conteúdo. Trabalhada a diferenciação entre psicoeducação e avaliação individual. Paciente relatou alívio ao compreender a diferença."</em></p>
+                <p><strong>Por que está adequado:</strong> O foco está no impacto emocional e no trabalho clínico realizado, não no conteúdo bruto do post.</p>
+            </details>
+        </div>
+
+        <div class="exercise">
+            <h4>📝 Exercício 3.3: Contrato Terapêutico Digital</h4>
+            <p>Crie um <strong>"Contrato de Interação Digital"</strong> com 4 cláusulas essenciais que devem ser pactuadas com o paciente na primeira sessão.</p>
+            <details>
+                <summary><strong>Clique para ver um exemplo de resposta</strong></summary>
+                <ol>
+                    <li><strong>Canais oficiais:</strong> e-mail e WhatsApp comercial são os únicos canais para agendamento e questões administrativas.</li>
+                    <li><strong>Política de resposta:</strong> mensagens serão respondidas em até 24 horas em dias úteis.</li>
+                    <li><strong>Emergências:</strong> não atendo emergências por DM; em caso de crise, ligue CVV 188, SAMU 192 ou procure o CAPS mais próximo.</li>
+                    <li><strong>Redes sociais:</strong> não sigo pacientes de volta em redes pessoais; a relação terapêutica se dá exclusivamente no <em>setting</em> clínico.</li>
+                </ol>
+            </details>
+        </div>
+    </section>
+
+    <section>
+        <h2>🎙️ Simulações de Podcast</h2>
+        <p>Estas simulações treinam a <strong>fluidez da fala</strong>, a <strong>capacidade de resposta</strong> e a <strong>aplicação prática</strong> das normas. Cronometre cada uma!</p>
+
+        <div class="simulation">
+            <h4>🎤 Simulação 1: Pergunta Polêmica (2 minutos)</h4>
+            <p>Um membro faz a pergunta e os demais respondem com base nas normativas estudadas, em no máximo 2 minutos.</p>
+            <blockquote>
+                "Posso postar o depoimento de um paciente que autorizou? Ele escreveu uma carta elogiando meu trabalho e disse que eu posso divulgar."
+            </blockquote>
+            <p><strong>O que a resposta deve conter:</strong></p>
+            <ul>
+                <li>O consentimento do paciente <strong>não é suficiente</strong> para divulgar depoimentos, pois o Art. 2º, "q", veda a divulgação de resultados que permitam identificação.</li>
+                <li>Mesmo com autorização, a exposição de depoimentos ou imagens não é recomendada, em respeito à intimidade e à privacidade.</li>
+                <li>Alternativa ética: agradecer internamente e manter o foco na psicoeducação, sem expor o caso.</li>
+            </ul>
+        </div>
+
+        <div class="simulation">
+            <h4>🎤 Simulação 2: Crise em Comentário (3 minutos)</h4>
+            <p>Um seguidor comenta em um post: <em>"Estou tendo pensamentos suicidas. O que eu faço?"</em> Como o psicólogo deve agir?</p>
+            <p><strong>O que a resposta deve conter:</strong></p>
+            <ul>
+                <li><strong>Não</strong> responder com orientações clínicas individualizadas no comentário.</li>
+                <li>Responder publicamente (ou por mensagem privada) com <strong>acolhimento e encaminhamento</strong>: "Sinto muito que você esteja passando por isso. Por favor, ligue para o CVV (188) ou procure o CAPS mais próximo. Em caso de risco imediato, ligue 192."</li>
+                <li>Não fazer diagnóstico, não prescrever técnicas, não prometer solução.</li>
+            </ul>
+        </div>
+
+        <div class="simulation">
+            <h4>🎤 Simulação 3: Debate Ético (5 minutos)</h4>
+            <p>Dividam-se em dois grupos: um <strong>a favor</strong> e outro <strong>contra</strong> a seguinte afirmação:</p>
+            <blockquote>
+                "Psicólogos deveriam ser proibidos de ter perfis profissionais nas redes sociais, pois o risco ético é grande demais."
+            </blockquote>
+            <p><strong>Argumentos a favor (proibição):</strong> riscos de exposição, banalização, confusão de papéis, pressão por engajamento.</p>
+            <p><strong>Argumentos contra (permissão regulada):</strong> democratização do conhecimento (Princípio V), psicoeducação, alcance de populações sem acesso ao consultório, regulamentação existente (Nota Técnica 1/2022).</p>
+            <p><strong>Conclusão esperada:</strong> A proibição não é o caminho; a <strong>regulação ética</strong> e a <strong>formção continuada</strong> são as soluções.</p>
+        </div>
+
+        <div class="simulation">
+            <h4>🎤 Simulação 4: Entrevista Simulada (5 minutos)</h4>
+            <p>Um membro faz o papel de <strong>jornalista</strong> e outro de <strong>psicólogo(a)</strong> convidado(a) para comentar um caso midiático.</p>
+            <p><strong>Pergunta do jornalista:</strong> <em>"Como psicóloga, o que você acha do comportamento da [figura pública] que expôs a traição do marido nas redes? Isso é um transtorno?"</em></p>
+            <p><strong>O que a resposta deve conter:</strong></p>
+            <ul>
+                <li><strong>Não</strong> diagnosticar a figura pública (Art. 2º, "q").</li>
+                <li><strong>Não</strong> individualizar o caso; falar sobre o fenômeno em geral (exposição da intimidade nas redes, sofrimento psíquico).</li>
+                <li>Limitar as afirmações à evidência científica.</li>
+                <li>Exemplo de resposta: "Não posso comentar o caso específico, pois não avaliei essa pessoa. O que posso dizer, com base na literatura, é que a exposição da intimidade nas redes pode estar associada a..."</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>🧠 Simulado de Revisão</h2>
+        <p>Responda às questões abaixo sem consultar o material. Depois, confira o gabarito.</p>
+
+        <div class="quiz">
+            <h4>Questão 1 (Bloco 1)</h4>
+            <p>O que caracteriza a "exposição mascarada" e qual artigo do CEPP ela fere?</p>
+            <details>
+                <summary>Ver resposta</summary>
+                <p>É a divulgação de relatos de casos com detalhes que, mesmo sem nomes, permitem a identificação indireta do paciente. Fere o Art. 9º (sigilo) e o Art. 2º, "q" (divulgação de resultados).</p>
+            </details>
+        </div>
+
+        <div class="quiz">
+            <h4>Questão 2 (Bloco 2)</h4>
+            <p>Quais são os três primeiros requisitos do Art. 20 do CEPP para a publicidade profissional?</p>
+            <details>
+                <summary>Ver resposta</summary>
+                <p>(a) Informar nome completo, CRP e número de registro; (b) fazer referência apenas a títulos ou qualificações que possua; (c) divulgar somente qualificações, atividades e recursos relativos a técnicas e práticas reconhecidas ou regulamentadas.</p>
+            </details>
+        </div>
+
+        <div class="quiz">
+            <h4>Questão 3 (Bloco 2)</h4>
+            <p>O que a Nota Técnica CFP nº 1/2022 estabelece sobre a responsabilidade do psicólogo quando terceiriza a produção de conteúdo?</p>
+            <details>
+                <summary>Ver resposta</summary>
+                <p>A responsabilidade de verificar se o conteúdo cumpre as diretrizes éticas é única do psicólogo, mesmo que a produção seja terceirizada para empresas de marketing ou publicidade.</p>
+            </details>
+        </div>
+
+        <div class="quiz">
+            <h4>Questão 4 (Bloco 3)</h4>
+            <p>Qual é o prazo mínimo de guarda do registro documental e qual é a responsabilidade do psicólogo em relação à LGPD?</p>
+            <details>
+                <summary>Ver resposta</summary>
+                <p>Prazo mínimo de 5 anos (Resolução CFP nº 1/2009), podendo ser ampliado. O psicólogo, como controlador de dados, deve garantir acesso restrito, criptografia e não compartilhamento com terceiros sem base legal, pois dados de saúde são sensíveis.</p>
+            </details>
+        </div>
+
+        <div class="quiz">
+            <h4>Questão 5 (Bloco 3)</h4>
+            <p>Como o registro documental deve tratar as interações virtuais trazidas pelo paciente?</p>
+            <details>
+                <summary>Ver resposta</summary>
+                <p>O foco deve ser o impacto clínico/psicológico da interação para o paciente, e não o conteúdo bruto da mensagem. O prontuário registra o raciocínio clínico, não o conteúdo das redes sociais.</p>
+            </details>
+        </div>
+
+        <div class="quiz">
+            <h4>Questão 6 (Transversal)</h4>
+            <p>Qual é o papel do Conselho Federal de Psicologia (CFP) e dos Conselhos Regionais (CRPs) na regulação do uso das redes sociais?</p>
+            <details>
+                <summary>Ver resposta</summary>
+                <p>O CFP regulamenta e detalha os princípios do CEPP para contextos específicos (redes sociais, atendimento online, registro documental). Os CRPs orientam e fiscalizam a aplicação prática no dia a dia do profissional.</p>
+            </details>
+        </div>
+
+        <div class="score-box">
+            <p><strong>Como você se saiu?</strong></p>
+            <p>6 acertos: Excelente! Você está pronto(a) para o podcast.</p>
+            <p>4-5 acertos: Bom! Revise os pontos que errou nos arquivos correspondentes.</p>
+            <p>Menos de 4 acertos: Releia a apostila com calma e refaça o simulado.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>✅ Checklist Final para a Gravação</h2>
+        <div class="card success">
+            <ul>
+                <li>☐ Todos sabem seus papéis nos 3 blocos?</li>
+                <li>☐ Cada um tem suas falas-chave anotadas?</li>
+                <li>☐ Cronômetro testado?</li>
+                <li>☐ Transições ensaiadas?</li>
+                <li>☐ Perguntas de apoio preparadas?</li>
+                <li>☐ Referências (Artigos e Resoluções) anotadas?</li>
+                <li>☐ Áudio testado (microfones, ruído)?</li>
+                <li>☐ Ensaio completo feito?</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <p>📚 Apostila de estudo — Parte 4 de 4 | <a href="index.html">Voltar ao início</a></p>
+        <p>Bom estudo e boa gravação! 🎙️</p>
+    </footer>
+
+</body>
+</html>
