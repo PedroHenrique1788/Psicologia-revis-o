@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apostila de Ética | Bloco 3: Proteção, Contrato e Registro</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --accent-light: #e8f4fd;
+            --warning: #e67e22;
+            --warning-light: #fdf2e9;
+            --success: #27ae60;
+            --success-light: #eafaf1;
+            --danger: #c0392b;
+            --danger-light: #fdedec;
+            --purple: #8e44ad;
+            --purple-light: #f4ecf7;
+            --text: #333;
+            --bg: #f9f9f9;
+            --card: #fff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--bg);
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary), #1a252f);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        header h1 { font-size: 1.8em; margin-bottom: 10px; }
+        header p { font-size: 1.1em; opacity: 0.9; }
+        .nav-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .nav-pills a {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: 0.3s;
+        }
+        .nav-pills a:hover, .nav-pills a.active {
+            background: white;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 8px;
+            margin: 40px 0 20px;
+            font-size: 1.5em;
+        }
+        h3 {
+            color: var(--accent);
+            margin: 30px 0 15px;
+            font-size: 1.2em;
+        }
+        h4 {
+            color: var(--primary);
+            margin: 20px 0 10px;
+            font-size: 1.05em;
+        }
+        .card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--accent);
+        }
+        .card.warning { border-left-color: var(--warning); background: var(--warning-light); }
+        .card.success { border-left-color: var(--success); background: var(--success-light); }
+        .card.danger { border-left-color: var(--danger); background: var(--danger-light); }
+        .card.purple { border-left-color: var(--purple); background: var(--purple-light); }
+        .link-box {
+            background: var(--accent-light);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-left: 5px solid var(--accent);
+            font-size: 0.95em;
+        }
+        .link-box a {
+            color: #0056b3;
+            font-weight: bold;
+            text-decoration: none;
+            word-break: break-word;
+        }
+        .link-box a:hover { text-decoration: underline; }
+        .exercise {
+            background: var(--warning-light);
+            border: 2px dashed var(--warning);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .exercise h4 { color: var(--warning); margin-bottom: 10px; }
+        .highlight { background: #fff9c4; padding: 2px 5px; font-weight: bold; }
+        blockquote {
+            border-left: 4px solid var(--accent);
+            padding: 12px 18px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #555;
+            background: #f4f8fb;
+            border-radius: 0 8px 8px 0;
+        }
+        ul, ol { padding-left: 25px; margin: 10px 0; }
+        li { margin-bottom: 8px; }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            border-top: 1px solid #ddd;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .step {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            align-items: flex-start;
+        }
+        .step-num {
+            background: var(--accent);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .badge-blue { background: var(--accent); color: white; }
+        .badge-orange { background: var(--warning); color: white; }
+        .badge-green { background: var(--success); color: white; }
+        @media (max-width: 600px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.4em; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🛡️ Bloco 3: Proteção, Contrato e Registro</h1>
+        <p>Como prevenir riscos, pactuar limites e documentar interações digitais com segurança</p>
+        <div class="nav-pills">
+            <a href="index.html">🏠 Introdução & Bloco 1</a>
+            <a href="bloco2.html">⚖️ Bloco 2: Normas</a>
+            <a href="bloco3.html" class="active">🛡️ Bloco 3: Prevenção</a>
+            <a href="exercicios.html">📝 Exercícios</a>
+        </div>
+    </header>
+
+    <section>
+        <h2>🎯 O que este bloco responde</h2>
+        <div class="card success">
+            <p><strong>Pergunta central:</strong> <em>"Como se proteger e usar as redes de forma ética e construtiva?"</em></p>
+            <p>Nos Blocos 1 e 2, vimos os riscos e as normas. Agora, o foco é a <strong>ação prática</strong>: como o psicólogo pode se prevenir, pactuar limites e documentar adequadamente as interações digitais, transformando os princípios éticos em <strong>salvaguardas concretas</strong> no dia a dia.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>🛡️ 3.1 Prevenção e Salvaguardas Digitais</h2>
+        <p>A prevenção começa com a criação de <strong>camadas de proteção</strong> que separam o espaço pessoal do profissional e reduzem o risco de conflitos éticos.</p>
+
+        <h3>Camada 1: Separação de perfis</h3>
+        <div class="card">
+            <p>A <strong>Nota Técnica CFP nº 1/2022</strong> e o <strong>CRP-SP</strong> recomendam explicitamente que os psicólogos mantenham <strong>perfis distintos</strong>: um pessoal e um profissional. As publicações feitas em perfis profissionais <strong>impactam diretamente a imagem da Psicologia</strong>, e a confusão entre posicionamentos pessoais e conteúdos da ciência psicológica pode gerar questionamento ético.</p>
+            <p>A <strong>Nota Técnica CRP-PR nº 02/2022</strong> reforça que a utilização das redes sociais deve ser feita com cautela, analisando as implicações e as fronteiras entre o espaço profissional e o espaço pessoal.</p>
+            <p><strong>O que o perfil profissional deve conter:</strong></p>
+            <ul>
+                <li>Nome completo (sem abreviações ou apelidos).</li>
+                <li>Título de Psicóloga(o).</li>
+                <li>Número de inscrição no CRP (ex.: CRP 00/00000).</li>
+                <li>Formação e abordagem teórica.</li>
+                <li>Público que atende.</li>
+            </ul>
+        </div>
+        <div class="link-box">
+            🏛️ <strong>CRP-SP — Ética nas redes sociais:</strong>
+            <br>🔗 <a href="https://www.crpsp.org/noticia/view/3311/etica-nas-redes-sociais-saiba-mais-sobre-a-divulgacao-de-conteudos-profissionais" target="_blank">Acessar notícia completa</a>
+            <br><br>
+            📜 <strong>Nota Técnica CRP-PR nº 02/2022:</strong>
+            <br>🔗 <a href="https://crppr.org.br" target="_blank">Acessar no site do CRP-PR</a>
+        </div>
+
+        <h3>Camada 2: Disclaimers éticos</h3>
+        <div class="card">
+            <p>Todo conteúdo de psicoeducação deve conter um <strong>aviso claro</strong> de que se trata de informação e não substitui avaliação ou acompanhamento psicológico individual.</p>
+            <blockquote>"Este conteúdo tem caráter psicoeducativo e não configura orientação clínica individualizada. Se você está passando por sofrimento psíquico, procure um profissional."</blockquote>
+            <p><strong>Por que é importante:</strong> O disclaimer protege o psicólogo de interpretações equivocadas e deixa explícito para o público que aquele conteúdo não é uma consulta.</p>
+        </div>
+
+        <h3>Camada 3: Automação de respostas</h3>
+        <div class="card">
+            <p>Mensagens automáticas em DM e comentários devem <strong>redirecionar o público para canais formais</strong> de contato, deixando claro que não se realizam orientações ou diagnósticos por redes sociais.</p>
+            <p><strong>Exemplo de mensagem automática:</strong></p>
+            <blockquote>"Olá! Obrigado pelo contato. Para agendar uma consulta ou obter informações sobre o atendimento, utilize o e-mail [endereço] ou o WhatsApp comercial [número]. Não realizamos orientações ou diagnósticos por mensagem direta."</blockquote>
+        </div>
+
+        <div class="exercise">
+            <h4>📝 Exercício 3.1: Construção de Salvaguardas</h4>
+            <p>Você está montando seu perfil profissional no Instagram. Crie uma <strong>bio ética</strong> que atenda aos requisitos do Art. 20 do CEPP e inclua uma <strong>mensagem automática</strong> para DM.</p>
+            <details>
+                <summary><strong>Clique para ver um exemplo de resposta</strong></summary>
+                <p><strong>Bio:</strong> "Psicóloga [Nome Completo] | CRP 00/00000 | Atendimento online e presencial | Abordagem [nome da abordagem] | Conteúdo psicoeducativo — não substitui avaliação individual."</p>
+                <p><strong>Mensagem automática:</strong> "Olá! Para agendar ou obter informações, utilize o e-mail [endereço]. Não realizamos orientações por DM."</p>
+            </details>
+        </div>
+    </section>
+
+    <section>
+        <h2>📄 3.2 Contrato Terapêutico: Pactuando os Limites Digitais</h2>
+        <p>A <strong>Resolução CFP nº 9/2024</strong> exige a formalização de contrato na prestação de serviços mediada por Tecnologias Digitais da Informação e da Comunicação (TDICs). O contrato, <strong>seja verbal ou escrito</strong>, deve incluir detalhes sobre os recursos tecnológicos, direitos e deveres das partes, foro escolhido (se for escrito) e, no caso de menores, consentimento dos responsáveis.</p>
+
+        <div class="card warning">
+            <h4>📌 Cláusulas essenciais para o ambiente digital</h4>
+            <p>Além das cláusulas gerais exigidas pela Resolução 9/2024, o contrato terapêutico deve pactuar <strong>regras específicas de interação digital</strong>:</p>
+            <ul>
+                <li><strong>Canais de contato:</strong> Definir quais canais são exclusivos para agendamento e questões administrativas (e-mail, WhatsApp comercial) e quais <strong>não</strong> são utilizados para atendimento clínico (DM de redes sociais).</li>
+                <li><strong>Política de resposta:</strong> Estabelecer prazos (ex.: "mensagens serão respondidas em até 24 horas em dias úteis") e combinar intervalos predeterminados, evitando a falsa sensação de urgência.</li>
+                <li><strong>Emergências:</strong> Deixar claro que o psicólogo <strong>não atende emergências por DM</strong> e fornecer contatos de serviços de emergência (CVV 188, CAPS, SAMU 192).</li>
+                <li><strong>Não seguimento em redes sociais:</strong> Pactuar que o psicólogo não seguirá o paciente de volta em redes sociais pessoais, preservando o <em>setting</em> terapêutico.</li>
+                <li><strong>Gravação de sessão:</strong> Proibir a gravação sem consentimento formal de ambas as partes.</li>
+            </ul>
+        </div>
+
+        <div class="card success">
+            <h4>✅ Por que o contrato é um dispositivo clínico</h4>
+            <p>O contrato não é burocracia: ele <strong>cria o enquadre</strong> e protege a relação terapêutica da intrusão do "a qualquer hora, em qualquer lugar". Ao pactuar os limites, o psicólogo ensina o paciente a usar os canais corretos e protege ambos.</p>
+        </div>
+
+        <div class="link-box">
+            📜 <strong>Resolução CFP nº 9/2024 (texto integral):</strong>
+            <br>🔗 <a href="https://atosoficiais.com.br/cfp/resolucao-do-exercicio-profissional-n-9-2024" target="_blank">Acessar no Atos Oficiais</a>
+            <br><br>
+            🏛️ <strong>CRP-SC — Guia Rápido: Atendimento On-line (modelo de contrato):</strong>
+            <br>🔗 <a href="https://site.crpsc.org.br/crp-sc-orienta-guia-rapido-atendimento-on-line-crp-sc/" target="_blank">Acessar guia</a>
+            <br><br>
+            🏛️ <strong>CRP-01/DF — Orientação sobre atendimento on-line:</strong>
+            <br>🔗 <a href="https://crp-01.org.br/page_4023/" target="_blank">Acessar orientação</a>
+        </div>
+    </section>
+
+    <section>
+        <h2>🗂️ 3.3 Gestão do Prontuário e Registro Documental</h2>
+        <p>O registro documental é uma <strong>obrigação ética e legal</strong>. A <strong>Resolução CFP nº 1/2009</strong> torna obrigatório o registro documental sobre a prestação de serviços psicológicos, que deve contemplar de forma sucinta o trabalho prestado, a descrição e a evolução da atividade e os procedimentos técnico-científicos adotados.</p>
+
+        <div class="card">
+            <h4>📌 O que o registro deve conter (Art. 2º da Resolução 1/2009)</h4>
+            <ul>
+                <li>Identificação do usuário/instituição;</li>
+                <li>Avaliação da demanda e definição de objetivos do trabalho;</li>
+                <li>Registro da evolução do trabalho, permitindo o acompanhamento e os procedimentos técnico-científicos adotados;</li>
+                <li>Registro de encaminhamento ou encerramento;</li>
+                <li>Documentos decorrentes da aplicação de instrumentos de avaliação psicológica (arquivados em pasta de acesso exclusivo do psicólogo).</li>
+            </ul>
+        </div>
+
+        <h3>Como registrar interações trazidas do meio virtual</h3>
+        <div class="card purple">
+            <p>Quando o paciente traz para a sessão uma interação ocorrida em ambiente digital (mensagem, comentário, post), o foco do registro deve ser o <strong>impacto clínico/psicológico</strong> dessa interação para o paciente — e <strong>não o conteúdo bruto da mensagem</strong>.</p>
+            <p><strong>Exemplo de registro inadequado:</strong> <em>"Paciente enviou print de mensagem que recebeu de familiar dizendo XYZ."</em></p>
+            <p><strong>Exemplo de registro adequado:</strong> <em>"Paciente relatou que, após receber mensagem de familiar nas redes sociais, sentiu-se angustiado e questionou seu valor pessoal. Explorada a fantasia de rejeição e trabalhada a diferenciação entre o conteúdo da mensagem e sua autoimagem. Paciente relatou alívio ao ressignificar a situação."</em></p>
+            <p><strong>Princípio:</strong> O prontuário não é um diário de redes sociais. Ele registra o <strong>raciocínio clínico</strong>, não o conteúdo das mensagens.</p>
+        </div>
+
+        <h3>Prazos de guarda e LGPD</h3>
+        <div class="grid-2">
+            <div class="card">
+                <h4>📅 Prazo de guarda</h4>
+                <ul>
+                    <li><strong>Registro documental:</strong> no mínimo <strong>5 anos</strong>, podendo ser ampliado nos casos previstos em lei, por determinação judicial, ou em casos específicos em que seja necessária a manutenção da guarda por maior tempo.</li>
+                    <li><strong>Prontuário em saúde:</strong> até <strong>20 anos</strong>, conforme legislação vigente.</li>
+                    <li>A guarda é de responsabilidade da psicóloga que presta o serviço e/ou da instituição.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>🔒 LGPD e dados sensíveis</h4>
+                <p>São considerados <strong>dados sensíveis</strong> pela LGPD o conteúdo dos dados cadastrais (origem racial ou étnica, saúde etc.) e os <strong>registros das sessões de psicoterapia</strong>.</p>
+                <p>O psicólogo, como <strong>controlador de dados</strong>, deve garantir:</p>
+                <ul>
+                    <li>Acesso restrito (autenticação segura);</li>
+                    <li>Criptografia dos dados em trânsito e em repouso;</li>
+                    <li>Não compartilhamento com terceiros sem base legal.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="link-box">
+            📜 <strong>Resolução CFP nº 1/2009 (texto integral):</strong>
+            <br>🔗 <a href="https://satepsi.cfp.org.br/docs/ResolucaoCFP0012009.pdf" target="_blank">Acessar PDF</a>
+            <br><br>
+            🏛️ <strong>CRP-01/DF — Registro documental deve ser guardado por no mínimo 5 anos:</strong>
+            <br>🔗 <a href="https://www.crp-01.org.br" target="_blank">Acessar orientação</a>
+            <br><br>
+            ⚖️ <strong>LGPD (Lei nº 13.709/2018):</strong>
+            <br>🔗 <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank">Texto integral no Planalto</a>
+        </div>
+
+        <div class="exercise">
+            <h4>📝 Exercício 3.2: Registro Clínico de Interação Virtual</h4>
+            <p>Um paciente relata em sessão que viu um post do psicólogo sobre ansiedade e se sentiu "avaliado" pelo conteúdo. Como você registraria essa interação no prontuário, focando no impacto clínico?</p>
+            <details>
+                <summary><strong>Clique para ver a resposta sugerida</strong></summary>
+                <p><em>"Paciente relatou que, ao visualizar postagem da psicóloga sobre ansiedade, sentiu-se angustiado e questionou se estava 'fazendo certo'. Explorada a fantasia de estar sendo avaliado pelo conteúdo. Trabalhada a diferenciação entre psicoeducação e avaliação individual. Paciente relatou alívio ao compreender a diferença."</em></p>
+                <p><strong>Por que está adequado:</strong> O foco está no impacto emocional e no trabalho clínico realizado, não no conteúdo bruto do post.</p>
+            </details>
+        </div>
+    </section>
+
+    <section>
+        <h2>🌱 3.4 Boas Práticas: Psicoeducação e Posicionamento Público</h2>
+        <p>As redes sociais, quando usadas eticamente, são ferramentas poderosas de <strong>democratização do conhecimento psicológico</strong>. O psicólogo pode e deve usar esse espaço — mas com responsabilidade.</p>
+
+        <h3>Psicoeducação como função ética</h3>
+        <div class="card success">
+            <p>O <strong>Princípio Fundamental V do CEPP</strong> estabelece que a psicóloga e o psicólogo contribuirão para promover a <strong>universalização do acesso da população às informações</strong>, ao conhecimento da ciência psicológica, aos serviços e aos padrões éticos da profissão.</p>
+            <p><strong>O que pode ser postado:</strong></p>
+            <ul>
+                <li>Explicações sobre como funciona a terapia e a primeira sessão;</li>
+                <li>Diferenças entre atendimento online e presencial;</li>
+                <li>Sinais de que pode ser hora de procurar ajuda profissional;</li>
+                <li>Como funciona o sigilo profissional;</li>
+                <li>Temas que podem ser levados à terapia;</li>
+                <li>Trajetória, formação e abordagem teórica;</li>
+                <li>Informações práticas do consultório: horários, modalidades, formas de contato.</li>
+            </ul>
+            <p><strong>O que evitar:</strong></p>
+            <ul>
+                <li><em>Trends</em> que banalizam ou ridicularizam o sofrimento psíquico;</li>
+                <li>Promessas de cura ou resultados garantidos;</li>
+                <li>Conteúdos que transformem transtornos em entretenimento.</li>
+            </ul>
+        </div>
+
+        <h3>Posicionamento público e figuras midiáticas</h3>
+        <div class="card warning">
+            <p>Quando um psicólogo é chamado para dar sua opinião profissional, deve <strong>abster-se de dar opiniões pessoais</strong>, limitando suas afirmações à <strong>evidência científica</strong> associada à Psicologia. Comentários sobre casos particulares, generalizações abusivas e "avaliações" que espelhem falta de evidência científica <strong>não são toleráveis</strong>.</p>
+            <p><strong>É vedado:</strong></p>
+            <ul>
+                <li>Emitir laudos, pareceres ou diagnósticos sobre figuras públicas ou casos de grande repercussão midiática sem avaliação direta e consentimento.</li>
+                <li>Analisar comportamentos de personagens públicos como se estivesse em consultório.</li>
+                <li>Fazer "diagnósticos" de celebridades com base em entrevistas ou posts.</li>
+            </ul>
+            <p><strong>O que fazer:</strong> Se convidado a opinar, limite-se a comentar sobre o fenômeno psicológico em geral, sem individualizar o caso ou emitir juízo clínico sobre quem não foi avaliado.</p>
+        </div>
+
+        <div class="link-box">
+            📄 <strong>Estudo de apoio:</strong> White, E., & Hanley, T. (2025). O estudo conclui que psicólogos podem usar seu treinamento para compartilhar pesquisa baseada em evidências como forma gratuita e amplamente acessível de psicoeducação, potencialmente atuando como primeiro passo para a terapia.
+            <br>🔗 <a href="https://doi.org/10.1111/papt.12585" target="_blank">Acessar artigo (DOI)</a>
+            <br><br>
+            🏛️ <strong>CRP-01/DF — Posso divulgar o resultado do meu trabalho nas redes sociais?</strong>
+            <br>🔗 <a href="https://crp-01.org.br" target="_blank">Acessar orientação</a>
+        </div>
+
+        <div class="exercise">
+            <h4>🎙️ Exercício de Podcast: Pergunta de Apoio (Bloco 3)</h4>
+            <p>Se você for <strong>Membro de Apoio</strong> neste bloco, leve esta pergunta pronta:</p>
+            <blockquote>
+                "Como diferenciar, na prática, uma psicoeducação ética de um conteúdo que, mesmo sem más intenções, acaba banalizando o sofrimento psíquico? Existe um limite claro ou é uma questão de julgamento clínico?"
+            </blockquote>
+            <p><em>Dica de resposta:</em> O limite está no <strong>foco</strong>. Psicoeducação informa sobre o fenômeno, dá pautas gerais e incentiva a busca por ajuda. Conteúdo que banaliza usa o sofrimento como entretenimento, promete soluções mágicas ou ridiculariza quem sofre.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>🧠 Síntese do Bloco 3 para o Podcast</h2>
+        <div class="card success">
+            <p>Se você for o <strong>Apresentador</strong> ou o <strong>Aprofundador</strong> deste bloco, estes são os <strong>3 pontos que não podem faltar</strong> na sua fala:</p>
+            <ol>
+                <li><strong>Salvaguardas digitais:</strong> Separação de perfis, disclaimers em posts e automação de respostas. A prevenção começa com camadas de proteção que separam o pessoal do profissional.</li>
+                <li><strong>Contrato terapêutico:</strong> A Resolução 9/2024 exige contrato formalizado (verbal ou escrito) com cláusulas de sigilo, canais de contato, política de resposta e limites para emergências. O contrato é um dispositivo clínico, não burocracia.</li>
+                <li><strong>Prontuário e LGPD:</strong> O registro documental deve focar no impacto clínico da interação virtual, não no conteúdo bruto. Guarda mínima de 5 anos. Dados de saúde são sensíveis e exigem criptografia e acesso restrito.</li>
+            </ol>
+        </div>
+    </section>
+
+    <footer>
+        <p>📚 Apostila de estudo — Parte 3 de 4 | Próximo: <a href="exercicios.html">Exercícios e Simulações de Podcast</a></p>
+    </footer>
+
+</body>
+</html>
