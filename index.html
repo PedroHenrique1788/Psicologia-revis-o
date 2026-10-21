@@ -133,11 +133,27 @@
             font-size: 0.9em;
             border-top: 1px solid #ddd;
         }
+        footer a { color: #0056b3; font-weight: bold; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
+        details {
+            margin: 15px 0;
+            background: #fff;
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+        }
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--accent);
+            padding: 5px;
+        }
+        summary:hover { color: var(--primary); }
         @media (max-width: 600px) {
             .grid-2 { grid-template-columns: 1fr; }
             header h1 { font-size: 1.4em; }
@@ -154,18 +170,20 @@
             <a href="bloco2.html">⚖️ Bloco 2: Normas</a>
             <a href="bloco3.html">🛡️ Bloco 3: Prevenção</a>
             <a href="exercicios.html">📝 Exercícios</a>
+            <a href="conteudo-avancado.html">📚 Avançado</a>
         </div>
     </header>
 
     <section>
         <h2>🎯 Como usar esta apostila</h2>
         <div class="card">
-            <p>Esta apostila foi dividida em <strong>quatro arquivos</strong> para facilitar o estudo e a navegação:</p>
+            <p>Esta apostila foi dividida em <strong>cinco arquivos</strong> para facilitar o estudo e a navegação:</p>
             <ul>
                 <li><strong>index.html</strong> (esta página): Introdução e <strong>Bloco 1</strong> — Cenário Digital e Riscos.</li>
                 <li><strong>bloco2.html</strong>: <strong>Bloco 2</strong> — Bússola Normativa (Código de Ética e Resoluções do CFP).</li>
                 <li><strong>bloco3.html</strong>: <strong>Bloco 3</strong> — Proteção, Contrato e Registro.</li>
                 <li><strong>exercicios.html</strong>: Exercícios práticos e simulações de podcast.</li>
+                <li><strong>conteudo-avancado.html</strong>: Aprofundamento normativo, bibliografia comentada e glossário.</li>
             </ul>
             <p>Recomendação: estude um bloco por vez, faça os exercícios correspondentes e, ao final, simule a gravação do podcast com o grupo.</p>
         </div>
@@ -178,13 +196,13 @@
         <h3>1.1 A Lógica do Engajamento e a Transformação do Cuidado em Espetáculo</h3>
         <div class="card">
             <p>As plataformas digitais operam com uma lógica de mercado — <strong>curtidas, seguidores, alcance, viralização</strong> — que é radicalmente diferente da lógica clínica. O psicólogo que não reconhece essa tensão corre o risco de transformar o consultório em palco e o paciente em personagem.</p>
-            <p>O estudo de <strong>White e Hanley (2025)</strong> , publicado na <em>Psychology and Psychotherapy: Theory, Research and Practice</em>, entrevistou <strong>12 psicólogos britânicos</strong> que atuam como influenciadores no Instagram. A análise identificou <strong>três temas centrais</strong>:</p>
+            <p>O estudo de <strong>White e Hanley (2025)</strong>, publicado na <em>Psychology and Psychotherapy: Theory, Research and Practice</em>, entrevistou <strong>12 psicólogos britânicos</strong> que atuam como influenciadores no Instagram. A análise identificou <strong>três temas centrais</strong>:</p>
             <ul>
-                <li><strong>"Sou psicólogo, mas não sou seu psicólogo":</strong> A dificuldade de estabelecer limites no Instagram em torno de autodivulgação, gestão de risco, gestão de tempo e trabalho clínico[reference:0].</li>
-                <li><strong>"Ansiedade de não querer fazer a coisa errada":</strong> O impacto da presença como influenciador na própria saúde mental do profissional[reference:1].</li>
-                <li><strong>"Compartilho o que acho que vai ser útil para os outros e para mim":</strong> As motivações para usar o Instagram para <strong>defesa da justiça social</strong> e <strong>promoção comercial</strong> — e as contradições entre elas[reference:2].</li>
+                <li><strong>"Sou psicólogo, mas não sou seu psicólogo":</strong> A dificuldade de estabelecer limites no Instagram em torno de autodivulgação, gestão de risco, gestão de tempo e trabalho clínico.</li>
+                <li><strong>"Ansiedade de não querer fazer a coisa errada":</strong> O impacto da presença como influenciador na própria saúde mental do profissional.</li>
+                <li><strong>"Compartilho o que acho que vai ser útil para os outros e para mim":</strong> As motivações para usar o Instagram para <strong>defesa da justiça social</strong> e <strong>promoção comercial</strong> — e as contradições entre elas.</li>
             </ul>
-            <p>Os autores concluem que, embora os psicólogos possam usar seu treinamento para compartilhar pesquisa baseada em evidências como forma gratuita e amplamente acessível de psicoeducação, <span class="highlight">ainda existem muitas ambiguidades éticas</span>, e diretrizes atualizadas especificamente para uma presença como influenciador podem reduzir as ansiedades e riscos potenciais[reference:3].</p>
+            <p>Os autores concluem que, embora os psicólogos possam usar seu treinamento para compartilhar pesquisa baseada em evidências como forma gratuita e amplamente acessível de psicoeducação, <span class="highlight">ainda existem muitas ambiguidades éticas</span>, e diretrizes atualizadas especificamente para uma presença como influenciador podem reduzir as ansiedades e riscos potenciais.</p>
         </div>
         <div class="link-box">
             📄 <strong>Artigo científico (acesso aberto):</strong> White, E., & Hanley, T. (2025). "What I share is not the same as therapy": Psychologist experiences of Instagram use as a mental health influencer. <em>Psychology and Psychotherapy: Theory, Research and Practice</em>.
@@ -193,12 +211,12 @@
 
         <h3>1.2 O Estudo Brasileiro: Redes como Promotoras e Desafiadoras</h3>
         <div class="card">
-            <p>O estudo de <strong>Sehabarini e Teixeira (2025)</strong> , publicado na <em>Psico-USF</em> (SciELO), analisou o impacto das redes sociais na formação das perspectivas profissionais de <strong>psicólogos nano-influenciadores</strong>. Foram entrevistados <strong>nove psicólogos</strong>, e a análise temática revelou dois temas principais[reference:4]:</p>
+            <p>O estudo de <strong>Sehabarini e Teixeira (2025)</strong>, publicado na <em>Psico-USF</em> (SciELO), analisou o impacto das redes sociais na formação das perspectivas profissionais de <strong>psicólogos nano-influenciadores</strong>. Foram entrevistados <strong>nove psicólogos</strong>, e a análise temática revelou dois temas principais:</p>
             <ul>
-                <li><strong>As redes sociais como promotoras da prática profissional:</strong> Facilitam o contato com seguidores e ampliam oportunidades além da prática clínica[reference:5].</li>
-                <li><strong>Os desafios associados ao seu uso como ferramenta de trabalho:</strong> Desenvolvimento de habilidades específicas, gestão de tarefas entre criação de conteúdo e atendimentos clínicos, e <strong>cautela na exposição pessoal no perfil profissional</strong>[reference:6].</li>
+                <li><strong>As redes sociais como promotoras da prática profissional:</strong> Facilitam o contato com seguidores e ampliam oportunidades além da prática clínica.</li>
+                <li><strong>Os desafios associados ao seu uso como ferramenta de trabalho:</strong> Desenvolvimento de habilidades específicas, gestão de tarefas entre criação de conteúdo e atendimentos clínicos, e <strong>cautela na exposição pessoal no perfil profissional</strong>.</li>
             </ul>
-            <p>O estudo conclui que, embora as redes ampliem a captação de pacientes e o reconhecimento profissional, também apresentam desafios que exigem <strong>planejamento estratégico</strong> para a gestão eficaz do perfil profissional[reference:7].</p>
+            <p>O estudo conclui que, embora as redes ampliem a captação de pacientes e o reconhecimento profissional, também apresentam desafios que exigem <strong>planejamento estratégico</strong> para a gestão eficaz do perfil profissional.</p>
         </div>
         <div class="link-box">
             📄 <strong>Artigo científico (SciELO):</strong> Sehabarini, I., & Teixeira, M. A. P. (2025). Psychologists' Professional Perspectives on the Use of Social Media. <em>Psico-USF</em>.
@@ -213,7 +231,7 @@
                 <li><strong>Diagnóstico/orientação à distância:</strong> Responder a "caixinhas de perguntas" com orientações clínicas individualizadas, sem avaliação adequada, configura intervenção sem respaldo técnico.</li>
                 <li><strong>Confusão de papéis:</strong> Misturar posicionamentos pessoais (políticos, religiosos) com a imagem profissional, afetando a credibilidade da Psicologia.</li>
             </ul>
-            <p>O <strong>CRP-SP</strong> ressalta que o Código de Ética e as demais resoluções do Sistema Conselhos também se aplicam às interações virtuais que ocorrem fora do contexto do atendimento. O CRP SP estabelece normas para proteger a profissão, a categoria e a sociedade contra conteúdos eticamente incompatíveis ou prejudiciais[reference:8].</p>
+            <p>O <strong>CRP-SP</strong> ressalta que o Código de Ética e as demais resoluções do Sistema Conselhos também se aplicam às interações virtuais que ocorrem fora do contexto do atendimento. O CRP SP estabelece normas para proteger a profissão, a categoria e a sociedade contra conteúdos eticamente incompatíveis ou prejudiciais.</p>
         </div>
         <div class="link-box">
             🏛️ <strong>Material do Conselho:</strong> CRP-SP. <em>Ética nas redes sociais: saiba mais sobre a divulgação de conteúdos profissionais</em>.
@@ -249,7 +267,8 @@
     </section>
 
     <footer>
-        <p>📚 Apostila de estudo — Parte 1 de 4 | Próximo: <a href="bloco2.html">Bloco 2: Bússola Normativa</a></p>
+        <p>📚 Apostila de estudo — Parte 1 de 5 | Próximo: <a href="bloco2.html">Bloco 2: Bússola Normativa</a></p>
+        <p style="margin-top:8px; font-size:0.9em;">📖 Conteúdo extra: <a href="conteudo-avancado.html">Aprofundamento e Referências</a></p>
     </footer>
 
 </body>
