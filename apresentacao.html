@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast ao Vivo | Ética nas Redes Sociais por Psicólogos</title>
+    <style>
+        :root {
+            --primary: #1a252f;
+            --accent: #3498db;
+            --accent-2: #9b59b6;
+            --success: #27ae60;
+            --warning: #e67e22;
+            --danger: #e74c3c;
+            --text: #ecf0f1;
+            --text-muted: #95a5a6;
+            --bg: #0d1117;
+            --card: rgba(255,255,255,0.05);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* ===== CONTAINER PRINCIPAL ===== */
+        .deck {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        /* ===== SLIDES ===== */
+        .slide {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 80px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .slide h1 {
+            font-size: clamp(2em, 5vw, 4em);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #3498db, #9b59b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .slide h2 {
+            font-size: clamp(1.4em, 3vw, 2.4em);
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+        .slide h3 {
+            font-size: clamp(1.1em, 2vw, 1.5em);
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .slide p {
+            font-size: clamp(1em, 1.5vw, 1.3em);
+            line-height: 1.6;
+            max-width: 900px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+        .slide .subtitle {
+            font-size: clamp(1em, 1.8vw, 1.4em);
+            color: var(--text-muted);
+            max-width: 800px;
+            margin-top: 10px;
+        }
+
+        /* ===== LISTAS ===== */
+        .slide ul {
+            list-style: none;
+            text-align: left;
+            max-width: 900px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .slide ul li {
+            font-size: clamp(0.95em, 1.5vw, 1.25em);
+            line-height: 1.6;
+            margin-bottom: 18px;
+            padding-left: 40px;
+            position: relative;
+            color: var(--text);
+        }
+        .slide ul li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .slide ul li strong {
+            color: var(--accent);
+        }
+
+        /* ===== CARDS DE CONTEÚDO ===== */
+        .cards-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px;
+            margin-top: 20px;
+        }
+        .mini-card {
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 22px;
+            text-align: left;
+            transition: transform 0.2s;
+        }
+        .mini-card:hover { transform: translateY(-3px); }
+        .mini-card .icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .mini-card h4 {
+            font-size: 1.05em;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        .mini-card p {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ===== BADGES ===== */
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        .badge {
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            font-weight: 600;
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .badge.blue { border-color: var(--accent); color: var(--accent); }
+        .badge.purple { border-color: var(--accent-2); color: var(--accent-2); }
+        .badge.green { border-color: var(--success); color: var(--success); }
+        .badge.orange { border-color: var(--warning); color: var(--warning); }
+
+        /* ===== DESTAQUE ===== */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(52,152,219,0.15), rgba(155,89,182,0.15));
+            border: 1px solid rgba(52,152,219,0.4);
+            border-radius: 16px;
+            padding: 30px 40px;
+            margin-top: 30px;
+            max-width: 900px;
+        }
+        .highlight-box p {
+            font-size: clamp(1.1em, 1.8vw, 1.5em);
+            color: var(--text);
+            font-style: italic;
+            margin: 0;
+        }
+
+        /* ===== BARRA SUPERIOR ===== */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            background: rgba(13,17,23,0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            z-index: 100;
+        }
+        .top-bar .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1em;
+        }
+        .top-bar .logo .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--danger);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .top-bar .timer-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--text);
+            background: rgba(255,255,255,0.05);
+            padding: 6px 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .top-bar .timer-display.warning {
+            color: var(--warning);
+            border-color: var(--warning);
+        }
+        .top-bar .timer-display.danger {
+            color: var(--danger);
+            border-color: var(--danger);
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        .top-bar .block-label {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .timer-controls {
+            display: flex;
+            gap: 8px;
+        }
+        .timer-controls button {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--text);
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: 0.2s;
+        }
+        .timer-controls button:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* ===== BARRA INFERIOR ===== */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            background: rgba(13,17,23,0.85);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            z-index: 100;
+        }
+        .progress-track {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin: 0 20px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            border-radius: 3px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-buttons button {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-buttons button:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        .slide-counter {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* ===== SLIDE DE CAPA ===== */
+        .cover-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-size: 0.85em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        /* ===== SLIDE DE ENCERRAMENTO ===== */
+        .final-emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        /* ===== MODO APRESENTAÇÃO LIMPO (H para esconder barras) ===== */
+        body.clean .top-bar,
+        body.clean .bottom-bar {
+            display: none;
+        }
+        body.clean .slide {
+            padding: 40px 80px;
+        }
+
+        /* ===== RESPONSIVO ===== */
+        @media (max-width: 768px) {
+            .slide { padding: 40px 30px; }
+            .top-bar, .bottom-bar { padding: 0 15px; }
+            .top-bar .logo span { display: none; }
+            .cards-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== BARRA SUPERIOR ===== -->
+    <div class="top-bar">
+        <div class="logo">
+            <div class="dot"></div>
+            <span>AO VIVO · Podcast de Ética em Psicologia</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <span class="block-label" id="blockLabel">Bloco 1 de 3</span>
+            <div class="timer-display" id="timerDisplay">10:00</div>
+            <div class="timer-controls">
+                <button onclick="startTimer()">▶ Iniciar</button>
+                <button onclick="pauseTimer()">⏸ Pausar</button>
+                <button onclick="resetTimer()">↺ Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== DECK DE SLIDES ===== -->
+    <div class="deck" id="deck">
+
+        <!-- SLIDE 0: CAPA -->
+        <div class="slide active">
+            <div class="cover-badge">🎙️ Podcast Acadêmico</div>
+            <h1>A Ética Profissional no Uso das Redes Sociais por Psicólogos</h1>
+            <p class="subtitle">Riscos, Normas, Prevenção e Boas Práticas</p>
+            <div class="badge-row">
+                <span class="badge blue">30 minutos</span>
+                <span class="badge purple">3 blocos temáticos</span>
+                <span class="badge green">5 participantes</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: DIVISÃO -->
+        <div class="slide">
+            <h2>🗂️ Estrutura do Podcast</h2>
+            <div class="cards-row">
+                <div class="mini-card">
+                    <div class="icon">🔵</div>
+                    <h4>Bloco 1 · 10 min</h4>
+                    <p><strong>Cenário Digital e Riscos</strong><br>Quais os perigos reais do uso das redes sociais?</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">🟢</div>
+                    <h4>Bloco 2 · 10 min</h4>
+                    <p><strong>Bússola Normativa</strong><br>O que o Código e o Conselho dizem sobre publicidade?</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">🟡</div>
+                    <h4>Bloco 3 · 10 min</h4>
+                    <p><strong>Proteção e Boas Práticas</strong><br>Como se proteger e usar as redes de forma ética?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: BLOCO 1 -->
+        <div class="slide">
+            <h2>🔵 Bloco 1 · Cenário Digital e Riscos</h2>
+            <h3>Quais são os perigos reais?</h3>
+            <ul>
+                <li><strong>Lógica do engajamento:</strong> métricas (curtidas, seguidores) transformam o cuidado em espetáculo.</li>
+                <li><strong>Confusão de papéis:</strong> perfil pessoal e profissional misturados afetam a credibilidade.</li>
+                <li><strong>Exposição mascarada:</strong> relatos que, mesmo sem nomes, identificam indiretamente o paciente.</li>
+                <li><strong>Diagnóstico à distância:</strong> orientações clínicas em comentários e caixinhas de perguntas.</li>
+            </ul>
+        </div>
+
+        <!-- SLIDE 3: BLOCO 1 - PESQUISA -->
+        <div class="slide">
+            <h2>📊 O que a pesquisa mostra</h2>
+            <div class="highlight-box">
+                <p>"Psicólogos influenciadores enfrentam três tensões: 'sou psicólogo, mas não sou seu psicólogo', a ansiedade de 'fazer a coisa errada' e motivações contraditórias entre justiça social e promoção comercial."</p>
+            </div>
+            <p style="margin-top:20px; font-size:1em;">— White &amp; Hanley (2025) | <em>Psychology and Psychotherapy: Theory, Research and Practice</em></p>
+        </div>
+
+        <!-- SLIDE 4: BLOCO 2 -->
+        <div class="slide">
+            <h2>🟢 Bloco 2 · Bússola Normativa</h2>
+            <h3>O que o Código e o Conselho dizem?</h3>
+            <div class="cards-row">
+                <div class="mini-card">
+                    <div class="icon">⚖️</div>
+                    <h4>Art. 20 do CEPP</h4>
+                    <p>Nome completo e CRP obrigatórios; vedação de previsão de resultados, autopromoção e sensacionalismo.</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">📢</div>
+                    <h4>Nota Técnica CFP 1/2022</h4>
+                    <p>Diretriz específica para redes sociais. Responsabilidade do psicólogo mesmo com marketing terceirizado.</p>
+                </div>
+                <div class="mini-card">
+                    <div class="icon">💻</div>
+                    <h4>Resolução CFP 9/2024</h4>
+                    <p>Exercício mediado por TDICs. Exige avaliação de viabilidade e contrato formalizado.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: BLOCO 3 -->
+        <div class="slide">
+            <h2>🟡 Bloco 3 · Proteção e Boas Práticas</h2>
+            <h3>Como se proteger e usar bem as redes?</h3>
+            <ul>
+                <li><strong>Separação de perfis:</strong> pessoal × profissional; CRP visível na bio.</li>
+                <li><strong>Disclaimers éticos:</strong> "conteúdo psicoeducativo, não substitui avaliação individual".</li>
+                <li><strong>Contrato terapêutico:</strong> pactuar limites digitais na primeira sessão.</li>
+                <li><strong>Prontuário:</strong> registrar o impacto clínico, não o conteúdo bruto da mensagem.</li>
+                <li><strong>LGPD:</strong> dados de saúde são sensíveis — acesso restrito e criptografia.</li>
+            </ul>
+        </div>
+
+        <!-- SLIDE 6: PSICOEDUCAÇÃO -->
+        <div class="slide">
+            <h2>🌱 Psicoeducação como Função Ética</h2>
+            <p class="subtitle">Princípio Fundamental V do CEPP: democratizar o acesso ao conhecimento psicológico.</p>
+            <div class="cards-row" style="margin-top:30px;">
+                <div class="mini-card" style="border-left: 4px solid var(--success);">
+                    <h4 style="color: var(--success);">✅ O que pode</h4>
+                    <p>Explicar como funciona a terapia, sinais de alerta, como funciona o sigilo, abordagem teórica.</p>
+                </div>
+                <div class="mini-card" style="border-left: 4px solid var(--danger);">
+                    <h4 style="color: var(--danger);">❌ O que evitar</h4>
+                    <p>Trends que banalizam o sofrimento, promessas de cura, diagnósticos sobre figuras públicas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: SÍNTESE -->
+        <div class="slide">
+            <h2>🧠 Síntese Final</h2>
+            <div style="text-align:left; max-width:800px; margin-top:20px;">
+                <div class="badge-row" style="justify-content:flex-start; flex-direction:column; align-items:flex-start; gap:20px;">
+                    <div class="badge blue" style="font-size:1.05em; padding:14px 24px;">1. O digital não é território sem lei — o CEPP se aplica integralmente.</div>
+                    <div class="badge purple" style="font-size:1.05em; padding:14px 24px;">2. A separação de papéis é uma salvaguarda, não uma limitação.</div>
+                    <div class="badge green" style="font-size:1.05em; padding:14px 24px;">3. A psicoeducação exige responsabilidade: informar sem sensacionalismo.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: PERGUNTA PARA DEBATE -->
+        <div class="slide">
+            <div class="final-emoji">💭</div>
+            <h2>Pergunta para Debate</h2>
+            <div class="highlight-box" style="max-width:850px;">
+                <p>"Se o algoritmo recompensasse conteúdos éticos com o mesmo alcance dos sensacionalistas, o que mudaria na sua prática?"</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: ENCERRAMENTO -->
+        <div class="slide">
+            <div class="final-emoji">🎙️</div>
+            <h1>Obrigado por ouvir!</h1>
+            <p class="subtitle">Cada post é uma intervenção. E toda intervenção exige ética.</p>
+            <div class="badge-row">
+                <span class="badge blue">CEPP · Art. 2º, 9º, 20</span>
+                <span class="badge purple">Nota Técnica CFP 1/2022</span>
+                <span class="badge green">Resolução CFP 9/2024</span>
+                <span class="badge orange">LGPD</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== BARRA INFERIOR ===== -->
+    <div class="bottom-bar">
+        <div class="nav-buttons">
+            <button onclick="prevSlide()" title="Slide anterior (←)">◀</button>
+            <button onclick="nextSlide()" title="Próximo slide (→)">▶</button>
+        </div>
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </
