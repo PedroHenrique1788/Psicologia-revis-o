@@ -3,281 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apostila de Estudo: Ética e Redes Sociais na Psicologia</title>
+    <title>Apostila de Ética | Bloco 1: Cenário Digital</title>
     <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --accent-light: #e8f4fd;
+            --warning: #e67e22;
+            --warning-light: #fdf2e9;
+            --success: #27ae60;
+            --success-light: #eafaf1;
+            --text: #333;
+            --bg: #f9f9f9;
+            --card: #fff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 900px;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--bg);
+            max-width: 960px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f9f9f9;
         }
-        h1, h2, h3 {
-            color: #2c3e50;
-        }
-        h1 {
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 10px;
+        header {
             text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary), #1a252f);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
         }
-        h2 {
-            background-color: #ecf0f1;
-            padding: 10px;
-            border-left: 5px solid #3498db;
-            margin-top: 30px;
-        }
-        h3 {
-            color: #2980b9;
+        header h1 { font-size: 1.8em; margin-bottom: 10px; }
+        header p { font-size: 1.1em; opacity: 0.9; }
+        .nav-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
             margin-top: 20px;
         }
-        .box {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 20px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .nav-pills a {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: 0.3s;
         }
+        .nav-pills a:hover, .nav-pills a.active {
+            background: white;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 8px;
+            margin: 40px 0 20px;
+            font-size: 1.5em;
+        }
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            font-size: 1.2em;
+        }
+        .card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--accent);
+        }
+        .card.warning { border-left-color: var(--warning); background: var(--warning-light); }
+        .card.success { border-left-color: var(--success); background: var(--success-light); }
         .link-box {
-            background-color: #e8f4fd;
-            border-left: 5px solid #3498db;
-            padding: 10px 15px;
-            margin: 15px 0;
+            background: var(--accent-light);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-left: 5px solid var(--accent);
+            font-size: 0.95em;
         }
         .link-box a {
             color: #0056b3;
+            font-weight: bold;
             text-decoration: none;
-            font-weight: bold;
+            word-break: break-word;
         }
-        .link-box a:hover {
-            text-decoration: underline;
-        }
+        .link-box a:hover { text-decoration: underline; }
         .exercise {
-            background-color: #fdf2e9;
-            border: 2px dashed #e67e22;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
+            background: var(--warning-light);
+            border: 2px dashed var(--warning);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
         }
-        .exercise h4 {
-            color: #d35400;
-            margin-top: 0;
-        }
-        .highlight {
-            background-color: #fff9c4;
-            padding: 2px 5px;
-            font-weight: bold;
-        }
-        ul, ol {
-            padding-left: 25px;
-        }
-        li {
-            margin-bottom: 8px;
-        }
-        .table-responsive {
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #3498db;
+        .exercise h4 { color: var(--warning); margin-bottom: 10px; }
+        .tag {
+            display: inline-block;
+            background: var(--accent);
             color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-right: 5px;
         }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+        .highlight { background: #fff9c4; padding: 2px 5px; font-weight: bold; }
+        blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #555;
+            background: #f4f8fb;
+            padding: 10px 15px;
+            border-radius: 0 8px 8px 0;
         }
-        .footer {
+        ul, ol { padding-left: 25px; margin: 10px 0; }
+        li { margin-bottom: 8px; }
+        footer {
             text-align: center;
-            margin-top: 40px;
-            font-size: 0.9em;
+            margin-top: 50px;
+            padding: 20px;
             color: #7f8c8d;
+            font-size: 0.9em;
             border-top: 1px solid #ddd;
-            padding-top: 20px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 600px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.4em; }
         }
     </style>
 </head>
 <body>
 
-    <h1>📖 Apostila de Estudo: Ética no Uso das Redes Sociais por Psicólogos</h1>
-    <p><strong>Objetivo:</strong> Preparação para o podcast de 30 minutos (3 blocos x 10 min) com rodízio de papéis entre os 5 membros do grupo.</p>
+    <header>
+        <h1>📖 Apostila de Estudo: Ética no Uso das Redes Sociais por Psicólogos</h1>
+        <p>Preparação para o podcast de 30 minutos | 5 participantes | 3 blocos</p>
+        <div class="nav-pills">
+            <a href="index.html" class="active">🏠 Introdução & Bloco 1</a>
+            <a href="bloco2.html">⚖️ Bloco 2: Normas</a>
+            <a href="bloco3.html">🛡️ Bloco 3: Prevenção</a>
+            <a href="exercicios.html">📝 Exercícios</a>
+        </div>
+    </header>
 
-    <!-- SEÇÃO 1 -->
-    <h2>🔹 BLOCO 1: Cenário Digital, Riscos e Faltas Éticas Comuns</h2>
-    <p><strong>Pergunta central:</strong> Quais são os perigos reais do uso das redes sociais por psicólogos?</p>
+    <section>
+        <h2>🎯 Como usar esta apostila</h2>
+        <div class="card">
+            <p>Esta apostila foi dividida em <strong>quatro arquivos</strong> para facilitar o estudo e a navegação:</p>
+            <ul>
+                <li><strong>index.html</strong> (esta página): Introdução e <strong>Bloco 1</strong> — Cenário Digital e Riscos.</li>
+                <li><strong>bloco2.html</strong>: <strong>Bloco 2</strong> — Bússola Normativa (Código de Ética e Resoluções do CFP).</li>
+                <li><strong>bloco3.html</strong>: <strong>Bloco 3</strong> — Proteção, Contrato e Registro.</li>
+                <li><strong>exercicios.html</strong>: Exercícios práticos e simulações de podcast.</li>
+            </ul>
+            <p>Recomendação: estude um bloco por vez, faça os exercícios correspondentes e, ao final, simule a gravação do podcast com o grupo.</p>
+        </div>
+    </section>
 
-    <h3>1.1 A Lógica do Engajamento e a Transformação do Cuidado em Espetáculo</h3>
-    <div class="box">
-        <p>As plataformas digitais operam com uma lógica de mercado (curtidas, seguidores, alcance) que é radicalmente diferente da lógica clínica. O psicólogo que não reconhece essa tensão corre o risco de transformar o consultório em palco e o paciente em personagem. O estudo de <strong>White e Hanley (2025)</strong> identificou três temas centrais na experiência de psicólogos influenciadores:</p>
-        <ul>
-            <li><strong>“Sou psicólogo, mas não sou seu psicólogo”:</strong> A dificuldade de estabelecer limites no Instagram em torno de autodivulgação, gestão de risco e tempo.</li>
-            <li><strong>“Ansiedade de não querer fazer a coisa errada”:</strong> O impacto da presença como influenciador na própria saúde mental do profissional.</li>
-            <li><strong>Motivações contraditórias:</strong> A tensão entre a defesa da justiça social e a promoção comercial do negócio.</li>
-        </ul>
-    </div>
-    <div class="link-box">
-        📄 <strong>Artigo científico (acesso aberto):</strong> White, E., & Hanley, T. (2025). "What I share is not the same as therapy": Psychologist experiences of Instagram use as a mental health influencer. <em>Psychology and Psychotherapy: Theory, Research and Practice</em>.
-        <br><a href="https://doi.org/10.1111/papt.12585" target="_blank">Acessar artigo (DOI)</a>
-    </div>
+    <section>
+        <h2>🔹 BLOCO 1: Cenário Digital e Riscos (10 minutos)</h2>
+        <p><strong>Pergunta central do bloco:</strong> <em>"Quais são os perigos reais do uso das redes sociais por psicólogos?"</em></p>
 
-    <h3>1.2 Faltas Éticas Comuns: Exposição Mascarada e Diagnóstico à Distância</h3>
-    <div class="box">
-        <ul>
-            <li><strong>Exposição mascarada:</strong> Divulgar relatos de casos com detalhes que, mesmo sem nomes, permitem a identificação indireta do paciente (profissão, cidade, contexto familiar). Isso fere o <strong>Art. 9º (sigilo)</strong> e o <strong>Art. 2º, alínea “q” (divulgação de resultados)</strong> do Código de Ética.</li>
-            <li><strong>Diagnóstico/orientação à distância:</strong> Responder a “caixinhas de perguntas” com orientações clínicas individualizadas, sem avaliação adequada, configura intervenção sem respaldo técnico.</li>
-            <li><strong>Confusão de papéis:</strong> Misturar posicionamentos pessoais (políticos, religiosos) com a imagem profissional, afetando a credibilidade da Psicologia.</li>
-        </ul>
-        <p>O estudo brasileiro de <strong>Sehabarini e Teixeira (2025)</strong> , com psicólogos nano-influenciadores, revela que as redes ampliam oportunidades, mas trazem desafios como a gestão de tarefas entre criação de conteúdo e atendimentos, e a necessidade de cautela na exposição pessoal no perfil profissional.</p>
-    </div>
-    <div class="link-box">
-        📄 <strong>Artigo científico (SciELO):</strong> Sehabarini, I., & Teixeira, M. A. P. (2025). Psychologists' Professional Perspectives on the Use of Social Media. <em>Psico-USF</em>.
-        <br><a href="https://doi.org/10.1590/14138-27120263e283797" target="_blank">Acessar artigo (DOI)</a>
-        <br><br>
-        🏛️ <strong>Material do Conselho:</strong> CRP-SP (2024). <em>Ética nas redes sociais: saiba mais sobre a divulgação de conteúdos profissionais</em>.
-        <br><a href="http://www.crpsp.org/noticia/view/3311/etica-nas-redes-sociais-saiba-mais-sobre-a-divulgacao-de-conteudos-profissionais" target="_blank">Ler notícia completa</a>
-    </div>
+        <h3>1.1 A Lógica do Engajamento e a Transformação do Cuidado em Espetáculo</h3>
+        <div class="card">
+            <p>As plataformas digitais operam com uma lógica de mercado — <strong>curtidas, seguidores, alcance, viralização</strong> — que é radicalmente diferente da lógica clínica. O psicólogo que não reconhece essa tensão corre o risco de transformar o consultório em palco e o paciente em personagem.</p>
+            <p>O estudo de <strong>White e Hanley (2025)</strong> , publicado na <em>Psychology and Psychotherapy: Theory, Research and Practice</em>, entrevistou <strong>12 psicólogos britânicos</strong> que atuam como influenciadores no Instagram. A análise identificou <strong>três temas centrais</strong>:</p>
+            <ul>
+                <li><strong>"Sou psicólogo, mas não sou seu psicólogo":</strong> A dificuldade de estabelecer limites no Instagram em torno de autodivulgação, gestão de risco, gestão de tempo e trabalho clínico[reference:0].</li>
+                <li><strong>"Ansiedade de não querer fazer a coisa errada":</strong> O impacto da presença como influenciador na própria saúde mental do profissional[reference:1].</li>
+                <li><strong>"Compartilho o que acho que vai ser útil para os outros e para mim":</strong> As motivações para usar o Instagram para <strong>defesa da justiça social</strong> e <strong>promoção comercial</strong> — e as contradições entre elas[reference:2].</li>
+            </ul>
+            <p>Os autores concluem que, embora os psicólogos possam usar seu treinamento para compartilhar pesquisa baseada em evidências como forma gratuita e amplamente acessível de psicoeducação, <span class="highlight">ainda existem muitas ambiguidades éticas</span>, e diretrizes atualizadas especificamente para uma presença como influenciador podem reduzir as ansiedades e riscos potenciais[reference:3].</p>
+        </div>
+        <div class="link-box">
+            📄 <strong>Artigo científico (acesso aberto):</strong> White, E., & Hanley, T. (2025). "What I share is not the same as therapy": Psychologist experiences of Instagram use as a mental health influencer. <em>Psychology and Psychotherapy: Theory, Research and Practice</em>.
+            <br>🔗 <a href="https://doi.org/10.1111/papt.12585" target="_blank">https://doi.org/10.1111/papt.12585</a>
+        </div>
 
-    <!-- SEÇÃO 2 -->
-    <h2>🔹 BLOCO 2: Bússola Normativa (Código de Ética e Resoluções do CFP)</h2>
-    <p><strong>Pergunta central:</strong> O que o Código de Ética e o Conselho dizem sobre publicidade e conduta online?</p>
+        <h3>1.2 O Estudo Brasileiro: Redes como Promotoras e Desafiadoras</h3>
+        <div class="card">
+            <p>O estudo de <strong>Sehabarini e Teixeira (2025)</strong> , publicado na <em>Psico-USF</em> (SciELO), analisou o impacto das redes sociais na formação das perspectivas profissionais de <strong>psicólogos nano-influenciadores</strong>. Foram entrevistados <strong>nove psicólogos</strong>, e a análise temática revelou dois temas principais[reference:4]:</p>
+            <ul>
+                <li><strong>As redes sociais como promotoras da prática profissional:</strong> Facilitam o contato com seguidores e ampliam oportunidades além da prática clínica[reference:5].</li>
+                <li><strong>Os desafios associados ao seu uso como ferramenta de trabalho:</strong> Desenvolvimento de habilidades específicas, gestão de tarefas entre criação de conteúdo e atendimentos clínicos, e <strong>cautela na exposição pessoal no perfil profissional</strong>[reference:6].</li>
+            </ul>
+            <p>O estudo conclui que, embora as redes ampliem a captação de pacientes e o reconhecimento profissional, também apresentam desafios que exigem <strong>planejamento estratégico</strong> para a gestão eficaz do perfil profissional[reference:7].</p>
+        </div>
+        <div class="link-box">
+            📄 <strong>Artigo científico (SciELO):</strong> Sehabarini, I., & Teixeira, M. A. P. (2025). Psychologists' Professional Perspectives on the Use of Social Media. <em>Psico-USF</em>.
+            <br>🔗 <a href="https://doi.org/10.1590/14138-27120263e283797" target="_blank">https://doi.org/10.1590/14138-27120263e283797</a>
+        </div>
 
-    <h3>2.1 Art. 20 do Código de Ética (CEPP) – Publicidade</h3>
-    <div class="box">
-        <p>O Art. 20 é a bússola para a publicidade profissional. Ao promover seus serviços, o psicólogo deve:</p>
-        <ul>
-            <li>Informar <strong>nome completo e número de CRP</strong>.</li>
-            <li>Fazer referência apenas a títulos que possua.</li>
-            <li><strong>Não utilizar o preço</strong> como forma de propaganda.</li>
-            <li><strong>Não fazer previsão taxativa de resultados</strong> (prometer cura).</li>
-            <li><strong>Não fazer autopromoção</strong> em detrimento de outros profissionais.</li>
-            <li><strong>Não fazer divulgação sensacionalista</strong>.</li>
-        </ul>
-        <p><em>Atenção:</em> A Resolução CFP nº 23/2022 estabelece um rol taxativo de 13 áreas de especialização. Não é permitido se autodenominar “psicóloga de ansiedade” ou “psicólogo de autismo” sem a devida inscrição como especialista.</p>
-    </div>
-    <div class="link-box">
-        📜 <strong>Código de Ética (texto integral):</strong>
-        <br><a href="https://site.cfp.org.br/wp-content/uploads/2012/07/codigo_etica.pdf" target="_blank">Acessar PDF do CEPP</a>
-    </div>
+        <h3>1.3 Faltas Éticas Comuns: Exposição Mascarada e Diagnóstico à Distância</h3>
+        <div class="card warning">
+            <p><strong>⚠️ Atenção:</strong> Estas são as faltas éticas mais recorrentes no ambiente digital.</p>
+            <ul>
+                <li><strong>Exposição mascarada:</strong> Divulgar relatos de casos com detalhes que, mesmo sem nomes, permitem a identificação indireta do paciente (profissão, cidade, contexto familiar). Isso fere o <strong>Art. 9º (sigilo)</strong> e o <strong>Art. 2º, alínea "q" (divulgação de resultados)</strong> do Código de Ética.</li>
+                <li><strong>Diagnóstico/orientação à distância:</strong> Responder a "caixinhas de perguntas" com orientações clínicas individualizadas, sem avaliação adequada, configura intervenção sem respaldo técnico.</li>
+                <li><strong>Confusão de papéis:</strong> Misturar posicionamentos pessoais (políticos, religiosos) com a imagem profissional, afetando a credibilidade da Psicologia.</li>
+            </ul>
+            <p>O <strong>CRP-SP</strong> ressalta que o Código de Ética e as demais resoluções do Sistema Conselhos também se aplicam às interações virtuais que ocorrem fora do contexto do atendimento. O CRP SP estabelece normas para proteger a profissão, a categoria e a sociedade contra conteúdos eticamente incompatíveis ou prejudiciais[reference:8].</p>
+        </div>
+        <div class="link-box">
+            🏛️ <strong>Material do Conselho:</strong> CRP-SP. <em>Ética nas redes sociais: saiba mais sobre a divulgação de conteúdos profissionais</em>.
+            <br>🔗 <a href="https://www.crpsp.org/noticia/view/3311/etica-nas-redes-sociais-saiba-mais-sobre-a-divulgacao-de-conteudos-profissionais" target="_blank">Acessar notícia completa</a>
+        </div>
 
-    <h3>2.2 Nota Técnica CFP nº 1/2022 – Uso Profissional das Redes Sociais</h3>
-    <div class="box">
-        <p>Esta é a normativa mais específica sobre o tema. Ela instrui a categoria sobre os critérios para divulgação profissional nas redes sociais, com base no CEPP. Pontos-chave:</p>
-        <ul>
-            <li><strong>Responsabilidade única do psicólogo:</strong> Mesmo que a produção de conteúdo seja terceirizada para empresas de marketing, a responsabilidade de verificar a conformidade ética é do profissional.</li>
-            <li><strong>Quatro pontos críticos:</strong> (1) perenidade das informações; (2) conexão com conteúdos antiéticos; (3) publicações inadequadas associadas à imagem profissional; (4) manejo adequado das ferramentas digitais.</li>
-            <li><strong>Sigilo (Art. 9º):</strong> Em qualquer contexto, inclusive online, o sigilo deve ser resguardado.</li>
-        </ul>
-    </div>
-    <div class="link-box">
-        📜 <strong>Nota Técnica CFP nº 1/2022 (texto integral):</strong>
-        <br><a href="http://crp24.org.br/wp-content/uploads/2022/06/SEI_CFP-0612475-Nota-Tecnica.pdf" target="_blank">Acessar PDF</a>
-    </div>
+        <h3>1.4 Exemplos Práticos para o Podcast</h3>
+        <div class="grid-2">
+            <div class="card">
+                <h4>🎭 Caso 1: A "Exposição Mascarada"</h4>
+                <p><em>"Atendi uma mulher de 34 anos, casada com um empresário do setor de construção, que descobriu uma traição durante uma viagem a Gramado e desenvolveu crises de pânico."</em></p>
+                <p><strong>Infração:</strong> Art. 9º (quebra de sigilo) e Art. 2º, "q" (divulgação de resultados). Mesmo sem nome, os detalhes identificam a paciente.</p>
+            </div>
+            <div class="card">
+                <h4>💬 Caso 2: A "Caixinha de Perguntas"</h4>
+                <p><em>Seguidor pergunta: "Estou tendo pensamentos suicidas, o que faço?" Psicólogo responde publicamente: "Respira fundo e pense positivo."</em></p>
+                <p><strong>Infração:</strong> Art. 2º, "q" e "i" (orientação à distância sem avaliação e indução ao serviço), além de grave risco clínico.</p>
+            </div>
+        </div>
 
-    <h3>2.3 Resolução CFP nº 9/2024 – Exercício Mediadopor TDICs</h3>
-    <div class="box">
-        <p>Regulamenta o exercício profissional mediado por Tecnologias Digitais da Informação e da Comunicação. Revogou a necessidade de cadastro prévio no e-Psi, mas trouxe novas exigências:</p>
-        <ul>
-            <li><strong>Avaliação de viabilidade:</strong> O psicólogo deve avaliar os impactos do uso de ferramentas digitais nos serviços prestados.</li>
-            <li><strong>Contrato formalizado:</strong> É exigida a formalização de contrato na prestação de serviços mediada por TDICs, informando direitos, deveres e regras do atendimento online.</li>
-            <li><strong>Definição ampla:</strong> Considera-se exercício mediado por TDICs toda atividade que envolva o emprego eventual ou frequente dessas tecnologias para comunicação com usuários.</li>
-        </ul>
-    </div>
-    <div class="link-box">
-        📜 <strong>Resolução CFP nº 9/2024 (texto integral):</strong>
-        <br><a href="https://atosoficiais.com.br/cfp/resolucao-do-exercicio-profissional-n-9-2024" target="_blank">Acessar no Atos Oficiais</a>
-    </div>
+        <div class="exercise">
+            <h4>📝 Exercício 1: Identificação de Infrações</h4>
+            <p>Leia os cenários e identifique qual artigo do Código de Ética foi violado (Art. 2º, 9º ou 20) e qual o risco envolvido.</p>
+            <ol>
+                <li>Uma psicóloga publica um Reel contando o caso de "um homem de 40 anos, executivo de uma multinacional, que desenvolveu burnout após ser traído pela esposa". O post tem 50 mil visualizações.</li>
+                <li>Um psicólogo responde a um comentário no Instagram com o diagnóstico: "Isso parece transtorno de ansiedade generalizada. Você deveria procurar ajuda."</li>
+            </ol>
+            <details>
+                <summary><strong>Clique para ver a resposta sugerida</strong></summary>
+                <p><strong>Cenário 1:</strong> Art. 9º e Art. 2º, "q" — exposição mascarada que permite identificação indireta. <strong>Cenário 2:</strong> Art. 2º, "q" — diagnóstico à distância sem avaliação adequada, configurando intervenção sem respaldo técnico.</p>
+            </details>
+        </div>
+    </section>
 
-    <!-- SEÇÃO 3 -->
-    <h2>🔹 BLOCO 3: Proteção, Contrato, Registro e Boas Práticas</h2>
-    <p><strong>Pergunta central:</strong> Como se proteger e usar as redes de forma ética e construtiva?</p>
-
-    <h3>3.1 Prevenção e Salvaguardas Digitais</h3>
-    <div class="box">
-        <ul>
-            <li><strong>Separação de perfis:</strong> Manter perfis pessoal e profissional distintos. O perfil profissional deve conter nome completo, CRP visível, formação e abordagem.</li>
-            <li><strong>Disclaimers:</strong> Usar avisos como “conteúdo psicoeducativo, não substitui avaliação individual” em posts.</li>
-            <li><strong>Automação de respostas:</strong> Redirecionar mensagens privadas para canais formais (e-mail, WhatsApp comercial) e informar que não se realizam orientações por DM.</li>
-            <li><strong>Contrato terapêutico:</strong> Pactuar na primeira sessão os limites da interação digital (não atender emergências por DM, prazos de resposta, não seguir de volta em redes pessoais).</li>
-        </ul>
-    </div>
-    <div class="link-box">
-        🏛️ <strong>Cartilha do Conselho:</strong> CRP-MG (2026). <em>Orientações sobre Publicidade Profissional</em> (2ª edição, com seção detalhada sobre redes sociais).
-        <br><a href="https://acervodigital.crp04.org.br/publicacoes/orientacoes-sobre-publicidade-profissional-2026/" target="_blank">Acessar cartilha</a>
-    </div>
-
-    <h3>3.2 Gestão do Prontuário e Registro Documental</h3>
-    <div class="box">
-        <p>O registro documental é obrigatório (Resolução CFP nº 1/2009). Quando o paciente traz uma interação virtual para a sessão, o foco do registro deve ser o <strong>impacto clínico</strong> dessa interação, e não o conteúdo bruto da mensagem.</p>
-        <ul>
-            <li><strong>Prazo de guarda:</strong> Mínimo de <strong>5 anos</strong> para o registro documental. Pode ser ampliado por determinação judicial ou legal.</li>
-            <li><strong>Formato:</strong> Pode ser digital ou físico, desde que garantida a segurança e o sigilo.</li>
-            <li><strong>LGPD:</strong> Dados de saúde e registros de psicoterapia são <strong>dados sensíveis</strong> e exigem proteção reforçada.</li>
-        </ul>
-    </div>
-    <div class="link-box">
-        📜 <strong>Resolução CFP nº 1/2009 (Registro Documental):</strong> Disponível no site do CFP.
-        <br>🏛️ <strong>Orientação do CRP-01/DF:</strong> <a href="https://www.crp-01.org.br/page_3989/" target="_blank">Registro documental deve ser guardado por no mínimo 5 anos</a>.
-        <br>⚖️ <strong>LGPD (Lei nº 13.709/2018):</strong> <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank">Texto integral no Planalto</a>.
-    </div>
-
-    <h3>3.3 Boas Práticas: Psicoeducação e Posicionamento Público</h3>
-    <div class="box">
-        <ul>
-            <li><strong>Psicoeducação:</strong> O psicólogo pode usar as redes para democratizar o conhecimento psicológico (Princípio Fundamental V do CEPP), explicando como funciona a terapia, sinais de alerta e o papel do sigilo.</li>
-            <li><strong>O que evitar:</strong> <em>Trends</em> que banalizam o sofrimento psíquico, promessas de cura e conteúdos que ridicularizam transtornos.</li>
-            <li><strong>Posicionamento público:</strong> Não emitir laudos, pareceres ou diagnósticos sobre figuras públicas ou casos midiáticos sem avaliação direta. Limitar as afirmações à evidência científica.</li>
-        </ul>
-    </div>
-    <div class="link-box">
-        📄 <strong>Estudo de apoio:</strong> BACP (2025). "Ethics: Under the Influence". <em>Therapy Today</em>. Uma revisão sistemática de 2024 concluiu que é quase uma inevitabilidade experimentar uma questão ética nas redes sociais como terapeuta.
-        <br><a href="https://www.bacp.co.uk/bacp-journals/therapy-today/2025/articles-april/under-the-influence/" target="_blank">Ler artigo</a>
-    </div>
-
-    <!-- EXERCÍCIOS -->
-    <h2>📝 Exercícios Práticos para Fixação</h2>
-
-    <div class="exercise">
-        <h4>Exercício 1: Identificação de Infrações (Bloco 1)</h4>
-        <p>Leia os cenários abaixo e identifique qual artigo do Código de Ética foi violado (Art. 2º, 9º ou 20) e qual o risco envolvido.</p>
-        <ol>
-            <li><strong>Cenário A:</strong> Uma psicóloga publica um Reel contando o caso de “um homem de 40 anos, executivo de uma multinacional, que desenvolveu burnout após ser traído pela esposa”. O post tem 50 mil visualizações.</li>
-            <li><strong>Cenário B:</strong> Um psicólogo abre uma “caixinha de perguntas” no Instagram e responde a um seguidor que pergunta: “Estou com pensamentos suicidas, o que faço?” com a frase: “Respira fundo e pense positivo”.</li>
-        </ol>
-        <p><em>Resposta esperada:</em> A) Art. 9º e Art. 2º, “q” (exposição mascarada). B) Art. 2º, “q” e “i” (orientação à distância sem avaliação e possível indução).</p>
-    </div>
-
-    <div class="exercise">
-        <h4>Exercício 2: Análise de Publicidade (Bloco 2)</h4>
-        <p>Analise a seguinte bio de perfil profissional e aponte o que está em desacordo com o Art. 20 do CEPP e a Resolução CFP nº 23/2022:</p>
-        <blockquote>
-            “Psicóloga | Especialista em Ansiedade e Depressão | Atendimento online e presencial | Promoção: 3 sessões por R$ 150,00 | CRP 00/00000”
-        </blockquote>
-        <p><em>Resposta esperada:</em> “Especialista em Ansiedade e Depressão” sem inscrição como especialista (Res. 23/2022); “Promoção” e uso de preço como propaganda (Art. 20, “d”); falta do nome completo.</p>
-    </div>
-
-    <div class="exercise">
-        <h4>Exercício 3: Construção de Salvaguardas (Bloco 3)</h4>
-        <p>Você é o(a) psicólogo(a) e está montando seu consultório online. Crie um “Contrato de Interação Digital” com 4 cláusulas essenciais que devem ser pactuadas com o paciente na primeira sessão.</p>
-        <p><em>Resposta esperada (exemplo):</em> 1) Canais oficiais (e-mail e WhatsApp comercial) para agendamento; 2) Prazo de resposta de até 24h em dias úteis; 3) Não atendimento de emergências por DM (indicar CVV 188 e SAMU 192); 4) Não seguimento em redes sociais pessoais.</p>
-    </div>
-
-    <div class="exercise">
-        <h4>Exercício 4: Simulação de Podcast (Todos os Blocos)</h4>
-        <p>Em grupo, simulem uma situação de gravação. Um membro faz uma pergunta polêmica (ex.: “Posso postar o depoimento de um paciente que autorizou?”) e os demais devem responder com base nas normativas estudadas, em no máximo 2 minutos.</p>
-    </div>
-
-    <div class="footer">
-        <p>Material de estudo elaborado para a apresentação em formato de podcast. Bom estudo! 🎙️</p>
-    </div>
+    <footer>
+        <p>📚 Apostila de estudo — Parte 1 de 4 | Próximo: <a href="bloco2.html">Bloco 2: Bússola Normativa</a></p>
+    </footer>
 
 </body>
 </html>
