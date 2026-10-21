@@ -546,4 +546,150 @@
         </div>
         <div class="progress-track">
             <div class="progress-fill" id="progressFill"></div>
-        </
+        </div>
+        <div class="slide-counter" id="slideCounter">1 / 10</div>
+    </div>
+
+    <script>
+        // ===== NAVEGAÇÃO DE SLIDES =====
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+
+        // Mapeamento de slides para blocos (para o timer)
+        const blockMap = {
+            0: { label: 'Abertura', time: 0 },
+            1: { label: 'Estrutura', time: 0 },
+            2: { label: 'Bloco 1 de 3', time: 600 },
+            3: { label: 'Bloco 1 de 3', time: 600 },
+            4: { label: 'Bloco 2 de 3', time: 600 },
+            5: { label: 'Bloco 3 de 3', time: 600 },
+            6: { label: 'Bloco 3 de 3', time: 600 },
+            7: { label: 'Encerramento', time: 0 },
+            8: { label: 'Encerramento', time: 0 },
+            9: { label: 'Encerramento', time: 0 }
+        };
+
+        function showSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= totalSlides) index = totalSlides - 1;
+
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+
+            // Atualiza contador
+            document.getElementById('slideCounter').textContent =
+                `${index + 1} / ${totalSlides}`;
+
+            // Atualiza barra de progresso
+            const pct = ((index + 1) / totalSlides) * 100;
+            document.getElementById('progressFill').style.width = pct + '%';
+
+            // Atualiza label do bloco e timer
+            const block = blockMap[index] || { label: '—', time: 0 };
+            document.getElementById('blockLabel').textContent = block.label;
+            if (block.time > 0) {
+                resetTimerTo(block.time);
+            } else {
+                document.getElementById('timerDisplay').textContent = '--:--';
+                document.getElementById('timerDisplay').classList.remove('warning', 'danger');
+                stopTimer();
+            }
+        }
+
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+
+        // Navegação por teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'Home') {
+                showSlide(0);
+            } else if (e.key === 'End') {
+                showSlide(totalSlides - 1);
+            } else if (e.key.toLowerCase() === 'c') {
+                // Modo limpo (esconde barras)
+                document.body.classList.toggle('clean');
+            } else if (e.key.toLowerCase() === 'r') {
+                resetTimer();
+            }
+        });
+
+        // ===== TIMER =====
+        let timerInterval = null;
+        let remainingSeconds = 600;
+        let isRunning = false;
+
+        const timerEl = document.getElementById('timerDisplay');
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        function updateTimerDisplay() {
+            timerEl.textContent = formatTime(remainingSeconds);
+            timerEl.classList.remove('warning', 'danger');
+            if (remainingSeconds <= 30 && remainingSeconds > 0) {
+                timerEl.classList.add('danger');
+            } else if (remainingSeconds <= 120 && remainingSeconds > 0) {
+                timerEl.classList.add('warning');
+            }
+        }
+
+        function resetTimerTo(seconds) {
+            stopTimer();
+            remainingSeconds = seconds;
+            updateTimerDisplay();
+        }
+
+        function resetTimer() {
+            resetTimerTo(600);
+        }
+
+        function startTimer() {
+            if (isRunning || remainingSeconds <= 0) return;
+            isRunning = true;
+            timerInterval = setInterval(() => {
+                remainingSeconds--;
+                updateTimerDisplay();
+                if (remainingSeconds <= 0) {
+                    stopTimer();
+                    timerEl.textContent = '00:00';
+                    timerEl.classList.add('danger');
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            stopTimer();
+        }
+
+        function stopTimer() {
+            isRunning = false;
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        // Inicializa
+        showSlide(0);
+
+        // Dica de atalhos no console
+        console.log('%c🎙️ Atalhos do Podcast', 'font-size:16px; font-weight:bold; color:#3498db;');
+        console.log('→ / Espaço: próximo slide');
+        console.log('←: slide anterior');
+        console.log('C: modo limpo (esconde barras)');
+        console.log('R: resetar timer');
+    </script>
+</body>
+</html>
