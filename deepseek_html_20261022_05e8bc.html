@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fundos | Hisense — Copiar como Imagem</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+    :root{
+        --green:#00A859;
+        --green-soft:rgba(0,168,89,.12);
+        --bg:#080a09;
+        --panel:#111513;
+        --panel-2:#161b18;
+        --line:rgba(255,255,255,.07);
+        --text:#e6ece9;
+        --muted:#93a49c;
+        --font-h:'Montserrat',sans-serif;
+        --font-b:'Inter',sans-serif;
+    }
+
+    *{box-sizing:border-box;}
+
+    html,body{margin:0;padding:0;}
+
+    body{
+        background:
+            radial-gradient(circle at 12% 0%,rgba(0,168,89,.10),transparent 45%),
+            radial-gradient(circle at 88% 100%,rgba(0,168,89,.08),transparent 45%),
+            var(--bg);
+        color:var(--text);
+        font-family:var(--font-b);
+        min-height:100vh;
+        -webkit-font-smoothing:antialiased;
+    }
+
+    .wrap{
+        max-width:1400px;
+        margin:0 auto;
+        padding:40px 28px 90px;
+    }
+
+    /* ---------- Cabeçalho ---------- */
+    .top{
+        display:flex;
+        flex-wrap:wrap;
+        align-items:flex-end;
+        justify-content:space-between;
+        gap:24px;
+        padding-bottom:26px;
+        border-bottom:1px solid var(--line);
+        margin-bottom:34px;
+    }
+
+    .tag{
+        display:inline-block;
+        font-family:var(--font-h);
+        font-size:11px;
+        font-weight:700;
+        letter-spacing:2px;
+        text-transform:uppercase;
+        color:var(--green);
+        border:1px solid var(--green);
+        border-radius:20px;
+        padding:4px 14px;
+        margin-bottom:14px;
+    }
+
+    .top h1{
+        font-family:var(--font-h);
+        font-size:clamp(26px,3.4vw,42px);
+        font-weight:900;
+        margin:0 0 10px;
+        letter-spacing:-.5px;
+        line-height:1.1;
+    }
+
+    .top h1 span{color:var(--green);}
+
+    .top p{
+        margin:0;
+        color:var(--muted);
+        font-size:15px;
+        font-weight:300;
+        max-width:640px;
+        line-height:1.6;
+    }
+
+    .top p strong{color:var(--text);font-weight:600;}
+
+    /* ---------- Controles ---------- */
+    .controls{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+        min-width:230px;
+    }
+
+    .controls label{
+        font-family:var(--font-h);
+        font-size:10px;
+        font-weight:700;
+        letter-spacing:1.6px;
+        text-transform:uppercase;
+        color:var(--muted);
+    }
+
+    .controls select{
+        appearance:none;
+        -webkit-appearance:none;
+        background:var(--panel-2)
+            url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%2300A859' stroke-width='2' stroke-linecap='round'/></svg>")
+            no-repeat right 16px center;
+        border:1px solid var(--line);
+        border-radius:8px;
+        color:var(--text);
+        font-family:var(--font-b);
+        font-size:14px;
+        padding:12px 42px 12px 16px;
+        cursor:pointer;
+        outline:none;
+        transition:border-color .2s;
+    }
+
+    .controls select:hover,
+    .controls select:focus{border-color:var(--green);}
+
+    /* ---------- Grid ---------- */
+    .grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+        gap:26px;
+    }
+
+    .card{
+        background:var(--panel);
+        border:1px solid var(--line);
+        border-radius:14px;
+        overflow:hidden;
+        display:flex;
+        flex-direction:column;
+        transition:border-color .25s, transform .25s, box-shadow .25s;
+    }
+
+    .card:hover{
+        border-color:rgba(0,168,89,.45);
+        transform:translateY(-3px);
+        box-shadow:0 16px 40px rgba(0,0,0,.55);
+    }
+
+    .thumb{
+        position:relative;
+        aspect-ratio:16/9;
+        width:100%;
+        background:#0a0a0a;
+        overflow:hidden;
+        border-bottom:1px solid var(--line);
+    }
+
+    .thumb svg{
+        display:block;
+        width:100%;
+        height:100%;
+        pointer-events:none;
+    }
+
+    .meta{
+        display:flex;
+        align-items:flex-start;
+        gap:12px;
+        padding:18px 18px 4px;
+    }
+
+    .num{
+        font-family:var(--font-h);
+        font-size:11px;
+        font-weight:900;
+        color:#0a0a0a;
+        background:var(--green);
+        border-radius:5px;
+        padding:4px 7px;
+        line-height:1;
+        flex:none;
+        margin-top:2px;
+    }
+
+    .meta h3{
+        font-family:var(--font-h);
+        font-size:15px;
+        font-weight:700;
+        margin:0 0 4px;
+        color:#fff;
+        letter-spacing:-.2px;
+    }
+
+    .meta p{
+        margin:0;
+        font-size:12.5px;
+        color:var(--muted);
+        font-weight:300;
+        line-height:1.45;
+    }
+
+    .actions{
+        display:flex;
+        gap:10px;
+        padding:16px 18px 18px;
+        margin-top:auto;
+    }
+
+    .btn{
+        flex:1;
+        border-radius:8px;
+        border:1px solid var(--line);
+        background:transparent;
+        color:var(--text);
+        font-family:var(--font-h);
+        font-size:11px;
+        font-weight:700;
+        letter-spacing:.8px;
+        text-transform:uppercase;
+        padding:11px 8px;
+        cursor:pointer;
+        transition:all .2s;
+        white-space:nowrap;
+    }
+
+    .btn:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.18);}
+
+    .btn.primary{
+        background:var(--green);
+        border-color:var(--green);
+        color:#04150c;
+    }
+
+    .btn.primary:hover{
+        background:#00c469;
+        border-color:#00c469;
+        box-shadow:0 0 18px rgba(0,168,89,.45);
+    }
+
+    .btn:disabled{
+        opacity:.5;
+        cursor:progress;
+    }
+
+    /* ---------- Toast ---------- */
+    #toast{
+        position:fixed;
+        left:50%;
+        bottom:30px;
+        transform:translate(-50%,26px);
+        background:#0f1a14;
+        border:1px solid var(--green);
+        color:var(--text);
+        font-size:14px;
+        padding:14px 24px;
+        border-radius:10px;
+        box-shadow:0 14px 40px rgba(0,0,0,.6), 0 0 22px rgba(0,168,89,.22);
+        opacity:0;
+        pointer-events:none;
+        transition:opacity .25s, transform .25s;
+        z-index:999;
+        max-width:90vw;
+        text-align:center;
+    }
+
+    #toast.show{
+        opacity:1;
+        transform:translate(-50%,0);
+    }
+
+    .hint{
+        margin-top:34px;
+        padding:18px 22px;
+        border-left:3px solid var(--green);
+        background:rgba(0,168,89,.06);
+        border-radius:0 10px 10px 0;
+        font-size:13.5px;
+        color:var(--muted);
+        line-height:1.65;
+    }
+
+    .hint strong{color:var(--text);font-weight:600;}
+
+    @media (max-width:640px){
+        .wrap{padding:26px 16px 70px;}
+        .grid{grid-template-columns:1fr;gap:20px;}
+        .controls{width:100%;}
+    }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+    <header class="top">
+        <div>
+            <span class="tag">Hisense · Recursos</span>
+            <h1>Fundos para <span>apresentação</span></h1>
+            <p>Escolha um fundo, clique em <strong>Copiar imagem</strong> e cole direto no PowerPoint, Google Slides, Canva ou Figma.</p>
+        </div>
+
+        <div class="controls">
+            <label for="size">Resolução de exportação</label>
+            <select id="size">
+                <option value="1920x1080">1920 × 1080 · Full HD</option>
+                <option value="2560x1440" selected>2560 × 1440 · QHD</option>
+                <option value="3840x2160">3840 × 2160 · 4K</option>
+            </select>
+        </div>
+    </header>
+
+    <main class="grid" id="grid"></main>
+
+    <div class="hint">
+        <strong>Dica:</strong> se o navegador bloquear a cópia direta, o PNG será baixado automaticamente — basta arrastá-lo para o slide. Todos os fundos são gerados em <strong>16:9</strong> e ficam nítidos em qualquer tamanho de tela.
+    </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+(function () {
+    'use strict';
+
+    /* =========================================
+       CONSTANTES DE DESENHO
+       ========================================= */
+    var W = 1600;
+    var H = 900;
+    var BG = '#0a0a0a';
+    var G  = '#00A859';
+
+    /* =========================================
+       GERADORES AUXILIARES
+       ========================================= */
+
+    /* Hexágono "flat-top" */
+    function hexPoly(cx, cy, r) {
+        var pts = [];
+        for (var i = 0; i < 6; i++) {
+            var a = (Math.PI / 180) * (60 * i);
+            pts.push((cx + r * Math.cos(a)).toFixed(1) + ',' + (cy + r * Math.sin(a)).toFixed(1));
+        }
+        return pts.join(' ');
+    }
+
+    /* Malha de hexágonos */
+    function hexGrid() {
+        var r = 46;
+        var stepX = 1.5 * r;
+        var stepY = Math.sqrt(3) * r;
+        var out = '';
+        var col = 0;
+        for (var x = -r; x <= W + r; x += stepX, col++) {
+            var offset = (col % 2) ? stepY / 2 : 0;
+            for (var y = -stepY + offset; y <= H + stepY; y += stepY) {
+                out += '<polygon points="' + hexPoly(x, y, r) + '"/>';
+            }
+        }
+        return out;
+    }
+
+    /* Campo de partículas determinístico */
+    function particleField() {
+        var s = 987654321;
+        function rnd() {
+            s = (s * 1664525 + 1013904223) >>> 0;
+            return s / 4294967296;
+        }
+        var out = '';
+        for (var i = 0; i < 160; i++) {
+            var x = rnd() * W;
+            var y = rnd() * H;
+            var r = 0.6 + rnd() * 2.4;
+            var o = 0.06 + rnd() * 0.30;
+            out += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) +
+                   '" r="' + r.toFixed(2) + '" fill="#00A859" fill-opacity="' + o.toFixed(2) + '"/>';
+        }
+        return out;
+    }
+
+    /* =========================================
+       BIBLIOTECA DE FUNDOS
+       ========================================= */
+    var BACKGROUNDS = [
+
+        /* 01 */
+        {
+            id: 'brilho-radial',
+            name: 'Brilho Radial Duplo',
+            desc: 'Base original da apresentação — dois focos laterais.',
+            body: function () {
+                return '<defs>' +
+                    '<radialGradient id="f01" cx="50%" cy="50%" r="50%">' +
+                        '<stop offset="0%" stop-color="#00A859" stop-opacity="0.22"/>' +
+                        '<stop offset="55%" stop-color="#00A859" stop-opacity="0.07"/>' +
+                        '<stop offset="100%" stop-color="#00A859" stop-opacity="0"/>' +
+                    '</radialGradient>' +
+                '</defs>' +
+                '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                '<ellipse cx="180" cy="450" rx="640" ry="720" fill="url(#f01)"/>' +
+                '<ellipse cx="1420" cy="450" rx="640" ry="720" fill="url(#f01)"/>';
+            }
+        },
+
+        /* 02 */
+        {
+            id: 'grade-tech',
+            name: 'Grade Tecnológica',
+            desc: 'Malha quadriculada sutil, estilo técnico.',
+            body: function () {
+                return '<defs>' +
+                    '<pattern id="f02" width="48" height="48" patternUnits="userSpaceOnUse">' +
+                        '<path d="M48 0H0V48" fill="none" stroke="#00A859" stroke-opacity="0.12" stroke-width="1"/>' +
+                    '</pattern>' +
+                '</defs>' +
+                '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                '<rect width="' + W + '" height="' + H + '" fill="url(#f02)"/>';
+            }
+        },
+
+        /* 03 */
+        {
+            id: 'grade-brilho',
+            name: 'Grade + Brilho',
+            desc: 'Combinação do brilho lateral com a grade.',
+            body: function () {
+                return '<defs>' +
+                    '<radialGradient id="f03a" cx="50%" cy="50%" r="50%">' +
+                        '<stop offset="0%" stop-color="#00A859" stop-opacity="0.20"/>' +
+                        '<stop offset="100%" stop-color="#00A859" stop-opacity="0"/>' +
+                    '</radialGradient>' +
+                    '<pattern id="f03b" width="48" height="48" patternUnits="userSpaceOnUse">' +
+                        '<path d="M48 0H0V48" fill="none" stroke="#00A859" stroke-opacity="0.10" stroke-width="1"/>' +
+                    '</pattern>' +
+                '</defs>' +
+                '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                '<rect width="' + W + '" height="' + H + '" fill="url(#f03b)"/>' +
+                '<ellipse cx="200" cy="450" rx="620" ry="700" fill="url(#f03a)"/>' +
+                '<ellipse cx="1400" cy="450" rx="620" ry="700" fill="url(#f03a)"/>';
+            }
+        },
+
+        /* 04 */
+        {
+            id: 'faixas-diagonais',
+            name: 'Faixas Diagonais',
+            desc: 'Listras a 45° com vinheta central.',
+            body: function () {
+                return '<defs>' +
+                    '<pattern id="f04a" width="72" height="72" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">' +
+                        '<rect width="36" height="72" fill="#00A859" fill-opacity="0.055"/>' +
+                    '</pattern>' +
+                    '<radialGradient id="f04b" cx="50%" cy="50%" r="72%">' +
+                        '<stop offset="0%" stop-color="#0a0a0a" stop-opacity="0"/>' +
+                        '<stop offset="100%" stop-color="#0a0a0a" stop-opacity="0.85"/>' +
+                    '</radialGradient>' +
+                '</defs>' +
+                '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                '<rect width="' + W + '" height="' + H + '" fill="url(#f04a)"/>' +
+                '<rect width="' + W + '" height="' + H + '" fill="url(#f04b)"/>';
+            }
+        },
+
+        /* 05 */
+        {
+            id: 'glow-topo-base',
+            name: 'Glow Topo e Base',
+            desc: 'Faixas de luz verde no topo e na base.',
+            body: function () {
+                return '<defs>' +
+                    '<linearGradient id="f05a" x1="0" y1="0" x2="0" y2="1">' +
+                        '<stop offset="0%" stop-color="#00A859" stop-opacity="0.24"/>' +
+                        '<stop offset="100%" stop-color="#00A859" stop-opacity="0"/>' +
+                    '</linearGradient>' +
+                    '<linearGradient id="f05b" x1="0" y1="1" x2="0" y2="0">' +
+                        '<stop offset="0%" stop-color="#00A859" stop-opacity="0.24"/>' +
+                        '<stop offset="100%" stop-color="#00A859" stop-opacity="0"/>' +
+                    '</linearGradient>' +
+                '</defs>' +
+                '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                '<rect width="' + W + '" height="280" fill="url(#f05a)"/>' +
+                '<rect y="620" width="' + W + '" height="280" fill="url(#f05b)"/>';
+            }
+        },
+
+        /* 06 */
+        {
+            id: 'circulos-concentricos',
+            name: 'Círculos Concêntricos',
+            desc: 'Anéis sutis nos cantos opostos.',
+            body: function () {
+                var g = '<g fill="none" stroke="#00A859" stroke-opacity="0.13" stroke-width="1.5">';
+                for (var i = 1; i <= 6; i++) {
+                    g += '<circle cx="1600" cy="900" r="' + (i * 150) + '"/>';
+                }
+                g += '</g>';
+                g += '<g fill="none" stroke="#00A859" stroke-opacity="0.10" stroke-width="1.5">';
+                for (var j = 1; j <= 4; j++) {
+                    g += '<circle cx="0" cy="0" r="' + (j * 150) + '"/>';
+                }
+                g += '</g>';
+                return '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' + g;
+            }
+        },
+
+        /* 07 */
+        {
+            id: 'malha-pontos',
+            name: 'Malha de Pontos',
+            desc: 'Grade discreta de pontos verdes.',
+            body: function () {
+                return '<defs>' +
+                    '<pattern id="f07" width="44" height="44" patternUnits="userSpaceOnUse">' +
+                        '<circle cx="22" cy="22" r="1.8" fill="#00A859" fill-opacity="0.30"/>' +
+                    '</pattern>' +
+                '</defs>' +
+                '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                '<rect width="' + W + '" height="' + H + '" fill="url(#f07)"/>';
+            }
+        },
+
+        /* 08 */
+        {
+            id: 'hexagonos',
+            name: 'Hexágonos',
+            desc: 'Malha hexagonal técnica e contínua.',
+            body: function () {
+                return '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                       '<g fill="none" stroke="#00A859" stroke-opacity="0.13" stroke-width="1.2">' +
+                       hexGrid() + '</g>';
+            }
+        },
+
+        /* 09 */
+        {
+            id: 'circuito',
+            name: 'Linhas de Circuito',
+            desc: 'Trilhas com nós luminosos, estilo placa.',
+            body: function () {
+                return '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                    '<g stroke="#00A859" stroke-opacity="0.18" stroke-width="2" fill="none">' +
+                        '<path d="M-40 180 H 280 L 340 240 H 620"/>' +
+                        '<path d="M-40 400 H 200 L 260 340 H 520 L 580 400 H 900"/>' +
+                        '<path d="M1640 260 H 1320 L 1260 320 H 980"/>' +
+                        '<path d="M1640 520 H 1400 L 1340 460 H 1120 L 1060 520 H 760"/>' +
+                        '<path d="M-40 740 H 360 L 420 680 H 700"/>' +
+                        '<path d="M1640 780 H 1240 L 1180 720 H 900"/>' +
+                    '</g>' +
+                    '<g fill="#00A859" fill-opacity="0.45">' +
+                        '<circle cx="280" cy="180" r="5"/>' +
+                        '<circle cx="620" cy="240" r="5"/>' +
+                        '<circle cx="200" cy="400" r="5"/>' +
+                        '<circle cx="900" cy="400" r="5"/>' +
+                        '<circle cx="1320" cy="260" r="5"/>' +
+                        '<circle cx="980" cy="320" r="5"/>' +
+                        '<circle cx="1400" cy="520" r="5"/>' +
+                        '<circle cx="760" cy="520" r="5"/>' +
+                        '<circle cx="360" cy="740" r="5"/>' +
+                        '<circle cx="700" cy="680" r="5"/>' +
+                        '<circle cx="1240" cy="780" r="5"/>' +
+                        '<circle cx="900" cy="720" r="5"/>' +
+                    '</g>';
+            }
+        },
+
+        /* 10 */
+        {
+            id: 'aurora',
+            name: 'Aurora Suave',
+            desc: 'Manchas desfocadas em degradê verde.',
+            body: function () {
+                return '<defs>' +
+                    '<filter id="f10" x="-60%" y="-60%" width="220%" height="220%">' +
+                        '<feGaussianBlur stdDeviation="110"/>' +
+                    '</filter>' +
+                '</defs>' +
+                '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                '<g filter="url(#f10)">' +
+                    '<ellipse cx="400" cy="230" rx="380" ry="230" fill="#00A859" fill-opacity="0.38"/>' +
+                    '<ellipse cx="1180" cy="670" rx="420" ry="250" fill="#00A859" fill-opacity="0.32"/>' +
+                    '<ellipse cx="880" cy="120" rx="320" ry="170" fill="#00C46A" fill-opacity="0.18"/>' +
+                '</g>';
+            }
+        },
+
+        /* 11 */
+        {
+            id: 'linhas-horizontais',
+            name: 'Linhas Horizontais',
+            desc: 'Scanlines finas, efeito de tela.',
+            body: function () {
+                return '<defs>' +
+                    '<pattern id="f11" width="8" height="8" patternUnits="userSpaceOnUse">' +
+                        '<rect width="8" height="1.2" fill="#00A859" fill-opacity="0.09"/>' +
+                    '</pattern>' +
+                '</defs>' +
+                '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                '<rect width="' + W + '" height="' + H + '" fill="url(#f11)"/>';
+            }
+        },
+
+        /* 12 */
+        {
+            id: 'formas-geometricas',
+            name: 'Formas Geométricas',
+            desc: 'Triângulos recortados nos cantos.',
+            body: function () {
+                return '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                    '<g fill="#00A859">' +
+                        '<polygon points="1600,0 1600,380 1180,0" fill-opacity="0.10"/>' +
+                        '<polygon points="1600,0 1600,200 1380,0" fill-opacity="0.12"/>' +
+                        '<polygon points="0,900 0,520 420,900" fill-opacity="0.09"/>' +
+                        '<polygon points="0,900 0,700 220,900" fill-opacity="0.11"/>' +
+                    '</g>' +
+                    '<g stroke="#00A859" stroke-opacity="0.28" stroke-width="1.5" fill="none">' +
+                        '<path d="M1180 0 L 1600 380"/>' +
+                        '<path d="M1380 0 L 1600 200"/>' +
+                        '<path d="M420 900 L 0 520"/>' +
+                        '<path d="M220 900 L 0 700"/>' +
+                    '</g>';
+            }
+        },
+
+        /* 13 */
+        {
+            id: 'foco-central',
+            name: 'Foco Central',
+            desc: 'Halo verde no centro, bordas escuras.',
+            body: function () {
+                return '<defs>' +
+                    '<radialGradient id="f13" cx="50%" cy="50%" r="62%">' +
+                        '<stop offset="0%" stop-color="#00A859" stop-opacity="0.20"/>' +
+                        '<stop offset="55%" stop-color="#00A859" stop-opacity="0.06"/>' +
+                        '<stop offset="100%" stop-color="#00A859" stop-opacity="0"/>' +
+                    '</radialGradient>' +
+                '</defs>' +
+                '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                '<rect width="' + W + '" height="' + H + '" fill="url(#f13)"/>';
+            }
+        },
+
+        /* 14 */
+        {
+            id: 'ondas',
+            name: 'Ondas',
+            desc: 'Curvas senoidais na parte inferior.',
+            body: function () {
+                return '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                    '<g fill="none" stroke="#00A859">' +
+                        '<path d="M0 550 C 200 470 300 630 500 550 S 800 470 1000 550 S 1300 630 1600 550" stroke-opacity="0.13" stroke-width="1.5"/>' +
+                        '<path d="M0 620 C 200 540 300 700 500 620 S 800 540 1000 620 S 1300 700 1600 620" stroke-opacity="0.20" stroke-width="2"/>' +
+                        '<path d="M0 690 C 200 610 300 770 500 690 S 800 610 1000 690 S 1300 770 1600 690" stroke-opacity="0.14" stroke-width="2"/>' +
+                        '<path d="M0 760 C 200 680 300 840 500 760 S 800 680 1000 760 S 1300 840 1600 760" stroke-opacity="0.09" stroke-width="2"/>' +
+                    '</g>';
+            }
+        },
+
+        /* 15 */
+        {
+            id: 'particulas',
+            name: 'Partículas',
+            desc: 'Pontos de luz dispersos sobre fundo escuro.',
+            body: function () {
+                return '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' + particleField();
+            }
+        },
+
+        /* 16 */
+        {
+            id: 'glow-diagonal',
+            name: 'Glow Diagonal',
+            desc: 'Luz vinda do canto superior esquerdo.',
+            body: function () {
+                return '<defs>' +
+                    '<linearGradient id="f16" x1="0" y1="0" x2="1" y2="1">' +
+                        '<stop offset="0%" stop-color="#00A859" stop-opacity="0.30"/>' +
+                        '<stop offset="42%" stop-color="#00A859" stop-opacity="0.04"/>' +
+                        '<stop offset="100%" stop-color="#00A859" stop-opacity="0"/>' +
+                    '</linearGradient>' +
+                '</defs>' +
+                '<rect width="' + W + '" height="' + H + '" fill="#0a0a0a"/>' +
+                '<rect width="' + W + '" height="' + H + '" fill="url(#f16)"/>';
+            }
+        }
+    ];
+
+    /* =========================================
+       EXPORTAÇÃO
+       ========================================= */
+    function buildSvg(bodyFn, outW, outH) {
+        return '<svg xmlns="http://www.w3.org/2000/svg" width="' + outW + '" height="' + outH +
+               '" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid slice">' +
+               bodyFn() + '</svg>';
+    }
+
+    function rasterize(svgString, outW, outH) {
+        return new Promise(function (resolve, reject) {
+            var blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+            var url = URL.createObjectURL(blob);
+            var img = new Image();
+
+            img.onload = function () {
+                try {
+                    var canvas = document.createElement('canvas');
+                    canvas.width = outW;
+                    canvas.height = outH;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, outW, outH);
+                    URL.revokeObjectURL(url);
+
+                    canvas.toBlob(function (b) {
+                        if (b) resolve(b);
+                        else reject(new Error('Falha ao gerar o PNG'));
+                    }, 'image/png');
+                } catch (err) {
+                    URL.revokeObjectURL(url);
+                    reject(err);
+                }
+            };
+
+            img.onerror = function () {
+                URL.revokeObjectURL(url);
+                reject(new Error('Falha ao renderizar o SVG'));
+            };
+
+            img.src = url;
+        });
+    }
+
+    function downloadBlob(blob, filename) {
+        var a = document.createElement('a');
+        var url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () {
+            URL.revokeObjectURL(url);
+            a.remove();
+        }, 1200);
+    }
+
+    /* =========================================
+       TOAST
+       ========================================= */
+    var toastEl = document.getElementById('toast');
+    var toastTimer = null;
+
+    function toast(msg) {
+        toastEl.textContent = msg;
+        toastEl.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+            toastEl.classList.remove('show');
+        }, 2600);
+    }
+
+    /* =========================================
+       RESOLUÇÃO ATUAL
+       ========================================= */
+    var sizeSelect = document.getElementById('size');
+
+    function currentSize() {
+        var parts = sizeSelect.value.split('x');
+        return [parseInt(parts[0], 10), parseInt(parts[1], 10)];
+    }
+
+    /* =========================================
+       AÇÕES
+       ========================================= */
+    function handleCopy(bg, btn, index) {
+        var size = currentSize();
+        var svg = buildSvg(bg.body, size[0], size[1]);
+
+        var original = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Gerando...';
+
+        rasterize(svg, size[0], size[1])
+            .then(function (blob) {
+                var filename = 'fundo-hisense-' + String(index + 1).padStart(2, '0') + '-' + bg.id + '.png';
+
+                if (!navigator.clipboard || typeof window.ClipboardItem === 'undefined') {
+                    throw new Error('clipboard-unsupported');
+                }
+
+                return navigator.clipboard.write([
+                    new window.ClipboardItem({ 'image/png': blob })
+                ]).then(function () {
+                    toast('✅ Imagem copiada! Cole no seu slide.');
+                }).catch(function () {
+                    downloadBlob(blob, filename);
+                    toast('⚠️ Cópia bloqueada pelo navegador — PNG baixado.');
+                });
+            })
+            .catch(function (err) {
+                if (err && err.message === 'clipboard-unsupported') {
+                    toast('⚠️ Navegador sem suporte — use "Baixar PNG".');
+                } else {
+                    toast('❌ Não foi possível gerar a imagem.');
+                }
+            })
+            .then(function () {
+                btn.disabled = false;
+                btn.textContent = original;
+            });
+    }
+
+    function handleDownload(bg, btn, index) {
+        var size = currentSize();
+        var svg = buildSvg(bg.body, size[0], size[1]);
+
+        var original = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Gerando...';
+
+        rasterize(svg, size[0], size[1])
+            .then(function (blob) {
+                var filename = 'fundo-hisense-' + String(index + 1).padStart(2, '0') + '-' + bg.id + '.png';
+                downloadBlob(blob, filename);
+                toast('💾 Download iniciado: ' + filename);
+            })
+            .catch(function () {
+                toast('❌ Não foi possível gerar a imagem.');
+            })
+            .then(function () {
+                btn.disabled = false;
+                btn.textContent = original;
+            });
+    }
+
+    /* =========================================
+       RENDERIZAÇÃO DOS CARDS
+       ========================================= */
+    function buildCard(bg, index) {
+        var card = document.createElement('article');
+        card.className = 'card';
+
+        card.innerHTML =
+            '<div class="thumb">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid slice">' +
+                    bg.body() +
+                '</svg>' +
+            '</div>' +
+            '<div class="meta">' +
+                '<span class="num">' + String(index + 1).padStart(2, '0') + '</span>' +
+                '<div>' +
+                    '<h3>' + bg.name + '</h3>' +
+                    '<p>' + bg.desc + '</p>' +
+                '</div>' +
+            '</div>' +
+            '<div class="actions">' +
+                '<button class="btn primary" data-act="copy">Copiar imagem</button>' +
+                '<button class="btn" data-act="download">Baixar PNG</button>' +
+            '</div>';
+
+        var copyBtn = card.querySelector('[data-act="copy"]');
+        var dlBtn = card.querySelector('[data-act="download"]');
+
+        copyBtn.addEventListener('click', function () {
+            handleCopy(bg, copyBtn, index);
+        });
+
+        dlBtn.addEventListener('click', function () {
+            handleDownload(bg, dlBtn, index);
+        });
+
+        return card;
+    }
+
+    function render() {
+        var grid = document.getElementById('grid');
+        var frag = document.createDocumentFragment();
+
+        BACKGROUNDS.forEach(function (bg, i) {
+            frag.appendChild(buildCard(bg, i));
+        });
+
+        grid.appendChild(frag);
+    }
+
+    render();
+
+})();
+</script>
+</body>
+</html>
