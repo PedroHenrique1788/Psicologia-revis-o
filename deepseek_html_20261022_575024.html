@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treinamento | Leitura de Nota Fiscal - Hisense</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
+
+    <!-- Fontes do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Inter:wght@300;400;600&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           VARIÁVEIS
+           ========================================= */
+        :root {
+            --hisense-green: #00A859;
+            --hisense-glow: rgba(0, 168, 89, 0.4);
+            --bg-dark: #0a0a0a;
+            --bg-card: #161616;
+            --text-white: #ffffff;
+            --text-gray: #e2e8f0;
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+
+            /* Base tipográfica do canvas 1280x720 */
+            --r-main-font-size: 24px;
+
+            /* Respiro interno do slide (usado também pelo JS) */
+            --slide-pad-x: 46px;
+            --slide-pad-y: 26px;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark) !important;
+            background-image: radial-gradient(circle at 10% 50%, rgba(0, 168, 89, 0.05) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 50%, rgba(0, 168, 89, 0.05) 0%, transparent 40%) !important;
+            font-family: var(--font-body);
+        }
+
+        /* =========================================
+           BASE DO REVEAL
+           ========================================= */
+        .reveal {
+            font-size: var(--r-main-font-size);
+            font-family: var(--font-body);
+            color: var(--text-gray);
+        }
+
+        /* O slide não é mais flex: o Reveal controla o display.
+           O conteúdo é centralizado pelo wrapper .fit-inner */
+        .reveal .slides section {
+            text-align: left;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        /* Wrapper que recebe o auto-ajuste (scale) */
+        .fit-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 100%;
+            box-sizing: border-box;
+            transform: translate(-50%, -50%);
+            transform-origin: center center;
+            will-change: transform;
+        }
+
+        /* Estado usado apenas durante a medição, para que
+           slides ocultos também possam ser medidos */
+        .reveal .slides.measuring > section {
+            display: block !important;
+            visibility: hidden;
+        }
+
+        /* =========================================
+           TIPOGRAFIA
+           ========================================= */
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-family: var(--font-heading);
+            color: var(--text-white) !important;
+            text-transform: none;
+            font-weight: 700;
+            line-height: 1.15;
+            margin: 0 0 14px 0;
+            letter-spacing: normal;
+        }
+
+        .reveal h1 { font-size: 2.9em; letter-spacing: -1px; }
+        .reveal h2 { font-size: 1.95em; }
+        .reveal h3 { font-size: 1.25em; color: var(--hisense-green) !important; margin-bottom: 8px; }
+
+        .reveal p, .reveal li {
+            color: var(--text-gray) !important;
+            font-size: 1em;
+            line-height: 1.55;
+            font-weight: 300;
+            margin: 0 0 10px 0;
+        }
+
+        .reveal ul, .reveal ol {
+            display: block;
+            margin: 0;
+            padding-left: 1.1em;
+            text-align: left;
+        }
+
+        .reveal li { margin-bottom: 8px; }
+        .reveal li:last-child { margin-bottom: 0; }
+
+        /* COMPONENTES */
+        .accent-text { color: var(--hisense-green) !important; font-weight: 700; }
+        .bold-white { color: var(--text-white) !important; font-weight: 600; }
+
+        .green-line {
+            width: 60px;
+            height: 4px;
+            background: var(--hisense-green);
+            margin-bottom: 18px;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--hisense-glow);
+            flex: none;
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--bg-card) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 4px solid var(--hisense-green);
+            padding: 18px 20px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+
+        .card > *:last-child { margin-bottom: 0; }
+
+        /* GRIDS */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; width: 100%; margin-top: 12px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; margin-top: 12px; }
+
+        /* NUMBER CIRCLES */
+        .number-circle {
+            font-family: var(--font-heading);
+            font-size: 1.05em;
+            font-weight: 900;
+            color: var(--bg-dark) !important;
+            background: var(--hisense-green);
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            flex: none;
+        }
+
+        /* PLACEHOLDERS DE IMAGEM */
+        .img-placeholder {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(45deg, #111, #222);
+            border: 2px dashed rgba(0, 168, 89, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--hisense-green);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.75em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 12px;
+        }
+
+        /* BADGES */
+        .badge {
+            display: inline-block;
+            background: rgba(0, 168, 89, 0.1);
+            color: var(--hisense-green) !important;
+            border: 1px solid var(--hisense-green);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-family: var(--font-heading);
+            font-size: 0.55em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+            width: fit-content;
+            flex: none;
+        }
+
+        /* SLIDE DE TÍTULO / CAPA */
+        .reveal .slides section.title-slide { text-align: center; }
+        .title-slide .fit-inner { align-items: center; }
+
+        .title-slide h1 { font-size: 3.4em; margin-bottom: 0; }
+        .title-slide .logo-hisense span { color: var(--hisense-green) !important; }
+
+        /* CÓDIGO / EXEMPLOS */
+        .code-block {
+            font-family: var(--font-mono);
+            background: #000 !important;
+            padding: 14px 18px;
+            border-radius: 8px;
+            border-left: 5px solid var(--hisense-green);
+            color: var(--text-white) !important;
+            font-size: 1em;
+            line-height: 1.5;
+            text-align: center;
+            margin: 14px 0;
+            word-wrap: break-word;
+            box-sizing: border-box;
+        }
+
+        .tech-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(0, 168, 89, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 168, 89, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .reveal .controls { color: var(--hisense-green); }
+        .reveal .progress { color: var(--hisense-green); height: 4px; }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- TELA 1 - Capa -->
+            <section class="title-slide">
+                <div class="tech-bg"></div>
+                <span class="badge">Treinamento Interno</span>
+                <h1 class="logo-hisense" style="color: white !important;">HISENSE<span>.</span></h1>
+                <h2 style="color: var(--text-gray) !important; font-weight: 300; margin-top: 15px; font-size: 1.4em;">Leitura de Nota Fiscal</h2>
+                <p style="margin-top: 26px; font-size: 0.8em; letter-spacing: 2px;">FOCO: ROTINA DE ATENDIMENTO</p>
+            </section>
+
+            <!-- TELA 2 - O que vamos aprender -->
+            <section>
+                <span class="badge">Objetivos</span>
+                <h2>O que vamos aprender?</h2>
+                <div class="green-line"></div>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="number-circle">1</div>
+                        <h3>Compreender</h3>
+                        <p>O que é uma nota fiscal e o que ela representa.</p>
+                    </div>
+                    <div class="card">
+                        <div class="number-circle">2</div>
+                        <h3>Reconhecer</h3>
+                        <p>Como as informações são organizadas no documento.</p>
+                    </div>
+                    <div class="card">
+                        <div class="number-circle">3</div>
+                        <h3>Localizar</h3>
+                        <p>Onde encontrar os principais dados.</p>
+                    </div>
+                    <div class="card">
+                        <div class="number-circle">4</div>
+                        <h3>Diferenciar</h3>
+                        <p>Como evitar confusões entre campos semelhantes.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 18px; font-size: 0.9em; text-align: center;">Nosso foco será a leitura aplicada à rotina, não a análise fiscal ou contábil.</p>
+            </section>
+
+            <!-- TELA 3 - Título de Seção -->
+            <section class="title-slide">
+                <div class="tech-bg"></div>
+                <h1 style="font-size: 2.6em;">Compreendendo a <br><span class="accent-text">Nota Fiscal</span></h1>
+            </section>
+
+            <!-- TELA 4 - O que registra -->
+            <section>
+                <span class="badge">Conceito</span>
+                <h2>O que a nota fiscal registra?</h2>
+                <div class="green-line"></div>
+                <p>A nota fiscal é o documento que registra uma operação de compra. Ela reúne informações sobre:</p>
+                <div class="grid-2" style="margin-top: 18px;">
+                    <div class="card" style="padding: 16px 20px;">
+                        <p style="color: white !important; margin:0; font-weight: 600;">🤝 Quem realizou a venda</p>
+                    </div>
+                    <div class="card" style="padding: 16px 20px;">
+                        <p style="color: white !important; margin:0; font-weight: 600;">👤 Quem aparece como comprador</p>
+                    </div>
+                    <div class="card" style="padding: 16px 20px;">
+                        <p style="color: white !important; margin:0; font-weight: 600;">📅 Quando foi registrada</p>
+                    </div>
+                    <div class="card" style="padding: 16px 20px;">
+                        <p style="color: white !important; margin:0; font-weight: 600;">📦 Quais produtos foram adquiridos</p>
+                    </div>
+                </div>
+                <p style="margin-top: 18px; font-size: 0.95em;">Mais do que visualizar um documento, precisamos compreender o que suas informações representam para localizar os dados durante o atendimento.</p>
+            </section>
+
+            <!-- TELA 5 - Interpretar tudo? -->
+            <section>
+                <span class="badge">Foco</span>
+                <h2>Precisamos interpretar tudo?</h2>
+                <div class="green-line"></div>
+                <p>A nota fiscal possui diversos números e códigos. Em nossa rotina, <span class="accent-text">não precisamos interpretar todos</span>.</p>
+                <p>Nossa leitura deve ser direcionada para:</p>
+                <ul style="margin-top: 14px; font-size: 1em;">
+                    <li>Identificar a <strong class="bold-white">data</strong>;</li>
+                    <li>Localizar o <strong class="bold-white">produto</strong> relacionado ao atendimento;</li>
+                    <li>Confirmar se o produto é <strong class="bold-white">Hisense ou Gorenje</strong>;</li>
+                    <li>Verificar se existem <strong class="bold-white">informações suficientes</strong> para seguir.</li>
+                </ul>
+            </section>
+
+            <!-- TELA 6 - Perguntas -->
+            <section>
+                <span class="badge">Direcionamento</span>
+                <h2>As perguntas que orientam nossa leitura</h2>
+                <div class="green-line"></div>
+                <div class="grid-2">
+                    <div>
+                        <ul style="font-size: 0.95em; line-height: 1.7;">
+                            <li>Quando a compra foi registrada?</li>
+                            <li>A data de emissão está identificável?</li>
+                            <li>Qual produto foi adquirido?</li>
+                            <li>A descrição permite reconhecer o item?</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul style="font-size: 0.95em; line-height: 1.7;">
+                            <li>O produto é Hisense ou Gorenje?</li>
+                            <li>As informações permitem confirmar a marca?</li>
+                            <li>As informações são suficientes?</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 16px; font-size: 0.9em; font-style: italic;">Quando sabemos o que precisamos confirmar, a leitura se torna mais simples.</p>
+            </section>
+
+            <!-- TELA 7 - Título de Seção -->
+            <section class="title-slide">
+                <div class="tech-bg"></div>
+                <h1 style="font-size: 2.6em;">Como as informações <br><span class="accent-text">são organizadas?</span></h1>
+            </section>
+
+            <!-- TELA 8 - Mesma lógica -->
+            <section>
+                <span class="badge">Estrutura</span>
+                <h2>Notas diferentes, mesma lógica</h2>
+                <div class="green-line"></div>
+                <p>A aparência muda conforme a loja, mas os elementos da compra são os mesmos:</p>
+                <div class="grid-2" style="margin-top: 16px;">
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Quem realizou a venda</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Quem aparece como comprador</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Quando a operação foi registrada</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Quais produtos foram adquiridos</p></div>
+                </div>
+            </section>
+
+            <!-- TELA 9 - Grupos 1 -->
+            <section>
+                <span class="badge">Grupos de Informação</span>
+                <h2>Quais áreas podemos encontrar? (1/2)</h2>
+                <div class="green-line"></div>
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>Identificação</h3>
+                        <p>Dados do documento: número, série e data de emissão.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Quem Vendeu</h3>
+                        <p>Empresa ou estabelecimento responsável pela venda.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Quem Comprou</h3>
+                        <p>Pessoa ou empresa registrada como compradora.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TELA 10 - Grupos 2 -->
+            <section>
+                <span class="badge">Grupos de Informação</span>
+                <h2>Quais áreas podemos encontrar? (2/2)</h2>
+                <div class="green-line"></div>
+                <div class="grid-3">
+                    <div class="card" style="border-top-color: #e53e3e;">
+                        <h3 style="color: #e53e3e !important;">Produtos/Serviços</h3>
+                        <p>Itens da compra: descrição, quantidade, códigos e valores. <strong>(Foco!)</strong></p>
+                    </div>
+                    <div class="card">
+                        <h3>Totais</h3>
+                        <p>Reúnem os valores registrados na compra.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Informações Adicionais</h3>
+                        <p>Observações e dados complementares da operação.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TELA 11 - Como localizar -->
+            <section>
+                <span class="badge">Raciocínio de Leitura</span>
+                <h2>Como localizar uma informação?</h2>
+                <div class="green-line"></div>
+                <ol style="font-size: 0.95em; line-height: 1.7;">
+                    <li><strong class="bold-white">Defina o que precisa encontrar:</strong> Data, produto ou marca?</li>
+                    <li><strong class="bold-white">Identifique o grupo correspondente:</strong> Identificação, dados da compra ou produtos?</li>
+                    <li><strong class="bold-white">Procure o campo:</strong> Observe títulos e nomes dos campos.</li>
+                    <li><strong class="bold-white">Confirme o que encontrou:</strong> O dado responde ao que precisamos?</li>
+                </ol>
+            </section>
+
+            <!-- TELA 12 - Título de Seção -->
+            <section class="title-slide">
+                <div class="tech-bg"></div>
+                <h1 style="font-size: 2.6em;">Quais informações <br><span class="accent-text">precisamos confirmar?</span></h1>
+            </section>
+
+            <!-- TELA 13 - O que confirmar -->
+            <section>
+                <span class="badge">Checklist</span>
+                <h2>O que precisamos confirmar?</h2>
+                <div class="green-line"></div>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>📅 Data de Emissão</h3>
+                        <p>Está completa, legível e identificada corretamente?</p>
+                    </div>
+                    <div class="card">
+                        <h3>🏷️ Marca</h3>
+                        <p>As informações permitem confirmar Hisense ou Gorenje?</p>
+                    </div>
+                    <div class="card">
+                        <h3>📺 Produto</h3>
+                        <p>A descrição permite identificar o item relacionado?</p>
+                    </div>
+                    <div class="card">
+                        <h3>✅ Suficiência</h3>
+                        <p>É possível relacionar o item da nota ao relato do consumidor?</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TELA 14 - Confirmar Data -->
+            <section>
+                <span class="badge">Passo 1</span>
+                <h2>Como confirmar a data de emissão?</h2>
+                <div class="green-line"></div>
+                <p>Uma nota fiscal pode apresentar diferentes datas e horários. Para localizar a correta:</p>
+                <ul style="margin-top: 14px; font-size: 0.95em;">
+                    <li>Procure o campo <strong class="bold-white">“Data de emissão”</strong> ou equivalente;</li>
+                    <li>Confirme o nome do campo antes de utilizar;</li>
+                    <li>Verifique se a informação está completa e legível;</li>
+                    <li>Não confunda a emissão com outras datas (saída, protocolo).</li>
+                </ul>
+                <p style="color: #e53e3e !important; margin-top: 16px; font-weight: 600; font-size: 0.9em;">Não utilize uma data apenas por ser a primeira encontrada.</p>
+            </section>
+
+            <!-- TELA 15 - Qual produto -->
+            <section>
+                <span class="badge">Passo 2</span>
+                <h2>Qual produto está relacionado?</h2>
+                <div class="green-line"></div>
+                <ol style="font-size: 0.95em; line-height: 1.7;">
+                    <li>Encontre a área de produtos ou serviços;</li>
+                    <li>Considere o produto informado pelo consumidor;</li>
+                    <li>Leia a descrição dos itens necessários;</li>
+                    <li>Diferencie o produto de acessórios ou serviços;</li>
+                    <li>Confirme qual linha corresponde ao atendimento.</li>
+                </ol>
+                <div class="card" style="margin-top: 16px; border-top-color: #e53e3e; padding: 16px 20px;">
+                    <p style="margin: 0; color: white !important; font-size: 0.95em;">⚠️ O primeiro item da nota nem sempre será o produto que precisa de atendimento.</p>
+                </div>
+            </section>
+
+            <!-- TELA 16 - Reconhecer produto -->
+            <section>
+                <span class="badge">Identificação</span>
+                <h2>As informações permitem reconhecer o produto?</h2>
+                <div class="green-line"></div>
+                <p>Depois de localizar o item correto, leia sua descrição e procure por:</p>
+                <div class="grid-2" style="margin-top: 16px;">
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">A marca</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">A categoria do produto</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">O modelo ou a referência</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Tamanho, capacidade ou tecnologia</p></div>
+                </div>
+            </section>
+
+            <!-- TELA 17 - Título de Seção -->
+            <section class="title-slide">
+                <div class="tech-bg"></div>
+                <h1 style="font-size: 2.6em;">Como identificar o produto <br><span class="accent-text">na nota fiscal?</span></h1>
+            </section>
+
+            <!-- TELA 18 - Comece pela descrição -->
+            <section>
+                <span class="badge">O Ponto de Partida</span>
+                <h2>Comece pela descrição do item</h2>
+                <div class="green-line"></div>
+                <p>Ela pode reunir informações como:</p>
+                <div class="grid-3" style="margin-top: 16px;">
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Marca</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Categoria do produto</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Modelo ou referência</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Tamanho ou capacidade</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Tecnologia</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Cor ou versão</p></div>
+                </div>
+                <p style="margin-top: 18px; font-size: 0.95em; text-align: center;">A descrição é o principal ponto de partida para reconhecermos o produto.</p>
+            </section>
+
+            <!-- TELA 19 - Pistas -->
+            <section>
+                <span class="badge">Pistas Visuais</span>
+                <h2>Quais pistas ajudam a reconhecer?</h2>
+                <div class="green-line"></div>
+                <div class="grid-2">
+                    <div style="display: flex; flex-direction: column; justify-content: center;">
+                        <ul style="font-size: 0.95em; line-height: 1.6;">
+                            <li><strong class="accent-text">Marca:</strong> Hisense ou Gorenje.</li>
+                            <li><strong class="accent-text">Categoria:</strong> TV, refrigerador, ar-condicionado.</li>
+                            <li><strong class="accent-text">Modelo/Ref:</strong> Diferencia versões da mesma categoria.</li>
+                            <li><strong class="accent-text">Características:</strong> Tamanho, capacidade, cor.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="img-placeholder" style="height: 180px;">[ Imagem da Nota Fiscal ]</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TELA 20 - Interpretando descrição -->
+            <section>
+                <span class="badge">Exemplo Prático</span>
+                <h2>Como interpretar a descrição?</h2>
+                <div class="green-line"></div>
+                <p>Observe o exemplo retirado da nota:</p>
+                <div class="code-block">
+                    TV 55 POL HISENSE MOD 55A6NV 4K
+                </div>
+                <div class="grid-2">
+                    <div>
+                        <ul style="font-size: 0.95em;">
+                            <li><strong>TV:</strong> Categoria</li>
+                            <li><strong>55 POL:</strong> Tamanho</li>
+                            <li><strong>HISENSE:</strong> Marca</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul style="font-size: 0.95em;">
+                            <li><strong>55A6NV:</strong> Modelo/Referência</li>
+                            <li><strong>4K:</strong> Característica</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TELA 21 - Transição -->
+            <section class="title-slide">
+                <div class="tech-bg"></div>
+                <h1 style="font-size: 1.9em; font-weight: 300; max-width: 900px; line-height: 1.4;">"Mesmo quando as informações aparecem juntas, podemos <span class="accent-text">separá-las</span> pela função que representam."</h1>
+            </section>
+
+            <!-- TELA 22 - Abreviada 1 -->
+            <section>
+                <span class="badge">Atenção</span>
+                <h2>E quando a descrição está abreviada?</h2>
+                <div class="green-line"></div>
+                <p>Observe este exemplo: <strong class="bold-white">TV 4K DLED 58P SMART</strong></p>
+                <div class="grid-2" style="margin-top: 16px;">
+                    <div class="card" style="border-top-color: #00A859;">
+                        <h3 style="font-size: 1.15em;">✅ Permite reconhecer:</h3>
+                        <p style="font-size: 0.95em;">Categoria (TV), tamanho (58p), características (4K, DLED, Smart).</p>
+                    </div>
+                    <div class="card" style="border-top-color: #e53e3e;">
+                        <h3 style="font-size: 1.15em; color: #e53e3e !important;">❌ Não confirma sozinha:</h3>
+                        <p style="font-size: 0.95em;">A marca (Hisense/Gorenje) e o modelo completo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TELA 23 - Transição -->
+            <section class="title-slide">
+                <div class="tech-bg"></div>
+                <h1 style="font-size: 1.9em; font-weight: 300; max-width: 900px; line-height: 1.4;">Quando a descrição não apresenta todas as respostas, precisamos <span class="accent-text">consultar outras informações</span> e utilizar a sondagem.</h1>
+            </section>
+
+            <!-- TELA 24 - Abreviada 2 -->
+            <section>
+                <span class="badge">Ação Prática</span>
+                <h2>Descrição abreviada exige cautela</h2>
+                <div class="green-line"></div>
+                <div class="grid-2">
+                    <div style="display: flex; flex-direction: column; justify-content: center;">
+                        <p style="font-size: 0.95em;">Se a descrição não traz a marca ou o modelo completo, <strong>não assuma</strong> que é Hisense ou Gorenje apenas por ser uma TV.</p>
+                        <p style="font-size: 0.95em;">É necessário realizar a <strong class="bold-white">sondagem</strong> com o consumidor para confirmar os detalhes.</p>
+                    </div>
+                    <div>
+                        <div class="img-placeholder" style="height: 190px;">[ Imagem da Nota Fiscal Fast Shop ]</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TELA 25 - Transição -->
+            <section class="title-slide">
+                <div class="tech-bg"></div>
+                <h1 style="font-size: 2.6em;">Nem todo código <br><span class="accent-text">é o modelo.</span></h1>
+            </section>
+
+            <!-- TELA 26 - Vários códigos -->
+            <section>
+                <span class="badge">Códigos</span>
+                <h2>Vários códigos no mesmo item</h2>
+                <div class="green-line"></div>
+                <p>Na área de produtos, podemos encontrar diferentes números e referências. Eles podem representar:</p>
+                <ul style="margin-top: 14px; font-size: 0.95em;">
+                    <li>O código utilizado pela revenda;</li>
+                    <li>O modelo ou a referência do produto;</li>
+                    <li>O GTIN/EAN;</li>
+                    <li>O NCM;</li>
+                    <li>O número de série.</li>
+                </ul>
+                <p style="color: #e53e3e !important; font-weight: 600; margin-top: 16px; font-size: 0.95em;">Estar próximo à descrição não significa que o código representa o modelo.</p>
+            </section>
+
+            <!-- TELA 27 - O que significa 1 -->
+            <section>
+                <span class="badge">Entendendo os Códigos</span>
+                <h2>O que cada identificação representa?</h2>
+                <div class="green-line"></div>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Código da Revenda</h3>
+                        <p style="font-size: 0.95em;">Referência utilizada pela loja. Pode não corresponder ao modelo do fabricante.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Modelo ou Referência</h3>
+                        <p style="font-size: 0.95em;">Identifica uma versão do produto. Pode aparecer completo ou abreviado.</p>
+                    </div>
+                    <div class="card" style="grid-column: span 2;">
+                        <h3>GTIN/EAN</h3>
+                        <p style="font-size: 0.95em;">Código comercial associado ao item (código de barras). Não deve ser interpretado como o modelo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TELA 28 - O que significa 2 -->
+            <section>
+                <span class="badge">Entendendo os Códigos</span>
+                <h2>O que cada identificação representa?</h2>
+                <div class="green-line"></div>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>NCM</h3>
+                        <p style="font-size: 0.95em;">Classificação fiscal da mercadoria. Não identifica o modelo exato do produto.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Número de Série</h3>
+                        <p style="font-size: 0.95em;">Identifica uma unidade específica. É diferente do modelo e pode não aparecer na nota.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 18px; text-align: center; font-size: 1em;">Cada identificação possui uma finalidade diferente.</p>
+            </section>
+
+            <!-- TELA 29 - Por onde começar -->
+            <section>
+                <span class="badge">Passo a Passo</span>
+                <h2>Por onde devemos começar?</h2>
+                <div class="green-line"></div>
+                <p style="margin-bottom: 12px;">Antes de utilizar um código:</p>
+                <ol style="font-size: 0.95em; line-height: 1.6;">
+                    <li>Leia a descrição completa do item;</li>
+                    <li>Identifique a marca, categoria e características;</li>
+                    <li>Procure uma indicação de modelo ou referência;</li>
+                    <li>Observe o nome do campo associado ao código;</li>
+                    <li>Confirme o que a informação representa.</li>
+                </ol>
+                <p style="margin-top: 16px; font-size: 0.9em; font-style: italic;">Se o código não estiver claramente identificado, não o utilize sozinho para concluir qual é o produto.</p>
+            </section>
+
+            <!-- TELA 30 - Exemplo 1 -->
+            <section>
+                <span class="badge">Exemplo 1</span>
+                <h2>Código da revenda diferente do modelo</h2>
+                <div class="green-line"></div>
+                <div class="code-block">
+                    Código: 20804 <br>
+                    Descrição: TV 55 POL HISENSE MOD 55A6NV 4K
+                </div>
+                <ul style="font-size: 0.95em; margin-top: 16px;">
+                    <li><strong>20804:</strong> Código utilizado pela revenda;</li>
+                    <li><strong>55A6NV:</strong> Modelo ou referência;</li>
+                    <li><strong>4K:</strong> Característica do produto.</li>
+                </ul>
+            </section>
+
+            <!-- TELA 31 - Exemplo 2 -->
+            <section>
+                <span class="badge">Exemplo 2</span>
+                <h2>Descrição Comercial</h2>
+                <div class="green-line"></div>
+                <div class="code-block">
+                    Hisense Smart TV FHD 43 Polegadas 43A4NV
+                </div>
+                <div class="grid-2" style="margin-top: 16px;">
+                    <div>
+                        <ul style="font-size: 0.95em;">
+                            <li><strong>Marca:</strong> Hisense</li>
+                            <li><strong>Categoria:</strong> Smart TV</li>
+                            <li><strong>Característica:</strong> FHD</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul style="font-size: 0.95em;">
+                            <li><strong>Tamanho:</strong> 43 Polegadas</li>
+                            <li><strong>Modelo/Ref:</strong> 43A4NV</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TELA 32 - Exemplo 3 -->
+            <section>
+                <span class="badge">Exemplo 3</span>
+                <h2>Código alfanumérico</h2>
+                <div class="green-line"></div>
+                <div class="code-block">
+                    Código: HH58A6NVPTOB <br>
+                    Descrição: TV 4K DLED 58P SMART
+                </div>
+                <p style="font-size: 0.95em; margin-top: 16px;">A descrição permite reconhecer a categoria, tamanho e características, mas precisamos de outras evidências para confirmar:</p>
+                <ul style="font-size: 0.95em;">
+                    <li>Qual parte corresponde ao modelo;</li>
+                    <li>Se o item é Hisense ou Gorenje;</li>
+                    <li>Como relacioná-lo ao Telecontrol.</li>
+                </ul>
+            </section>
+
+            <!-- TELA 33 - Divergência -->
+            <section class="title-slide">
+                <div class="tech-bg"></div>
+                <h1 style="font-size: 2.2em; font-weight: 400; max-width: 900px;">Quando a descrição da nota <span class="accent-text">diverge do Telecontrol.</span></h1>
+            </section>
+
+            <!-- TELA 34 - Precisa ser idêntica? -->
+            <section>
+                <span class="badge">Telecontrol</span>
+                <h2>A descrição precisa ser idêntica?</h2>
+                <div class="green-line"></div>
+                <p>A revenda pode registrar o produto utilizando:</p>
+                <div class="grid-2" style="margin-top: 16px;">
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Nome comercial</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Descrição abreviada</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Código interno</p></div>
+                    <div class="card"><p style="color:white !important; margin:0; font-weight: 600;">Nomenclatura diferente</p></div>
+                </div>
+                <p style="margin-top: 18px; font-size: 1em; text-align: center; font-weight: 600; color: var(--hisense-green) !important;">Descrições diferentes não significam, necessariamente, produtos diferentes.</p>
+            </section>
+
+            <!-- TELA 35 - Como comparar 1 -->
+            <section>
+                <span class="badge">Comparação</span>
+                <h2>Como comparar a nota com o Telecontrol?</h2>
+                <div class="green-line"></div>
+                <p>Quando a descrição não for idêntica, compare as informações disponíveis:</p>
+                <div class="grid-2" style="margin-top: 16px;">
+                    <div class="card">
+                        <div class="number-circle">1</div>
+                        <h3>Confirme a marca</h3>
+                        <p>As informações indicam que o produto é Hisense ou Gorenje?</p>
+                    </div>
+                    <div class="card">
+                        <div class="number-circle">2</div>
+                        <h3>Identifique a categoria</h3>
+                        <p>Estamos analisando uma TV, um refrigerador, um ar-condicionado?</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TELA 36 - Como comparar 2 -->
+            <section>
+                <span class="badge">Comparação</span>
+                <h2>Como comparar a nota com o Telecontrol?</h2>
+                <div class="green-line"></div>
+                <div class="grid-3" style="margin-top: 16px;">
+                    <div class="card">
+                        <div class="number-circle">3</div>
+                        <h3 style="font-size: 1.15em;">Procure o Modelo</h3>
+                        <p style="font-size: 0.9em;">A nota apresenta alguma identificação que apoie a comparação?</p>
+                    </div>
+                    <div class="card">
+                        <div class="number-circle">4</div>
+                        <h3 style="font-size: 1.15em;">Compare Características</h3>
+                        <p style="font-size: 0.9em;">Observe tamanho, capacidade, tecnologia, cor ou versão.</p>
+                    </div>
+                    <div class="card">
+                        <div class="number-circle">5</div>
+                        <h3 style="font-size: 1.15em;">Sondagem</h3>
+                        <p style="font-size: 0.9em;">Confirme com o consumidor para localizar o cadastro mais próximo.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TELA 37 - Conclusão -->
+            <section class="title-slide">
+                <div class="tech-bg"></div>
+                <h1 class="logo-hisense" style="color: white !important; font-size: 3em;">HISENSE<span>.</span></h1>
+                <h2 style="color: var(--text-gray) !important; font-weight: 300; margin-top: 15px; font-size: 1.4em;">Conclusão do Treinamento</h2>
+                <p style="margin-top: 22px; font-size: 0.9em; letter-spacing: 1px;">LEITURA DIRECIONADA PARA ABERTURA DE OS</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            /* Respiro interno do slide (em px no canvas 1280x720) */
+            var H_PAD = 46;
+            var V_PAD = 26;
+            var MIN_SCALE = 0.5;
+
+            var slidesRoot = null;
+            var sections = null;
+
+            /* ---------------------------------------------
+               1) Envolve o conteúdo de cada slide em um wrapper
+                  que poderá ser escalado. O .tech-bg fica fora.
+               --------------------------------------------- */
+            function wrapSlides() {
+                sections = document.querySelectorAll('.reveal .slides > section');
+
+                Array.prototype.forEach.call(sections, function (section) {
+                    if (section.querySelector(':scope > .fit-inner')) return;
+
+                    var inner = document.createElement('div');
+                    inner.className = 'fit-inner';
+
+                    var nodes = Array.prototype.slice.call(section.childNodes);
+                    nodes.forEach(function (node) {
+                        if (node.nodeType === 1 && node.classList.contains('tech-bg')) return;
+                        inner.appendChild(node);
+                    });
+
+                    section.appendChild(inner);
+                });
+            }
+
+            /* ---------------------------------------------
+               2) Mede o conteúdo e aplica o scale necessário
+                  para caber 100% dentro do slide.
+               --------------------------------------------- */
+            function fitSection(section) {
+                var inner = section.querySelector(':scope > .fit-inner');
+                if (!inner) return;
+
+                var availW = section.clientWidth - (H_PAD * 2);
+                var availH = section.clientHeight - (V_PAD * 2);
+
+                if (availW <= 0 || availH <= 0) return;
+
+                /* Estado natural (sem escala) para medir */
+                inner.style.width = availW + 'px';
+                inner.style.transform = 'translate(-50%, -50%)';
+
+                var naturalH = inner.offsetHeight;
+                if (!naturalH) return;
+
+                var scale = 1;
+                if (naturalH > availH) {
+                    scale = availH / naturalH;
+                }
+                if (scale > 1) scale = 1;
+                if (scale < MIN_SCALE) scale = MIN_SCALE;
+
+                inner.style.transform =
+                    'translate(-50%, -50%) scale(' + scale.toFixed(4) + ')';
+            }
+
+            /* Mede todos os slides (inclusive os ocultos) */
+            function fitAll() {
+                if (!slidesRoot || !sections) return;
+
+                slidesRoot.classList.add('measuring');
+                Array.prototype.forEach.call(sections, fitSection);
+                slidesRoot.classList.remove('measuring');
+            }
+
+            function init() {
+                slidesRoot = document.querySelector('.reveal .slides');
+                wrapSlides();
+            }
+
+            /* ---------------------------------------------
+               3) Execução
+               --------------------------------------------- */
+            init();
+
+            Reveal.initialize({
+                hash: true,
+                slideNumber: true,
+                transition: 'fade',
+                controls: true,
+                progress: true,
+                center: true,
+                width: 1280,
+                height: 720,
+                margin: 0.06,
+                minScale: 0.2,
+                maxScale: 1.6
+            });
+
+            /* Ajusta após o Reveal definir o tamanho do canvas */
+            Reveal.on('ready', function () {
+                fitAll();
+
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(fitAll);
+                }
+            });
+
+            /* Reajusta se a janela mudar (fontes/carregamento tardio) */
+            var resizeTimer = null;
+            window.addEventListener('resize', function () {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(fitAll, 150);
+            });
+
+            /* Garantia extra após o carregamento completo */
+            window.addEventListener('load', function () {
+                setTimeout(fitAll, 60);
+            });
+
+        })();
+    </script>
+</body>
+</html>
